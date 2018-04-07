@@ -1,10 +1,12 @@
 {
   "name": "poketo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Library for fetching and reading manga sites",
   "main": "lib/index.js",
   "repository": "https://github.com/poketo/lib",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "clean": "rm -rf lib",
     "build": "babel src -d lib --ignore '*.test.js'",
