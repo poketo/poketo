@@ -1,5 +1,7 @@
 # poketo-lib
 
+[![Build Status](https://travis-ci.org/poketo/lib.svg?branch=master)](https://travis-ci.org/poketo/lib)
+
 A Node library for fetching data from manga aggregator and scanlator sites.
 
 :construction: This project is still `v0.x.x` and the API is subject to change, especially as more sites are added.
