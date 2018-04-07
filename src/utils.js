@@ -2,7 +2,6 @@
 
 import got from 'got';
 import cheerio from 'cheerio';
-import moment from 'moment-timezone';
 import normalize from 'normalize-url';
 import pathMatch from 'path-match';
 import probe from 'probe-image-size';
