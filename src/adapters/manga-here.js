@@ -92,12 +92,10 @@ const MangaHereAdapter: SiteAdapter = {
   async getChapter(seriesSlug, chapterSlug) {
     const url = this.constructUrl(seriesSlug, chapterSlug);
 
-    // NOTE: we request from the mobile site for faster load times
-    const requestUrl = url.replace(/mangahere\.cc/, 'm.mangahere.cc');
-    const body = await utils.getPage(requestUrl);
+    const body = await utils.getPage(url);
     const dom = cheerio.load(body);
 
-    const pageUrls = dom('select.mangaread-page').first().find('option').get()
+    const pageUrls = dom('select.wid60').first().find('option').get()
       .map(el => `http:${dom(el).attr('value')}`)
       .filter(url => url.indexOf('featured.html') === -1);
 
@@ -111,13 +109,14 @@ const MangaHereAdapter: SiteAdapter = {
       const html = await throttledGetPage(url);
       const dom = cheerio.load(html);
 
-      const imageUrls = [
-        dom('#image').attr('src'), // current page
-        dom('.tsuk-control + img', '.site-content').attr('src'), // next page
-      ].filter(Boolean).map(url => {
-        const id: string = utils.pathname(url).split('/').pop();
-        return { id, url };
-      });
+      const imageUrls = dom('img').get()
+        .map(el => dom(el).attr('src'))
+        .filter(url => url.includes('.jpg?token='))
+        .filter(Boolean)
+        .map(url => {
+          const id: string = utils.pathname(url).split('/').pop();
+          return { id, url };
+        });
 
       return imageUrls;
     }));
