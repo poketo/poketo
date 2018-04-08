@@ -9,11 +9,6 @@ import { URL, type URLSearchParams } from 'url';
 
 import type { PageDimensions } from './types';
 
-const getNormalizedDomain = (url: string): string => {
-  const u = new URL(normalize(url));
-  return u.hostname;
-};
-
 const timeout = 5 * 1000;
 const match = pathMatch();
 
@@ -27,7 +22,10 @@ export default {
   },
 
   compareDomain(a: string, b: string) {
-    return getNormalizedDomain(a) === getNormalizedDomain(b);
+    const hostnameA = this.parseUrl(a).hostname;
+    const hostnameB = this.parseUrl(b).hostname;
+
+    return hostnameA === hostnameB;
   },
 
   flatten(arr: Array<any>) {
