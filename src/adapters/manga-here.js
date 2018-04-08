@@ -109,16 +109,21 @@ const MangaHereAdapter: SiteAdapter = {
       const html = await throttledGetPage(url);
       const dom = cheerio.load(html);
 
-      const imageUrls = dom('img').get()
-        .map(el => dom(el).attr('src'))
-        .filter(url => url.includes('.jpg?token='))
-        .filter(Boolean)
-        .map(url => {
-          const id: string = utils.pathname(url).split('/').pop();
-          return { id, url };
-        });
+      const images = dom('img').get()
+        .map(el => {
+          const d = dom(el);
 
-      return imageUrls;
+          const width = d.attr('width');
+          const height = d.attr('height');
+          const url = d.attr('src');
+          const pathname = utils.parseUrl(url).pathname;
+          const id = pathname.split('/').pop();
+
+          return { id, url, width, height };
+        })
+        .filter(page => page.url.includes('.jpg?token='))
+
+      return images;
     }));
 
     const pages: Page[] = utils.flatten(nestedPages);

@@ -22,6 +22,10 @@ export default {
     return normalize(url);
   },
 
+  parseUrl(url: string) {
+    return new URL(this.normalizeUrl(url));
+  },
+
   compareDomain(a: string, b: string) {
     return getNormalizedDomain(a) === getNormalizedDomain(b);
   },
@@ -67,12 +71,12 @@ export default {
   },
 
   pathMatch(url: string, pattern: string): ?Object {
-    const u = new URL(normalize(url));
+    const { pathname } = this.parseUrl(url);
     // NOTE: we normalize urls to always have a trailing slash here. This makes
     // matching with path-match easier, since we can then do patterns like
     // /:seriesSlug/:chapterSlug which works even if there's no chapterSlug
     // segment.
-    const pathnameWithTrailingSlash = u.pathname + '/';
+    const pathnameWithTrailingSlash = pathname + '/';
     const matches = match(pattern)(pathnameWithTrailingSlash);
 
     if (matches === false) {
@@ -80,16 +84,6 @@ export default {
     }
 
     return matches;
-  },
-
-  pathname(url: string): string {
-    const u = new URL(url);
-    return u.pathname;
-  },
-
-  searchParams(url: string): URLSearchParams {
-    const u = new URL(url);
-    return u.searchParams;
   },
 
   generateId: (site: string, series: string, chapter: ?string) =>

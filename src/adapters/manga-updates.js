@@ -20,7 +20,7 @@ const MangaUpdatesAdapter: SiteAdapter = {
   },
 
   parseUrl(url) {
-    const matches = utils.searchParams(url);
+    const matches = utils.parseUrl(url).searchParams;
 
     invariant(/\/series.html\?id=/.test(url), new errors.InvalidUrlError(url));
 
