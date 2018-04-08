@@ -14,6 +14,7 @@ const getNormalizedDomain = (url: string): string => {
   return u.hostname;
 };
 
+const timeout = 5 * 1000;
 const match = pathMatch();
 
 export default {
@@ -95,13 +96,13 @@ export default {
     [site, series, chapter].filter(Boolean).join(':'),
 
   async getPage(url: string): Promise<string> {
-    const res = await got(url);
+    const res = await got(url, { timeout });
     const html = res.body;
     return html;
   },
 
   async getJSON(url: string): Promise<Object> {
-    const res = await got(url, { json: true });
+    const res = await got(url, { json: true, timeout });
     const json = res.body;
     return json;
   },
