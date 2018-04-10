@@ -24,7 +24,7 @@ const extractChapters = (html: string, getChapterUrl: (slug: string) => string):
     const number = link.attr('data-chapter-num') || title;
     const url = getChapterUrl(slug);
 
-    const languageFlagImage = tr.find('td:nth-child(3) > img');
+    const languageFlagImage = tr.find('td > img[title]').first();
     const language = languageFlagImage.attr('title');
 
     // Since Poketo has no notion of languages, we'll just return the english
