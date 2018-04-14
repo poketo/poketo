@@ -4,13 +4,13 @@ import errors from '../errors';
 describe('MangaUpdatesAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like mangaupdates.com', () => {
-      expect(site.supportsUrl('http://mangaupdates.com'));
-      expect(site.supportsUrl('https://www.mangaupdates.com'));
+      expect(site.supportsUrl('http://mangaupdates.com')).toBe(true);
+      expect(site.supportsUrl('https://www.mangaupdates.com')).toBe(true);
     });
 
     it('returns false for urls that are not mangaupdates.com', () => {
-      expect(site.supportsUrl('http://www.mangahere.com'));
-      expect(site.supportsUrl('http://ma.ngahere.co'));
+      expect(site.supportsUrl('http://www.mangahere.com')).toBe(false);
+      expect(site.supportsUrl('http://ma.ngahere.co')).toBe(false);
     });
   });
 
@@ -43,7 +43,9 @@ describe('MangaUpdatesAdapter', () => {
 
   describe('getChapter', () => {
     it('throws an error', async () => {
-      await expect(site.getChapter('111976')).rejects.toThrowError(errors.UnsupportedSiteRequest);
-    })
+      await expect(site.getChapter('111976')).rejects.toThrowError(
+        errors.UnsupportedSiteRequest,
+      );
+    });
   });
 });

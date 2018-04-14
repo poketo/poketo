@@ -4,14 +4,16 @@ import errors from '../errors';
 describe('HelveticaScans', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like helveticascans.com', () => {
-      expect(site.supportsUrl('http://helveticascans.com'));
-      expect(site.supportsUrl('http://helveticascans.com/a/path'));
-      expect(site.supportsUrl('https://www.helveticascans.com/another?path'));
+      expect(site.supportsUrl('http://helveticascans.com')).toBe(true);
+      expect(site.supportsUrl('http://helveticascans.com/a/path')).toBe(true);
+      expect(
+        site.supportsUrl('https://www.helveticascans.com/another?path'),
+      ).toBe(true);
     });
 
     it('returns false for urls that are not helveticascans.com', () => {
-      expect(site.supportsUrl('http://he.lveticascans.com'));
-      expect(site.supportsUrl('http://mangaupdates.com'));
+      expect(site.supportsUrl('http://he.lveticascans.com')).toBe(false);
+      expect(site.supportsUrl('http://mangaupdates.com')).toBe(false);
     });
   });
 

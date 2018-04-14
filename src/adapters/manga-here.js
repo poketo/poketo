@@ -10,18 +10,25 @@ import type { SiteAdapter, ChapterMetadata, Page } from '../types';
 
 const TZ = 'America/Los_Angeles';
 
-function getTimestamp (rawText) {
+function getTimestamp(rawText) {
   const text = rawText.toLowerCase();
   if (text === 'today') {
-    return moment.tz(TZ).endOf('day').unix();
+    return moment
+      .tz(TZ)
+      .endOf('day')
+      .unix();
   } else if (text === 'yesterday') {
-    return moment.tz(TZ).subtract(1, 'day').endOf('day').unix();
+    return moment
+      .tz(TZ)
+      .subtract(1, 'day')
+      .endOf('day')
+      .unix();
   }
 
   return moment.tz(text, 'MMM D, YYYY', 'America/Los_Angeles').unix();
 }
 
-function getChapterNumber (input: string): ?string {
+function getChapterNumber(input: string): ?string {
   const matches = /\s+([\d\.]+)$/i.exec(input);
 
   if (matches === null) {
@@ -42,7 +49,7 @@ const MangaHereAdapter: SiteAdapter = {
   name: 'Manga Here',
 
   supportsUrl(url) {
-    return /^https?:\/\/(www\.)?mangahere.(co|cc)/.test(url);
+    return /^https?:\/\/(www\.)?mangahere.(co|cc)$/.test(url);
   },
 
   supportsReading() {
@@ -50,7 +57,10 @@ const MangaHereAdapter: SiteAdapter = {
   },
 
   parseUrl(url) {
-    const matches = utils.pathMatch(url, '/manga/:seriesSlug/:chapterSlug(c[0-9\.]+)?(\/.+)?');
+    const matches = utils.pathMatch(
+      url,
+      '/manga/:seriesSlug/:chapterSlug(c[0-9.]+)?(/.+)?',
+    );
 
     invariant(matches, new errors.InvalidUrlError(url));
     invariant(matches.seriesSlug, new errors.InvalidUrlError(url));
@@ -62,29 +72,51 @@ const MangaHereAdapter: SiteAdapter = {
 
   constructUrl(seriesSlug, chapterSlug) {
     invariant(seriesSlug, new TypeError('Series slug must be non-null'));
-    return utils.normalizeUrl(`http://mangahere.cc/manga/${seriesSlug}/${chapterSlug || ''}`);
+    return utils.normalizeUrl(
+      `http://mangahere.cc/manga/${seriesSlug}/${chapterSlug || ''}`,
+    );
   },
 
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
     const html = await throttledGetPage(url);
 
-    invariant(html.indexOf('page you have requested can’t be found') === -1, new errors.NotFoundError(url));
+    invariant(
+      html.indexOf('page you have requested can’t be found') === -1,
+      new errors.NotFoundError(url),
+    );
 
     const dom = cheerio.load(html);
 
-    const title = dom('meta[property="og:title"]', 'head').attr('content').trim();
+    const title = dom('meta[property="og:title"]', 'head')
+      .attr('content')
+      .trim();
 
-    const chapters: Array<ChapterMetadata> = dom('div + ul > li', '.manga_detail > .detail_list').get().map(el => {
-      const href = dom(el).find('a:first-child', '.left').attr('href');
-      const slug = utils.extractText(/\/(c[\d|\.]+)\/?$/, href);
-      const url = this.constructUrl(seriesSlug, slug);
-      const numberText = dom(el).find('.left > a').text().trim();
-      const number = utils.extractText(/\s+([\d\.]+)$/i, numberText);
-      const createdAt = getTimestamp(dom(el).find('.right').text().trim());
+    const chapters: Array<ChapterMetadata> = dom(
+      'div + ul > li',
+      '.manga_detail > .detail_list',
+    )
+      .get()
+      .map(el => {
+        const href = dom(el)
+          .find('a:first-child', '.left')
+          .attr('href');
+        const slug = utils.extractText(/\/(c[\d|\.]+)\/?$/, href);
+        const url = this.constructUrl(seriesSlug, slug);
+        const numberText = dom(el)
+          .find('.left > a')
+          .text()
+          .trim();
+        const number = utils.extractText(/\s+([\d\.]+)$/i, numberText);
+        const createdAt = getTimestamp(
+          dom(el)
+            .find('.right')
+            .text()
+            .trim(),
+        );
 
-      return { slug, url, number, createdAt };
-    });
+        return { slug, url, number, createdAt };
+      });
 
     return { slug: seriesSlug, url, title, chapters };
   },
@@ -95,7 +127,10 @@ const MangaHereAdapter: SiteAdapter = {
     const body = await utils.getPage(url);
     const dom = cheerio.load(body);
 
-    const pageUrls = dom('select.wid60').first().find('option').get()
+    const pageUrls = dom('select.wid60')
+      .first()
+      .find('option')
+      .get()
       .map(el => `http:${dom(el).attr('value')}`)
       .filter(url => url.indexOf('featured.html') === -1);
 
@@ -103,28 +138,31 @@ const MangaHereAdapter: SiteAdapter = {
     // loading time from fetching every page, we just grab every other page.
     const everyOtherPageUrl = pageUrls.filter((_, i) => i % 2 === 0);
 
-    const nestedPages = await Promise.all(everyOtherPageUrl.map(async url => {
-      // NOTE: They also rate-limit requests to once every 250ms from an IP. We
-      // use the throttled version here as to avoid this.
-      const html = await throttledGetPage(url);
-      const dom = cheerio.load(html);
+    const nestedPages = await Promise.all(
+      everyOtherPageUrl.map(async url => {
+        // NOTE: They also rate-limit requests to once every 250ms from an IP. We
+        // use the throttled version here as to avoid this.
+        const html = await throttledGetPage(url);
+        const dom = cheerio.load(html);
 
-      const images = dom('img').get()
-        .map(el => {
-          const d = dom(el);
+        const images = dom('img')
+          .get()
+          .map(el => {
+            const d = dom(el);
 
-          const width = d.attr('width');
-          const height = d.attr('height');
-          const url = d.attr('src');
-          const pathname = utils.parseUrl(url).pathname;
-          const id = pathname.split('/').pop();
+            const width = d.attr('width');
+            const height = d.attr('height');
+            const url = d.attr('src');
+            const pathname = utils.parseUrl(url).pathname;
+            const id = pathname.split('/').pop();
 
-          return { id, url, width, height };
-        })
-        .filter(page => page.url.includes('.jpg?token='))
+            return { id, url, width, height };
+          })
+          .filter(page => page.url.includes('.jpg?token='));
 
-      return images;
-    }));
+        return images;
+      }),
+    );
 
     const pages: Page[] = utils.flatten(nestedPages);
 

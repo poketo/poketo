@@ -4,13 +4,13 @@ import errors from '../errors';
 describe('MangadexAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like mangadex.org', () => {
-      expect(site.supportsUrl('http://mangadex.org'));
-      expect(site.supportsUrl('https://www.mangadex.org'));
+      expect(site.supportsUrl('http://mangadex.org')).toBe(true);
+      expect(site.supportsUrl('https://www.mangadex.org')).toBe(true);
     });
 
     it('returns false for urls that are not mangadex.org', () => {
-      expect(site.supportsUrl('http://maanna.com'));
-      expect(site.supportsUrl('http://mangadexx.org'));
+      expect(site.supportsUrl('http://maanna.com')).toBe(false);
+      expect(site.supportsUrl('http://mangadexx.org')).toBe(false);
     });
   });
 
@@ -67,7 +67,9 @@ describe('MangadexAdapter', () => {
   });
 
   describe('getChapter', () => {
-    it('returns a chapter', async () => {
+    it(
+      'returns a chapter',
+      async () => {
         const chapter = await site.getChapter(null, '37052');
 
         expect(chapter.url).toEqual('https://mangadex.org/chapter/37052');
