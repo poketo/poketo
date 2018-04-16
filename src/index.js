@@ -1,25 +1,27 @@
 // @flow
 
+import HelveticaScansAdapter from './adapters/helvetica-scans';
+import JaiminisBoxAdapter from './adapters/jaiminis-box';
 import MangaHereAdapter from './adapters/manga-here';
 import MangaUpdatesAdapter from './adapters/manga-updates';
 import MangadexAdapter from './adapters/mangadex';
 import MangakakalotAdapter from './adapters/mangakakalot';
 import ManganeloAdapter from './adapters/manganelo';
 import MerakiScansAdapter from './adapters/meraki-scans';
-import HelveticaScansAdapter from './adapters/helvetica-scans';
 import errors from './errors';
 import utils, { invariant } from './utils';
 
 import type { Chapter, ChapterMetadata, SiteAdapter, Series } from './types';
 
 const adapters = [
+  HelveticaScansAdapter,
+  JaiminisBoxAdapter,
   MangaHereAdapter,
   MangaUpdatesAdapter,
   MangadexAdapter,
   MangakakalotAdapter,
   ManganeloAdapter,
   MerakiScansAdapter,
-  HelveticaScansAdapter,
 ];
 
 function getAdapterByUrl(url: string): SiteAdapter {
