@@ -9,43 +9,51 @@ import type { Chapter, ChapterMetadata, SiteAdapter } from '../types';
 
 const throttledGet = throttle(utils.getPage, 5, 500);
 
-const getPaginatedSeriesUrl = (seriesUrl, page: number): string => `${seriesUrl}/_/${page}`;
+const getPaginatedSeriesUrl = (seriesUrl, page: number): string =>
+  `${seriesUrl}/_/chapters/${page}`;
 
-const extractChapters = (html: string, getChapterUrl: (slug: string) => string): ChapterMetadata[] => {
+const extractChapters = (
+  html: string,
+  getChapterUrl: (slug: string) => string,
+): ChapterMetadata[] => {
   const dom = cheerio.load(html);
   const chapterDom = dom('tr[id^="chapter_"]', 'table').get();
 
-  return chapterDom.map(el => {
-    const tr = dom(el);
+  return chapterDom
+    .map(el => {
+      const tr = dom(el);
 
-    const link = tr.find('a[title]').first();
-    const slug = link.attr('data-chapter-id');
-    const title = link.attr('data-chapter-name');
-    const number = link.attr('data-chapter-num') || title;
-    const url = getChapterUrl(slug);
+      const link = tr.find('a[title]').first();
+      const slug = link.attr('data-chapter-id');
+      const title = link.attr('data-chapter-name');
+      const number = link.attr('data-chapter-num') || title;
+      const url = getChapterUrl(slug);
 
-    const languageFlagImage = tr.find('td > img[title]').first();
-    const language = languageFlagImage.attr('title');
+      const languageFlagImage = tr.find('td > img[title]').first();
+      const language = languageFlagImage.attr('title');
 
-    // Since Poketo has no notion of languages, we'll just return the english
-    // versions of a chapter. Sorry, international peeps :(
-    if (language !== 'English') {
-      return null;
-    }
+      // Since Poketo has no notion of languages, we'll just return the english
+      // versions of a chapter. Sorry, international peeps :(
+      if (language !== 'English') {
+        return null;
+      }
 
-    const timeElement = tr.find('time').first();
-    const timeText = timeElement.attr('datetime');
-    const createdAt = moment.tz(timeText, 'YYYY-MM-DD HH:mm:ss', 'UTC').unix();
-    const now = moment().unix();
+      const timeElement = tr.find('time').first();
+      const timeText = timeElement.attr('datetime');
+      const createdAt = moment
+        .tz(timeText, 'YYYY-MM-DD HH:mm:ss', 'UTC')
+        .unix();
+      const now = moment().unix();
 
-    // Mangadex has "pre-release chapters", showing information before the
-    // actual publication. If the timestamp is in the future, we ignore it.
-    if (createdAt > now) {
-      return null;
-    }
+      // Mangadex has "pre-release chapters", showing information before the
+      // actual publication. If the timestamp is in the future, we ignore it.
+      if (createdAt > now) {
+        return null;
+      }
 
-    return { slug, number, url, createdAt };
-  }).filter(Boolean);
+      return { slug, number, url, createdAt };
+    })
+    .filter(Boolean);
 };
 
 const MangadexAdapter: SiteAdapter = {
@@ -65,7 +73,10 @@ const MangadexAdapter: SiteAdapter = {
     // https://mangadex.org/manga/13127/uramikoi-koi-uramikoi
     // https://mangadex.org/chapter/37149/1
 
-    const matches = utils.pathMatch(url, '/:type(manga|chapter)/:first/:second?');
+    const matches = utils.pathMatch(
+      url,
+      '/:type(manga|chapter)/:first/:second?',
+    );
 
     invariant(matches, new errors.InvalidUrlError(url));
     invariant(matches.first, new errors.InvalidUrlError(url));
@@ -81,7 +92,10 @@ const MangadexAdapter: SiteAdapter = {
     const type = chapterSlug ? 'chapter' : 'manga';
     const slug = type === 'chapter' ? chapterSlug : seriesSlug;
 
-    invariant(slug, new TypeError('Either series or chapter slug must be non-null'));
+    invariant(
+      slug,
+      new TypeError('Either series or chapter slug must be non-null'),
+    );
 
     return utils.normalizeUrl(`https://mangadex.org/${type}/${slug}`);
   },
@@ -92,8 +106,17 @@ const MangadexAdapter: SiteAdapter = {
     const html = await utils.getPage(url);
     const dom = cheerio.load(html);
 
-    const title = dom('.panel-title', '#content > .panel:first-child').first().text().trim();
-    const chapterPaginationText = dom('.table-responsive + p', '.edit.tab-content').first().text().trim();
+    const title = dom('.panel-title', '#content > .panel:first-child')
+      .first()
+      .text()
+      .trim();
+    const chapterPaginationText = dom(
+      '.table-responsive + p',
+      '.edit.tab-content',
+    )
+      .first()
+      .text()
+      .trim();
     const hasPagination = chapterPaginationText.length > 0;
 
     const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
@@ -101,7 +124,10 @@ const MangadexAdapter: SiteAdapter = {
     let chapters: ChapterMetadata[];
 
     if (hasPagination) {
-      const chapterCount = parseInt(chapterPaginationText.split(' of ').pop(), 10);
+      const chapterCount = parseInt(
+        chapterPaginationText.split(' of ').pop(),
+        10,
+      );
       const pagesPerChapter = 100;
       const pageCount = Math.ceil(chapterCount / pagesPerChapter);
       const pageUrls = utils
@@ -127,7 +153,10 @@ const MangadexAdapter: SiteAdapter = {
 
     const imageServer = utils.extractJSON(/var\s+server\s+=\s+(.+);/, html);
     const hash = utils.extractJSON(/var\s+dataurl\s+=\s+(.+);/, html);
-    const pagesJson = utils.extractJSON(/var\s+page_array\s+=\s+([^;]+);/, html);
+    const pagesJson = utils.extractJSON(
+      /var\s+page_array\s+=\s+([^;]+);/,
+      html,
+    );
 
     // NOTE: some series are hosted on the main server. We check if it's a
     // relative URL and make sure it has a host before using it.
