@@ -103,7 +103,7 @@ const MangadexAdapter: SiteAdapter = {
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
 
-    const html = await utils.getPage(url);
+    const html = await throttledGet(url);
     const dom = cheerio.load(html);
 
     const title = dom('.panel-title', '#content > .panel:first-child')
@@ -121,7 +121,7 @@ const MangadexAdapter: SiteAdapter = {
 
     const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
 
-    let chapters: ChapterMetadata[];
+    let chapters: ChapterMetadata[] = extractChapters(html, getChapterUrl);
 
     if (hasPagination) {
       const chapterCount = parseInt(
@@ -133,15 +133,14 @@ const MangadexAdapter: SiteAdapter = {
       const pageUrls = utils
         .range(pageCount)
         .slice(1) // we already fetched the first page
+        .map(pageNumber => pageNumber + 1) // pages are 1-indexed
         .map(page => getPaginatedSeriesUrl(url, page));
 
       const pages = await Promise.all(pageUrls.map(url => throttledGet(url)));
 
-      chapters = utils.flatten(
-        pages.map(html => extractChapters(html, getChapterUrl)),
+      chapters = chapters.concat(
+        utils.flatten(pages.map(html => extractChapters(html, getChapterUrl))),
       );
-    } else {
-      chapters = extractChapters(html, getChapterUrl);
     }
 
     return { slug: seriesSlug, url, title, chapters };

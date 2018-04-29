@@ -59,8 +59,8 @@ describe('MangadexAdapter', () => {
       });
     });
 
-    xit('works for series with multiple pages', async () => {
-      const longSeries = await site.getSeries('19915');
+    it('works for series with multiple pages', async () => {
+      const longSeries = await site.getSeries('5411');
 
       expect(longSeries.chapters.length).toBeGreaterThan(100);
     });
