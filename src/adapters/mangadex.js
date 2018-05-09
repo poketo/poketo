@@ -18,42 +18,78 @@ const extractChapters = (
 ): ChapterMetadata[] => {
   const dom = cheerio.load(html);
   const chapterDom = dom('tr[id^="chapter_"]', 'table').get();
+  const chapterData = chapterDom.map(el => {
+    const tr = dom(el);
 
-  return chapterDom
-    .map(el => {
-      const tr = dom(el);
+    const link = tr.find('a[title]').first();
+    const slug = link.attr('data-chapter-id');
+    const title = link.attr('data-chapter-name');
+    const volumeNumber = link.attr('data-volume-num');
+    const chapterNumber = link.attr('data-chapter-num') || title;
+    const url = getChapterUrl(slug);
 
-      const link = tr.find('a[title]').first();
-      const slug = link.attr('data-chapter-id');
-      const title = link.attr('data-chapter-name');
-      const number = link.attr('data-chapter-num') || title;
-      const url = getChapterUrl(slug);
+    const timeElement = tr.find('time').first();
+    const timeText = timeElement.attr('datetime');
+    const createdAt = moment.tz(timeText, 'YYYY-MM-DD HH:mm:ss', 'UTC').unix();
 
-      const languageFlagImage = tr.find('td > img[title]').first();
-      const language = languageFlagImage.attr('title');
+    // We return a "language" property to later filter out non-English chapters.
+    const languageFlagImage = tr.find('td > img[title]').first();
+    const language = languageFlagImage.attr('title');
 
-      // Since Poketo has no notion of languages, we'll just return the english
-      // versions of a chapter. Sorry, international peeps :(
-      if (language !== 'English') {
-        return null;
-      }
+    // We return an extra "views" property to filter duplicate chapters by the
+    // most popular scan once we have all the data.
+    const viewsText = tr
+      .find('td')
+      .eq(-2)
+      .text();
+    const views = parseInt(viewsText.replace(/\D+/, ''), 10);
 
-      const timeElement = tr.find('time').first();
-      const timeText = timeElement.attr('datetime');
-      const createdAt = moment
-        .tz(timeText, 'YYYY-MM-DD HH:mm:ss', 'UTC')
-        .unix();
-      const now = moment().unix();
+    return {
+      slug,
+      chapterNumber,
+      volumeNumber,
+      url,
+      views,
+      language,
+      createdAt,
+    };
+  });
 
-      // Mangadex has "pre-release chapters", showing information before the
-      // actual publication. If the timestamp is in the future, we ignore it.
-      if (createdAt > now) {
-        return null;
-      }
+  const filteredChapterData = chapterData.filter((data, _, arr) => {
+    // Since Poketo has no notion of languages or multiple versions of a
+    // chapter, we'll just return the english version.
+    // Sorry, international peeps :(
+    if (data.language !== 'English') {
+      return false;
+    }
 
-      return { slug, number, url, createdAt };
-    })
-    .filter(Boolean);
+    // Mangadex has "pre-release chapters", showing information before the
+    // actual publication. If the timestamp is in the future, we ignore it.
+    const now = moment().unix();
+    if (data.createdAt > now) {
+      return false;
+    }
+
+    const duplicateChapters = arr.filter(d => {
+      return (
+        d.volumeNumber === data.volumeNumber &&
+        d.chapterNumber === data.chapterNumber
+      );
+    });
+
+    if (duplicateChapters.length > 1) {
+      return duplicateChapters.every(d => data.views >= d.views);
+    }
+
+    return true;
+  });
+
+  return filteredChapterData.map(
+    ({ language, views, chapterNumber, volumeNumber, ...rest }) => ({
+      ...rest,
+      number: chapterNumber,
+    }),
+  );
 };
 
 const MangadexAdapter: SiteAdapter = {

@@ -64,6 +64,20 @@ describe('MangadexAdapter', () => {
 
       expect(longSeries.chapters.length).toBeGreaterThan(100);
     });
+
+    it('only returns the most popular instance of each chapter', async () => {
+      const seriesWithMultipleGroups = await site.getSeries('19729');
+      const seriesWithMultipleVolumes = await site.getSeries('13025');
+
+      const getChapterNumbers = series => series.chapters.map(c => c.number);
+      const uniq = arr => Array.from(new Set(arr));
+
+      const a = getChapterNumbers(seriesWithMultipleGroups);
+      const b = getChapterNumbers(seriesWithMultipleVolumes);
+
+      expect(a).toEqual(uniq(a));
+      expect(b).not.toEqual(uniq(b));
+    });
   });
 
   describe('getChapter', () => {
