@@ -70,12 +70,11 @@ const extractChapters = (
       return false;
     }
 
-    const duplicateChapters = arr.filter(d => {
-      return (
+    const duplicateChapters = arr.filter(
+      d =>
         d.volumeNumber === data.volumeNumber &&
-        d.chapterNumber === data.chapterNumber
-      );
-    });
+        d.chapterNumber === data.chapterNumber,
+    );
 
     if (duplicateChapters.length > 1) {
       return duplicateChapters.every(d => data.views >= d.views);
