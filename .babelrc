@@ -4,11 +4,13 @@
       "env",
       {
         "targets": {
-          "node": "current"
-        }
+          "node": "8.0"
+        },
+        "excluse": ["transform-async-generator-functions"],
+        "useBuiltIns": true
       }
     ],
-    "stage-2",
     "flow"
-  ]
+  ],
+  "plugins": [["transform-object-rest-spread", { "useBuiltIns": true }]]
 }

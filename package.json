@@ -13,9 +13,8 @@
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "babel src -d lib --ignore '*.test.js'",
+    "build": "babel src -d lib --ignore '*.test.js,types.js'",
     "format": "prettier --write **/*.{js,json,md}",
-    "prepublish": "yarn clean && yarn build",
     "lint": "flow",
     "test": "jest"
   },
@@ -31,9 +30,9 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
-    "babel-preset-stage-2": "^6.24.1",
     "flow-bin": "^0.69.0",
     "jest": "^22.4.3",
     "prettier": "^1.11.1"
