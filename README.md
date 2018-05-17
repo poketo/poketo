@@ -1,6 +1,8 @@
-# poketo-lib
+# poketo
 
 [![Build Status](https://travis-ci.org/poketo/poketo.svg?branch=master)](https://travis-ci.org/poketo/poketo)
+[![npm](https://img.shields.io/npm/v/poketo.svg)](https://www.npmjs.com/package/poketo)
+
 
 A Node library for fetching data from manga aggregator and scanlator sites.
 
@@ -12,7 +14,7 @@ A Node library for fetching data from manga aggregator and scanlator sites.
 npm install poketo --save
 ```
 
-You can also use this library on the client-side through the [poketo service](https://github.com/poketo/service), published at [api.poketo.site](https://api.poketo.site).
+You can also use this library over HTTP through the [poketo service](https://github.com/poketo/service), published at [api.poketo.site](https://api.poketo.site).
 
 ## Docs
 
