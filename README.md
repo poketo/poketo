@@ -20,15 +20,13 @@ You can also use this library over HTTP through the [poketo service](https://git
 ```js
 import poketo from 'poketo';
 
-poketo.getSeries('http://merakiscans.com/senryu-girl/').then(series => {
-  console.log(series);
-  // { id: 'meraki-scans:senryu-girl', title: 'Senryu Girl', chapters: [...], ... }
-});
+const series = await poketo.getSeries('http://merakiscans.com/senryu-girl/');
+const chapter = await poketo.getChapter('http://merakiscans.com/senryu-girl/5/');
 
-poketo.getChapter('http://merakiscans.com/senryu-girl/5/').then(chapter => {
-  console.log(chapter);
-  // { id: 'meraki-scans:senryu-girl:5', ..., pages: [...] }
-});
+console.log(series);
+// { id: 'meraki-scans:senryu-girl', title: 'Senryu Girl', chapters: [...], ... }
+console.log(chapter);
+// { id: 'meraki-scans:senryu-girl:5', pages: [...], ... }
 ```
 
 ## Docs
