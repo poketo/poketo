@@ -12,7 +12,23 @@ A Node library for fetching data from manga aggregator and scanlator sites.
 npm install poketo --save
 ```
 
-You can also use this library on the client-side through the [poketo service](https://github.com/poketo/service), published at [api.poketo.site](https://api.poketo.site).
+You can also use this library on the client-side through the [poketo service](https://github.com/poketo/service), published at [api.poketo.app](https://api.poketo.app).
+
+## Usage
+
+```js
+import poketo from 'poketo';
+
+poketo.getSeries('http://merakiscans.com/senryu-girl/').then(series => {
+  console.log(series);
+  // { id: 'meraki-scans:senryu-girl', title: 'Senryu Girl', chapters: [...], ... }
+});
+
+poketo.getChapter('http://merakiscans.com/senryu-girl/5/').then(chapter => {
+  console.log(chapter);
+  // { id: 'meraki-scans:senryu-girl:5', ..., pages: [...] }
+});
+```
 
 ## Docs
 
@@ -33,67 +49,58 @@ If there's a site / group you'd like to see supported, [make an issue!](https://
 
 ### API
 
-```jsx
-import poketo from 'poketo';
-```
-
-If you're using a bundler that doesn't support ES6 modules, you'll need to use the following
-
-```jsx
-const poketo = require('poketo').default;
-```
-
-#### `poketo.constructUrl(siteId: string, seriesSlug: ?string, chapterSlug: ?string): string`
-
-Returns a site URL from the pieces passed in. Great for converting between series and chapter IDs to URLs to request.
-
-```jsx
-const url = poketo.constructUrl('meraki-scans', 'senryu-girl', '5');
-// http://merakiscans.com/senryu-girl/5
-```
-
 #### `poketo.getSeries(url: string): Promise<Series>`
 
 Get metadata about a series, including for individual chapters (but not pages within those chapters).
 
-```jsx
+```js
 const series = await poketo.getSeries('http://merakiscans.com/senryu-girl');
+console.log(series);
 
-{
-  id: "meraki-scans:senryu-girl",
-  slug: "senryu-girl",
-  url: "http://merakiscans.com/senryu-girl",
-  title: "Senryu Girl",
-  chapters: [
-    {
-      id: "meraki-scans:senryu-girl:1",
-      slug: "1",
-      number: 1,
-      createdAt: 1522811950
-    },
-    // 24 more...
-  ],
-  updatedAt: 1522811950,
-}
+// {
+//   id: 'meraki-scans:senryu-girl',
+//   slug: 'senryu-girl',
+//   url: 'http://merakiscans.com/senryu-girl',
+//   title: 'Senryu Girl',
+//   chapters: [
+//     {
+//       id: 'meraki-scans:senryu-girl:1',
+//       slug: '1',
+//       number: 1,
+//       createdAt: 1522811950
+//     },
+//     ...
+//   ],
+//   updatedAt: 1522811950,
+// }
 ```
 
 #### `poketo.getChapter(url: string): Promise<Chapter>`
 
 Get page data for a given chapter. Unlike `poketo.getSeries`, this method does not include much metadata.
 
-```jsx
+```js
 const chapter = await poketo.getChapter('http://merakiscans.com/senryu-girl/5');
+console.log(chapter);
+// {
+//  id: 'meraki-scans:senryu-girl:1',
+//  slug: '1',
+//  url: 'http://merakiscans.com/senryu-girl/5',
+//  pages: [
+//    { id: '01', url: 'http://merakiscans.com/image01.png', width: 800, height: 1200 },
+//    { id: '02', url: 'http://merakiscans.com/image02.png', width: 800, height: 1200 },
+//    ...
+//  ]
+// }
+```
 
-{
-  id: "meraki-scans:senryu-girl:1",
-  slug: "1",
-  url: "http://merakiscans.com/senryu-girl/5",
-  pages: [
-    { id: '01', url: 'http://…/image01.png', width: 800, height: 1200 },
-    { id: '02', url: 'http://…/image02.png', width: 800, height: 1200 },
-    // etc...
-  ]
-}
+#### `poketo.constructUrl(siteId: string, seriesSlug: ?string, chapterSlug: ?string): string`
+
+Returns a site URL from the pieces passed in. Great for converting between series and chapter IDs to URLs to request. Find a full list of site IDs from the [adapter folder](https://github.com/poketo/poketo/tree/master/src/adapters)
+
+```js
+const url = poketo.constructUrl('meraki-scans', 'senryu-girl', '5');
+// http://merakiscans.com/senryu-girl/5
 ```
 
 ### Motivation
