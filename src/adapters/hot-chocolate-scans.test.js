@@ -52,13 +52,13 @@ describe('HotChocolateScansAdapter', () => {
         chapters: expect.arrayContaining([
           {
             number: '4',
-            createdAt: 1516847487,
+            createdAt: 1516818687,
             slug: 'en/0/4',
             url: 'http://hotchocolatescans.com/fs/read/watashi_no_shounen/en/0/4/page/1',
           },
           {
             number: '8',
-            createdAt: 1518856982,
+            createdAt: 1518828182,
             slug: 'en/0/8',
             url: 'http://hotchocolatescans.com/fs/read/watashi_no_shounen/en/0/8/page/1',
           },

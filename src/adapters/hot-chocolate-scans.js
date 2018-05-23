@@ -10,14 +10,7 @@ import utils, { invariant } from '../utils';
 
 import type { ChapterMetadata, Page, SiteAdapter } from '../types';
 
-const TZ = 'America/Los_Angeles';
-
-// Series URLs
-// https://jaiminisbox.com/reader/series/my-hero-academia
-// https://jaiminisbox.com/reader/series/itoshi-no-muco/
-// Reader URLs
-// https://jaiminisbox.com/reader/read/my-hero-academia/en/0/177/page/1
-// https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/4/
+const TZ = 'UTC';
 
 const HotChocolateScansAdapter: SiteAdapter = {
   id: 'hot-chocolate-scans',
