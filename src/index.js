@@ -1,6 +1,7 @@
 // @flow
 
 import HelveticaScansAdapter from './adapters/helvetica-scans';
+import HotChocolateScansAdapter from './adapters/hot-chocolate-scans';
 import JaiminisBoxAdapter from './adapters/jaiminis-box';
 import MangaHereAdapter from './adapters/manga-here';
 import MangaUpdatesAdapter from './adapters/manga-updates';
@@ -15,6 +16,7 @@ import type { Chapter, ChapterMetadata, SiteAdapter, Series } from './types';
 
 const adapters = [
   HelveticaScansAdapter,
+  HotChocolateScansAdapter,
   JaiminisBoxAdapter,
   MangaHereAdapter,
   MangaUpdatesAdapter,
@@ -56,11 +58,7 @@ const poketo: any = {
    *
    * Meant for reconstructing URLs from pieces in routes.
    */
-  constructUrl(
-    siteId: string,
-    seriesSlug: string,
-    chapterSlug: ?string,
-  ): string {
+  constructUrl(siteId: string, seriesSlug: string, chapterSlug: ?string): string {
     const site = getAdapterBySiteId(siteId);
     return site.constructUrl(seriesSlug, chapterSlug);
   },
@@ -89,10 +87,7 @@ const poketo: any = {
       supportsReading: site.supportsReading(),
       updatedAt: seriesData.updatedAt
         ? seriesData.updatedAt
-        : (seriesData.chapters || []).reduce(
-            (a, b) => Math.max(a, b.createdAt),
-            0,
-          ),
+        : (seriesData.chapters || []).reduce((a, b) => Math.max(a, b.createdAt), 0),
     };
 
     if (seriesData.chapters) {
@@ -120,10 +115,7 @@ const poketo: any = {
     // chapter url is really required.
     invariant(parts.chapterSlug, new Error('Could not read chapter slug'));
 
-    const chapterData = await site.getChapter(
-      parts.seriesSlug,
-      parts.chapterSlug,
-    );
+    const chapterData = await site.getChapter(parts.seriesSlug, parts.chapterSlug);
     const seriesSlug = parts.seriesSlug || chapterData.seriesSlug;
 
     invariant(seriesSlug, new Error('Could not read series slug'));
