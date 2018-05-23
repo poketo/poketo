@@ -29,11 +29,14 @@ export type Chapter = {
   pages: Array<Page>,
 };
 
+export type SeriesStatus = 'ongoing' | 'completed';
+
 export type Series = {
   id: string,
   slug: string,
   url: string,
   title: string,
+  status: SeriesStatus,
   chapters?: ChapterMetadata[],
   updatedAt: number,
 };
@@ -44,15 +47,15 @@ export type SiteAdapter = {
   constructUrl: (seriesSlug: ?string, chapterSlug: ?string) => string,
   supportsUrl: (url: string) => boolean,
   supportsReading: () => boolean,
-  parseUrl: (
-    url: string,
-  ) => { seriesSlug: string | null, chapterSlug: string | null },
+  parseUrl: (url: string) => { seriesSlug: string | null, chapterSlug: string | null },
   getSeries: (
     seriesSlug: string,
   ) => Promise<{
     slug: string,
     url: string,
     title: string,
+    author: string,
+    status: SeriesStatus,
     chapters?: ChapterMetadata[],
     updatedAt?: number,
   }>,

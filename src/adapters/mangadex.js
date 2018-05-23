@@ -48,6 +48,7 @@ const extractChapters = (
       slug,
       chapterNumber,
       volumeNumber,
+      title,
       url,
       views,
       language,
@@ -71,9 +72,7 @@ const extractChapters = (
     }
 
     const duplicateChapters = arr.filter(
-      d =>
-        d.volumeNumber === data.volumeNumber &&
-        d.chapterNumber === data.chapterNumber,
+      d => d.volumeNumber === data.volumeNumber && d.chapterNumber === data.chapterNumber,
     );
 
     if (duplicateChapters.length > 1) {
@@ -83,12 +82,10 @@ const extractChapters = (
     return true;
   });
 
-  return filteredChapterData.map(
-    ({ language, views, chapterNumber, volumeNumber, ...rest }) => ({
-      ...rest,
-      number: chapterNumber,
-    }),
-  );
+  return filteredChapterData.map(({ language, views, chapterNumber, ...rest }) => ({
+    ...rest,
+    number: chapterNumber,
+  }));
 };
 
 const MangadexAdapter: SiteAdapter = {
@@ -104,14 +101,7 @@ const MangadexAdapter: SiteAdapter = {
   },
 
   parseUrl(url) {
-    // https://mangadex.org/manga/13127
-    // https://mangadex.org/manga/13127/uramikoi-koi-uramikoi
-    // https://mangadex.org/chapter/37149/1
-
-    const matches = utils.pathMatch(
-      url,
-      '/:type(manga|chapter)/:first/:second?',
-    );
+    const matches = utils.pathMatch(url, '/:type(manga|chapter)/:first/:second?');
 
     invariant(matches, new errors.InvalidUrlError(url));
     invariant(matches.first, new errors.InvalidUrlError(url));
@@ -127,10 +117,7 @@ const MangadexAdapter: SiteAdapter = {
     const type = chapterSlug ? 'chapter' : 'manga';
     const slug = type === 'chapter' ? chapterSlug : seriesSlug;
 
-    invariant(
-      slug,
-      new TypeError('Either series or chapter slug must be non-null'),
-    );
+    invariant(slug, new TypeError('Either series slug or chapter slug must be non-null'));
 
     return utils.normalizeUrl(`https://mangadex.org/${type}/${slug}`);
   },
@@ -141,17 +128,22 @@ const MangadexAdapter: SiteAdapter = {
     const html = await throttledGet(url);
     const dom = cheerio.load(html);
 
-    const title = dom('.panel-title', '#content > .panel:first-child')
+    const metadataPanel = dom('#content > .panel:first-child');
+    const metadataTable = metadataPanel.find('table tbody');
+
+    const title = metadataPanel
+      .find('.panel-title')
       .first()
       .text()
       .trim();
-    const chapterPaginationText = dom(
-      '.table-responsive + p',
-      '.edit.tab-content',
-    )
-      .first()
-      .text()
-      .trim();
+
+    const author = metadataTable.find('tr:nth-child(2) > td').text();
+
+    const statusElement = metadataTable.find('tr:nth-child(7) > td');
+    const status = statusElement.text().toLowerCase() === 'ongoing' ? 'ongoing' : 'completed';
+
+    const chapterPaginationElement = dom('.table-responsive + p', '.edit.tab-content').first();
+    const chapterPaginationText = chapterPaginationElement.text().trim();
     const hasPagination = chapterPaginationText.length > 0;
 
     const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
@@ -159,10 +151,7 @@ const MangadexAdapter: SiteAdapter = {
     let chapters: ChapterMetadata[] = extractChapters(html, getChapterUrl);
 
     if (hasPagination) {
-      const chapterCount = parseInt(
-        chapterPaginationText.split(' of ').pop(),
-        10,
-      );
+      const chapterCount = parseInt(chapterPaginationText.split(' of ').pop(), 10);
       const pagesPerChapter = 100;
       const pageCount = Math.ceil(chapterCount / pagesPerChapter);
       const pageUrls = utils
@@ -178,7 +167,7 @@ const MangadexAdapter: SiteAdapter = {
       );
     }
 
-    return { slug: seriesSlug, url, title, chapters };
+    return { slug: seriesSlug, url, title, status, author, chapters };
   },
 
   async getChapter(_, chapterSlug) {
@@ -187,10 +176,7 @@ const MangadexAdapter: SiteAdapter = {
 
     const imageServer = utils.extractJSON(/var\s+server\s+=\s+(.+);/, html);
     const hash = utils.extractJSON(/var\s+dataurl\s+=\s+(.+);/, html);
-    const pagesJson = utils.extractJSON(
-      /var\s+page_array\s+=\s+([^;]+);/,
-      html,
-    );
+    const pagesJson = utils.extractJSON(/var\s+page_array\s+=\s+([^;]+);/, html);
 
     // NOTE: some series are hosted on the main server. We check if it's a
     // relative URL and make sure it has a host before using it.
