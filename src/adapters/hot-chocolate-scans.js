@@ -12,25 +12,6 @@ import type { ChapterMetadata, Page, SiteAdapter } from '../types';
 
 const TZ = 'America/Los_Angeles';
 
-const getTimestamp = rawText => {
-  const text = rawText.toLowerCase();
-
-  if (text === 'today') {
-    return moment
-      .tz(TZ)
-      .endOf('day')
-      .unix();
-  } else if (text === 'yesterday') {
-    return moment
-      .tz(TZ)
-      .subtract(1, 'day')
-      .endOf('day')
-      .unix();
-  }
-
-  return moment.tz(text, 'YYYY.MM.DD', TZ).unix();
-};
-
 // Series URLs
 // https://jaiminisbox.com/reader/series/my-hero-academia
 // https://jaiminisbox.com/reader/series/itoshi-no-muco/
