@@ -1,14 +1,9 @@
 // @flow
 
-import generateMangakakalotAdapter from './mangakakalot.shared';
+import makeMangakakalotAdapter from './shared/mangakakalot';
 
-/**
- * Mangakakalot has a mirror (I think?) up at different domains, so the logic
- * for fetching is shared between the sites.
- */
-
-export default generateMangakakalotAdapter(
-  'mangakakalot',
-  'Mangakakalot',
-  'http://mangakakalot.com',
-);
+export default makeMangakakalotAdapter({
+  id: 'mangakakalot',
+  name: 'Mangakakalot',
+  domain: 'http://mangakakalot.com',
+});

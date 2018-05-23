@@ -1,13 +1,13 @@
 // @flow
 
-import generateMangakakalotAdapter from './mangakakalot.shared';
+import makeMangakakalotAdapter from './shared/mangakakalot';
 
 /**
  * Alias of Mangakakalot
  */
 
-export default generateMangakakalotAdapter(
-  'manganelo',
-  'Manganelo',
-  'http://manganelo.com',
-);
+export default makeMangakakalotAdapter({
+  id: 'manganelo',
+  name: 'Manganelo',
+  domain: 'http://manganelo.com',
+});

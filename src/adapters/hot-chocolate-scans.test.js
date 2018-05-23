@@ -3,14 +3,14 @@ import errors from '../errors';
 
 describe('HotChocolateScansAdapter', () => {
   describe('supportsUrl', () => {
-    it('returns true for urls like hotchocolatescans.com/fs/', () => {
+    it('returns true for urls like hotchocolatescans.com', () => {
+      expect(site.supportsUrl('http://hotchocolatescans.com')).toBe(true);
       expect(site.supportsUrl('http://hotchocolatescans.com/fs')).toBe(true);
       expect(site.supportsUrl('http://hotchocolatescans.com/fs/a/b')).toBe(true);
     });
 
-    it('returns false for urls that are not hotchocolatescans.com/fs/', () => {
+    it('returns false for urls that are not hotchocolatescans.com', () => {
       expect(site.supportsUrl('http://he.lveticascans.com')).toBe(false);
-      expect(site.supportsUrl('http://hotchocolatescans.com')).toBe(false);
     });
   });
 
