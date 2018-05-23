@@ -4,7 +4,7 @@ import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-
+import makeFoolSlideAdapter from './shared/fool-slide';
 import type { ChapterMetadata, Page, SiteAdapter } from '../types';
 
 const TZ = 'America/Los_Angeles';
@@ -28,68 +28,22 @@ const getTimestamp = rawText => {
   return moment.tz(text, 'YYYY.MM.DD', TZ).unix();
 };
 
-// NOTE: Jaimini's Box uses FoolSlide (same as Helvetica Scans), so there's
-// likely a bunch of code-sharing opportunities here.
-
-// Series URLs
-// https://jaiminisbox.com/reader/series/my-hero-academia
-// https://jaiminisbox.com/reader/series/itoshi-no-muco/
-// Reader URLs
-// https://jaiminisbox.com/reader/read/my-hero-academia/en/0/177/page/1
-// https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/4/
-
-const JaiminisBoxAdapter: SiteAdapter = {
+const adapter = makeFoolSlideAdapter({
   id: 'jaiminis-box',
   name: 'Jaimini’s Box',
+  domain: 'https://jaiminisbox.com/',
+  foolSlidePath: '/reader/',
+  timeZone: TZ,
+});
 
-  supportsUrl(url) {
-    return utils.compareDomain(url, 'https://jaiminisbox.com/');
-  },
+const JaiminisBoxAdapter = {
+  ...adapter,
 
-  supportsReading() {
-    return true;
-  },
-
-  parseUrl(url) {
-    const matches = utils.pathMatch(
-      url,
-      '/reader/:type(read|series)/:seriesSlug/:chapterSlug([a-z]{2}/.+)?',
-    );
-
-    invariant(matches, new errors.InvalidUrlError(url));
-    invariant(matches.seriesSlug, new errors.InvalidUrlError(url));
-
-    const seriesSlug = matches.seriesSlug;
-    const chapterSlug =
-      matches.type === 'read'
-        ? matches.chapterSlug.split('/page/').shift()
-        : null;
-
-    return { seriesSlug, chapterSlug };
-  },
-
-  constructUrl(seriesSlug, chapterSlug) {
-    const isChapter = chapterSlug !== null && chapterSlug !== undefined;
-
-    const parts = [
-      'https://jaiminisbox.com/reader',
-      isChapter ? 'read' : 'series',
-      seriesSlug,
-    ];
-
-    if (isChapter) {
-      parts.push(chapterSlug);
-      parts.push('page/1');
-    }
-
-    return utils.normalizeUrl(parts.join('/'));
-  },
+  // NOTE: Jaimini's Box disabled FoolSlide's API so we have to scrape the
+  // old-fashioned way. We override the default FoolSlide functions below.
 
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
-
-    // NOTE: Jaimini's Box disabled FoolSlide's API so we have to scrape the
-    // old-fashioned way.
     const html = await utils.getPage(url);
     const dom = cheerio.load(html);
 
@@ -107,10 +61,7 @@ const JaiminisBoxAdapter: SiteAdapter = {
         .find('.meta_r')
         .text()
         .trim();
-      const createdAtParsedText = utils.extractText(
-        /, ([\d\.]+|\w+)/,
-        createdAtRawText,
-      );
+      const createdAtParsedText = utils.extractText(/, ([\d\.]+|\w+)/, createdAtRawText);
       const createdAt = getTimestamp(createdAtParsedText);
 
       return { url, slug, number, createdAt };
@@ -124,10 +75,7 @@ const JaiminisBoxAdapter: SiteAdapter = {
     const url = this.constructUrl(seriesSlug, chapterSlug);
     const html = await utils.getPage(url);
 
-    const encodedBlob = utils.extractText(
-      /var\s+pages\s+=\s+JSON\.parse\(atob\((.+)\)\);/,
-      html,
-    );
+    const encodedBlob = utils.extractText(/var\s+pages\s+=\s+JSON\.parse\(atob\((.+)\)\);/, html);
     const decodedBlob = new Buffer(encodedBlob, 'base64');
     const json = JSON.parse(decodedBlob.toString());
 

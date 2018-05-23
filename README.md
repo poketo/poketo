@@ -33,16 +33,17 @@ console.log(chapter);
 
 ### Supported Sites
 
-| Site            | URL                       | Tracking | Reading       |
-| --------------- | ------------------------- | -------- | ------------- |
-| Helvetica Scans | http://helveticascans.com | ✓        | ✓             |
-| Jaimini’s Box   | https://jaiminisbox.com   | ✓        | ✓             |
-| MangaHere       | http://www.mangahere.cc   | ✓        | ✓ (very slow) |
-| MangaUpdates    | http://mangaupdates.com   | ✓        |               |
-| Mangadex        | https://mangadex.org      | ✓        | ✓             |
-| Mangakakalot    | http://mangakakalot.com   | ✓        | ✓             |
-| Manganelo       | http://manganelo.com      | ✓        | ✓             |
-| Meraki Scans    | http://merakiscans.com    | ✓        | ✓             |
+| Site                | URL                          | Tracking | Reading       |
+| ------------------- | ---------------------------- | -------- | ------------- |
+| Helvetica Scans     | http://helveticascans.com    | ✓        | ✓             |
+| Hot Chocolate Scans | http://hotchocolatescans.com | ✓        | ✓             |
+| Jaimini’s Box       | https://jaiminisbox.com      | ✓        | ✓             |
+| MangaHere           | http://www.mangahere.cc      | ✓        | ✓ (very slow) |
+| MangaUpdates        | http://mangaupdates.com      | ✓        |               |
+| Mangadex            | https://mangadex.org         | ✓        | ✓             |
+| Mangakakalot        | http://mangakakalot.com      | ✓        | ✓             |
+| Manganelo           | http://manganelo.com         | ✓        | ✓             |
+| Meraki Scans        | http://merakiscans.com       | ✓        | ✓             |
 
 If there's a site / group you'd like to see supported, [make an issue!](https://github.com/poketo/lib/issues/new)
 
