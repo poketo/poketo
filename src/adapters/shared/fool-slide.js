@@ -10,13 +10,24 @@ type Options = {
   id: string,
   name: string,
   domain: string,
-  foolSlidePath: string,
-  timeZone: string,
+  foolSlidePath?: string,
+  timeZone?: string,
 };
 
 export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
   const normalizedDomain = options.domain.replace(/\/$/g, '');
-  const normalizedPath = options.foolSlidePath.replace(/^\/|\/$/g, '');
+  const normalizedPath = options.foolSlidePath
+    ? options.foolSlidePath.replace(/^\/|\/$/g, '')
+    : undefined;
+  const normalizedTimeZone = options.timeZone || 'UTC';
+
+  const siteRoot = [normalizedDomain, normalizedPath].filter(Boolean).join('/');
+
+  const foolSlidePathRegex =
+    ':type(read|series)/:seriesSlug/:chapterSlug([a-z]{2}/.+)?';
+  const regex = `/${[normalizedPath, foolSlidePathRegex]
+    .filter(Boolean)
+    .join('/')}`;
 
   return {
     id: options.id,
@@ -31,10 +42,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
     },
 
     parseUrl(url) {
-      const matches = utils.pathMatch(
-        url,
-        `/${normalizedPath}/:type(read|series)/:seriesSlug/:chapterSlug([a-z]{2}/.+)?`,
-      );
+      const matches = utils.pathMatch(url, regex);
 
       invariant(matches, new errors.InvalidUrlError(url));
       invariant(matches.seriesSlug, new errors.InvalidUrlError(url));
@@ -51,12 +59,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
     constructUrl(seriesSlug, chapterSlug) {
       const isChapter = chapterSlug !== null && chapterSlug !== undefined;
 
-      const parts = [
-        normalizedDomain,
-        options.foolSlidePath,
-        isChapter ? 'read' : 'series',
-        seriesSlug,
-      ];
+      const parts = [siteRoot, isChapter ? 'read' : 'series', seriesSlug];
 
       if (isChapter) {
         parts.push(chapterSlug);
@@ -70,7 +73,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
       const url = this.constructUrl(seriesSlug);
 
       const json = await utils.getJSON(
-        `${normalizedDomain}/${normalizedPath}/api/reader/comic/stub/${seriesSlug}/format/json`,
+        `${siteRoot}/api/reader/comic/stub/${seriesSlug}/format/json`,
       );
       const title = json.comic.name.trim();
 

@@ -7,7 +7,6 @@ const HotChocolateScansAdapter = makeFoolSlideAdapter({
   name: 'Hot Chocolate Scans',
   domain: 'http://hotchocolatescans.com',
   foolSlidePath: '/fs/',
-  timeZone: 'UTC',
 });
 
 export default HotChocolateScansAdapter;

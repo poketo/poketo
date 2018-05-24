@@ -7,7 +7,6 @@ const HelveticaScansAdapter = makeFoolSlideAdapter({
   name: 'Helvetica Scans',
   domain: 'http://helveticascans.com/',
   foolSlidePath: '/r/',
-  timeZone: 'UTC',
 });
 
 export default HelveticaScansAdapter;

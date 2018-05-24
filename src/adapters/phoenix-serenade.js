@@ -6,8 +6,6 @@ const PhoenixSerenadeAdapter = makeFoolSlideAdapter({
   id: 'phoenix-serenade',
   name: 'Phoenix Serenade',
   domain: 'https://reader.serenade.moe/',
-  foolSlidePath: '',
-  timeZone: 'UTC',
 });
 
 export default PhoenixSerenadeAdapter;
