@@ -72,7 +72,9 @@ const extractChapters = (
     }
 
     const duplicateChapters = arr.filter(
-      d => d.volumeNumber === data.volumeNumber && d.chapterNumber === data.chapterNumber,
+      d =>
+        d.volumeNumber === data.volumeNumber &&
+        d.chapterNumber === data.chapterNumber,
     );
 
     if (duplicateChapters.length > 1) {
@@ -82,10 +84,7 @@ const extractChapters = (
     return true;
   });
 
-  return filteredChapterData.map(({ language, views, chapterNumber, ...rest }) => ({
-    ...rest,
-    number: chapterNumber,
-  }));
+  return filteredChapterData.map(({ language, views, ...rest }) => rest);
 };
 
 const MangadexAdapter: SiteAdapter = {
@@ -101,7 +100,10 @@ const MangadexAdapter: SiteAdapter = {
   },
 
   parseUrl(url) {
-    const matches = utils.pathMatch(url, '/:type(manga|chapter)/:first/:second?');
+    const matches = utils.pathMatch(
+      url,
+      '/:type(manga|chapter)/:first/:second?',
+    );
 
     invariant(matches, new errors.InvalidUrlError(url));
     invariant(matches.first, new errors.InvalidUrlError(url));
@@ -117,7 +119,10 @@ const MangadexAdapter: SiteAdapter = {
     const type = chapterSlug ? 'chapter' : 'manga';
     const slug = type === 'chapter' ? chapterSlug : seriesSlug;
 
-    invariant(slug, new TypeError('Either series slug or chapter slug must be non-null'));
+    invariant(
+      slug,
+      new TypeError('Either series slug or chapter slug must be non-null'),
+    );
 
     return utils.normalizeUrl(`https://mangadex.org/${type}/${slug}`);
   },
@@ -140,9 +145,15 @@ const MangadexAdapter: SiteAdapter = {
     const author = metadataTable.find('tr:nth-child(2) > td').text();
 
     const statusElement = metadataTable.find('tr:nth-child(7) > td');
-    const status = statusElement.text().toLowerCase() === 'ongoing' ? 'ongoing' : 'completed';
+    const status =
+      statusElement.text().toLowerCase() === 'ongoing'
+        ? 'ongoing'
+        : 'completed';
 
-    const chapterPaginationElement = dom('.table-responsive + p', '.edit.tab-content').first();
+    const chapterPaginationElement = dom(
+      '.table-responsive + p',
+      '.edit.tab-content',
+    ).first();
     const chapterPaginationText = chapterPaginationElement.text().trim();
     const hasPagination = chapterPaginationText.length > 0;
 
@@ -151,7 +162,10 @@ const MangadexAdapter: SiteAdapter = {
     let chapters: ChapterMetadata[] = extractChapters(html, getChapterUrl);
 
     if (hasPagination) {
-      const chapterCount = parseInt(chapterPaginationText.split(' of ').pop(), 10);
+      const chapterCount = parseInt(
+        chapterPaginationText.split(' of ').pop(),
+        10,
+      );
       const pagesPerChapter = 100;
       const pageCount = Math.ceil(chapterCount / pagesPerChapter);
       const pageUrls = utils
@@ -176,7 +190,10 @@ const MangadexAdapter: SiteAdapter = {
 
     const imageServer = utils.extractJSON(/var\s+server\s+=\s+(.+);/, html);
     const hash = utils.extractJSON(/var\s+dataurl\s+=\s+(.+);/, html);
-    const pagesJson = utils.extractJSON(/var\s+page_array\s+=\s+([^;]+);/, html);
+    const pagesJson = utils.extractJSON(
+      /var\s+page_array\s+=\s+([^;]+);/,
+      html,
+    );
 
     // NOTE: some series are hosted on the main server. We check if it's a
     // relative URL and make sure it has a host before using it.

@@ -37,9 +37,10 @@ describe('MangakakalotAdapter', () => {
         title: 'Urami Koi, Koi, Urami Koi.',
         chapters: expect.arrayContaining([
           {
-            number: '38',
+            chapterNumber: '38',
             createdAt: 1514196540,
             slug: 'chapter_38',
+            title: undefined,
             url:
               'http://mangakakalot.com/chapter/urami_koi_koi_urami_koi/chapter_38',
           },

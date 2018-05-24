@@ -19,23 +19,23 @@ describe('HotChocolateScansAdapter', () => {
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(
-        site.parseUrl('http://hotchocolatescans.com/fs/series/itoshi-no-muco/'),
+        site.parseUrl('http://hotchocolatescans.com/fs/series/series-slug/'),
       ).toEqual({
-        seriesSlug: 'itoshi-no-muco',
+        seriesSlug: 'series-slug',
         chapterSlug: null,
       });
 
       expect(
         site.parseUrl(
-          'http://hotchocolatescans.com/fs/read/itoshi-no-muco/en/1/2/page/1',
+          'http://hotchocolatescans.com/fs/read/series-slug/en/1/2/page/1',
         ),
-      ).toEqual({ seriesSlug: 'itoshi-no-muco', chapterSlug: 'en/1/2' });
+      ).toEqual({ seriesSlug: 'series-slug', chapterSlug: 'en/1/2' });
 
       expect(
         site.parseUrl(
-          'http://hotchocolatescans.com/fs/read/mousou-telepathy/en/0/512/5/page/25',
+          'http://hotchocolatescans.com/fs/read/series-slug/en/0/512/5/page/25',
         ),
-      ).toEqual({ seriesSlug: 'mousou-telepathy', chapterSlug: 'en/0/512/5' });
+      ).toEqual({ seriesSlug: 'series-slug', chapterSlug: 'en/0/512/5' });
     });
 
     it('throws on unparseable paths', () => {
@@ -61,16 +61,20 @@ describe('HotChocolateScansAdapter', () => {
         title: 'Watashi no Shounen',
         chapters: expect.arrayContaining([
           {
-            number: '4',
+            chapterNumber: '4',
+            volumeNumber: '0',
             createdAt: 1516818687,
             slug: 'en/0/4',
+            title: 'A Present',
             url:
               'http://hotchocolatescans.com/fs/read/watashi_no_shounen/en/0/4/page/1',
           },
           {
-            number: '8',
+            chapterNumber: '8',
+            volumeNumber: '0',
             createdAt: 1518828182,
             slug: 'en/0/8',
+            title: 'Water and Light',
             url:
               'http://hotchocolatescans.com/fs/read/watashi_no_shounen/en/0/8/page/1',
           },

@@ -59,15 +59,19 @@ describe('HelveticaScans', () => {
         title: 'Talentless Nana',
         chapters: expect.arrayContaining([
           {
-            number: '1',
+            chapterNumber: '1',
+            volumeNumber: '1',
             createdAt: 1496705622,
             slug: 'en/1/1',
+            title: 'Talentless',
             url:
               'http://helveticascans.com/r/read/talentless-nana/en/1/1/page/1',
           },
           {
-            number: '8',
+            chapterNumber: '8',
+            volumeNumber: '2',
             createdAt: 1507488334,
+            title: 'Prophetic Dreams Part 3',
             slug: 'en/2/8',
             url:
               'http://helveticascans.com/r/read/talentless-nana/en/2/8/page/1',

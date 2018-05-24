@@ -78,6 +78,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
         const subchapter =
           data.chapter.subchapter === '0' ? null : data.chapter.subchapter;
 
+        const title = data.chapter.name;
         const slug = [
           data.chapter.language,
           data.chapter.volume,
@@ -95,7 +96,14 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
           .tz(data.chapter.created, options.timeZone)
           .unix();
 
-        return { url, slug, number, createdAt };
+        return {
+          slug,
+          chapterNumber: data.chapter.chapter,
+          volumeNumber: data.chapter.volume,
+          title,
+          url,
+          createdAt,
+        };
       });
 
       return { slug: seriesSlug, url, title, chapters };
