@@ -72,7 +72,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
       const json = await utils.getJSON(
         `${normalizedDomain}/${normalizedPath}/api/reader/comic/stub/${seriesSlug}/format/json`,
       );
-      const title = json.comic.name;
+      const title = json.comic.name.trim();
 
       const chapters: Array<ChapterMetadata> = json.chapters.map(data => {
         const subchapter =
