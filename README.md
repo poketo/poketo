@@ -44,6 +44,7 @@ console.log(chapter);
 | Mangakakalot        | http://mangakakalot.com        | ✓        | ✓             |
 | Manganelo           | http://manganelo.com           | ✓        | ✓             |
 | Meraki Scans        | http://merakiscans.com         | ✓        | ✓             |
+| Phoenix Serenade    | https://serenade.moe/          | ✓        | ✓             |
 | Silent Sky Scans    | http://www.silentsky-scans.net | ✓        | ✓             |
 
 If there's a site / group you'd like to see supported, [make an issue!](https://github.com/poketo/lib/issues/new)
