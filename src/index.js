@@ -1,35 +1,10 @@
 // @flow
 
-import HelveticaScansAdapter from './adapters/helvetica-scans';
-import HotChocolateScansAdapter from './adapters/hot-chocolate-scans';
-import JaiminisBoxAdapter from './adapters/jaiminis-box';
-import MangaHereAdapter from './adapters/manga-here';
-import MangaUpdatesAdapter from './adapters/manga-updates';
-import MangadexAdapter from './adapters/mangadex';
-import MangakakalotAdapter from './adapters/mangakakalot';
-import ManganeloAdapter from './adapters/manganelo';
-import MerakiScansAdapter from './adapters/meraki-scans';
-import PhoenixSerenadeAdapter from './adapters/phoenix-serenade';
-import SilentSkyScansAdapter from './adapters/silent-sky-scans';
-
+import adapters from './adapters';
 import errors from './errors';
 import utils, { invariant } from './utils';
 
 import type { Chapter, ChapterMetadata, SiteAdapter, Series } from './types';
-
-const adapters = [
-  HelveticaScansAdapter,
-  HotChocolateScansAdapter,
-  JaiminisBoxAdapter,
-  MangaHereAdapter,
-  MangaUpdatesAdapter,
-  MangadexAdapter,
-  MangakakalotAdapter,
-  ManganeloAdapter,
-  MerakiScansAdapter,
-  PhoenixSerenadeAdapter,
-  SilentSkyScansAdapter,
-];
 
 function getAdapterByUrl(url: string): SiteAdapter {
   const adapter = adapters.find(adapter => adapter.supportsUrl(url));
