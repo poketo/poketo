@@ -9,7 +9,9 @@ import MangadexAdapter from './adapters/mangadex';
 import MangakakalotAdapter from './adapters/mangakakalot';
 import ManganeloAdapter from './adapters/manganelo';
 import MerakiScansAdapter from './adapters/meraki-scans';
+import PhoenixSerenadeAdapter from './adapters/phoenix-serenade';
 import SilentSkyScansAdapter from './adapters/silent-sky-scans';
+
 import errors from './errors';
 import utils, { invariant } from './utils';
 
@@ -25,6 +27,7 @@ const adapters = [
   MangakakalotAdapter,
   ManganeloAdapter,
   MerakiScansAdapter,
+  PhoenixSerenadeAdapter,
   SilentSkyScansAdapter,
 ];
 
