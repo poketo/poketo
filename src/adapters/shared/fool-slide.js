@@ -41,7 +41,9 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
 
       const seriesSlug = matches.seriesSlug;
       const chapterSlug =
-        matches.type === 'read' ? matches.chapterSlug.split('/page/').shift() : null;
+        matches.type === 'read'
+          ? matches.chapterSlug.split('/page/').shift()
+          : null;
 
       return { seriesSlug, chapterSlug };
     },
@@ -73,15 +75,25 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
       const title = json.comic.name;
 
       const chapters: Array<ChapterMetadata> = json.chapters.map(data => {
-        const subchapter = data.chapter.subchapter === '0' ? null : data.chapter.subchapter;
+        const subchapter =
+          data.chapter.subchapter === '0' ? null : data.chapter.subchapter;
 
-        const slug = [data.chapter.language, data.chapter.volume, data.chapter.chapter, subchapter]
+        const slug = [
+          data.chapter.language,
+          data.chapter.volume,
+          data.chapter.chapter,
+          subchapter,
+        ]
           .filter(Boolean)
           .join('/');
 
         const url = this.constructUrl(seriesSlug, slug);
-        const number = [data.chapter.chapter, subchapter].filter(Boolean).join('.');
-        const createdAt = moment.tz(data.chapter.created, options.timeZone).unix();
+        const number = [data.chapter.chapter, subchapter]
+          .filter(Boolean)
+          .join('.');
+        const createdAt = moment
+          .tz(data.chapter.created, options.timeZone)
+          .unix();
 
         return { url, slug, number, createdAt };
       });

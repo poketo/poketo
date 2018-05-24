@@ -87,7 +87,8 @@ export default function makeMangakakalotAdapter({
       invariant(matches.seriesSlug, new errors.InvalidUrlError(url));
 
       const seriesSlug = matches.seriesSlug;
-      const chapterSlug = matches.type === 'chapter' ? matches.chapterSlug : null;
+      const chapterSlug =
+        matches.type === 'chapter' ? matches.chapterSlug : null;
 
       return { seriesSlug, chapterSlug };
     },
@@ -109,7 +110,10 @@ export default function makeMangakakalotAdapter({
       const html = await utils.getPage(url);
       const dom = cheerio.load(html);
 
-      invariant(html.indexOf('requested cannot be found') === -1, new errors.NotFoundError(url));
+      invariant(
+        html.indexOf('requested cannot be found') === -1,
+        new errors.NotFoundError(url),
+      );
 
       const title = dom('h1', 'ul.manga-info-text')
         .first()
@@ -121,7 +125,11 @@ export default function makeMangakakalotAdapter({
         .text()
         .trim();
       const updatedAtText = updatedAtRawText.split('Last updated : ').pop();
-      const updatedAtTimestamp = moment.tz(updatedAtText, 'MMM-DD-YYYY HH:mm:ss A', TZ);
+      const updatedAtTimestamp = moment.tz(
+        updatedAtText,
+        'MMM-DD-YYYY HH:mm:ss A',
+        TZ,
+      );
       const updatedAt = updatedAtTimestamp.unix();
 
       const chapterRawData = dom('.row', '.chapter-list')
@@ -156,26 +164,31 @@ export default function makeMangakakalotAdapter({
 
       let lastUpdatedYear = updatedAtTimestamp.year();
 
-      const chapters: Array<ChapterMetadata> = chapterRawData.map((chapterData, i, arr) => {
-        const prev = arr[i - 1];
-        const { createdAtText, slug, number, url } = chapterData;
+      const chapters: Array<ChapterMetadata> = chapterRawData.map(
+        (chapterData, i, arr) => {
+          const prev = arr[i - 1];
+          const { createdAtText, slug, number, url } = chapterData;
 
-        let createdAt = getUnixFromTimestamp(lastUpdatedYear, createdAtText);
+          let createdAt = getUnixFromTimestamp(lastUpdatedYear, createdAtText);
 
-        if (prev) {
-          const prevCreatedAt = getUnixFromTimestamp(lastUpdatedYear, prev.createdAtText);
+          if (prev) {
+            const prevCreatedAt = getUnixFromTimestamp(
+              lastUpdatedYear,
+              prev.createdAtText,
+            );
 
-          if (prevCreatedAt < createdAt) {
-            lastUpdatedYear -= 1;
-            createdAt = moment
-              .unix(createdAt)
-              .year(lastUpdatedYear)
-              .unix();
+            if (prevCreatedAt < createdAt) {
+              lastUpdatedYear -= 1;
+              createdAt = moment
+                .unix(createdAt)
+                .year(lastUpdatedYear)
+                .unix();
+            }
           }
-        }
 
-        return { slug, url, number, createdAt };
-      });
+          return { slug, url, number, createdAt };
+        },
+      );
 
       return { slug: seriesSlug, url, title, chapters, updatedAt };
     },

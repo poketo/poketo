@@ -61,7 +61,10 @@ const JaiminisBoxAdapter = {
         .find('.meta_r')
         .text()
         .trim();
-      const createdAtParsedText = utils.extractText(/, ([\d\.]+|\w+)/, createdAtRawText);
+      const createdAtParsedText = utils.extractText(
+        /, ([\d\.]+|\w+)/,
+        createdAtRawText,
+      );
       const createdAt = getTimestamp(createdAtParsedText);
 
       return { url, slug, number, createdAt };
@@ -75,7 +78,10 @@ const JaiminisBoxAdapter = {
     const url = this.constructUrl(seriesSlug, chapterSlug);
     const html = await utils.getPage(url);
 
-    const encodedBlob = utils.extractText(/var\s+pages\s+=\s+JSON\.parse\(atob\((.+)\)\);/, html);
+    const encodedBlob = utils.extractText(
+      /var\s+pages\s+=\s+JSON\.parse\(atob\((.+)\)\);/,
+      html,
+    );
     const decodedBlob = new Buffer(encodedBlob, 'base64');
     const json = JSON.parse(decodedBlob.toString());
 

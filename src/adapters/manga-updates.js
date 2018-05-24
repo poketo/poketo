@@ -15,7 +15,7 @@ const MangaUpdatesAdapter: SiteAdapter = {
     return utils.compareDomain(url, 'http://mangaupdates.com');
   },
 
-  supportsReading () {
+  supportsReading() {
     return false;
   },
 
@@ -34,25 +34,41 @@ const MangaUpdatesAdapter: SiteAdapter = {
 
   constructUrl(seriesSlug) {
     invariant(seriesSlug, new TypeError('Series slug must be non-null'));
-    return utils.normalizeUrl(`https://www.mangaupdates.com/series.html?id=${seriesSlug}`);
+    return utils.normalizeUrl(
+      `https://www.mangaupdates.com/series.html?id=${seriesSlug}`,
+    );
   },
 
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
-    const html = await utils.getPage(`https://www.mangaupdates.com/releases.html?search=${seriesSlug}&stype=series`);
+    const html = await utils.getPage(
+      `https://www.mangaupdates.com/releases.html?search=${seriesSlug}&stype=series`,
+    );
     const dom = cheerio.load(html);
 
+    const content = dom('#main_content');
     // NOTE: we strip a '*' from the end of the title since MangaUpdates uses that
     // to show if series information has updated in the last 24 hours.
-    const title = dom('td.text.pad[bgcolor]:nth-child(2)', '#main_content').first().text().replace(/\*$/, '');
-    const updatedAtDate = dom('td.text.pad[bgcolor]:nth-child(1)', '#main_content').first().text();
-    const updatedAt = moment.tz(updatedAtDate, 'MM/DD/YY', 'America/Los_Angeles').unix();
+    const titleElement = content
+      .find('td.text.pad[bgcolor]:nth-child(2)')
+      .first();
+    const title = titleElement.text().replace(/\*$/, '');
+
+    const updatedAtElement = content
+      .find('td.text.pad[bgcolor]:nth-child(1)')
+      .first();
+    const updatedAt = moment
+      .tz(updatedAtElement.text(), 'MM/DD/YY', 'America/Los_Angeles')
+      .unix();
 
     return { slug: seriesSlug, url, title, updatedAt };
   },
 
   async getChapter() {
-    throw new errors.UnsupportedSiteRequestError(this.name, 'fetching chapters');
+    throw new errors.UnsupportedSiteRequestError(
+      this.name,
+      'fetching chapters',
+    );
   },
 };
 

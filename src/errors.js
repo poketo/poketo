@@ -7,7 +7,7 @@ type ErrorCode =
   | 'NOT_FOUND';
 
 class PoketoError extends Error {
-  code: ErrorCode
+  code: ErrorCode;
   constructor(errorCode: ErrorCode, message: string) {
     super(message);
     Error.captureStackTrace(this, this.constructor);
@@ -17,26 +17,29 @@ class PoketoError extends Error {
 }
 
 class InvalidUrlError extends PoketoError {
-  constructor (url: string) {
+  constructor(url: string) {
     super('INVALID_URL', `Could not parse url '${url}'`);
   }
 }
 
 class NotFoundError extends PoketoError {
-  constructor (url: string) {
+  constructor(url: string) {
     super('NOT_FOUND', `Could not find resource at '${url}'`);
   }
 }
 
 class UnsupportedSiteError extends PoketoError {
-  constructor (site: string) {
+  constructor(site: string) {
     super('UNSUPPORTED_SITE', `Site at '${site}' is not supported`);
   }
 }
 
 class UnsupportedSiteRequestError extends PoketoError {
-  constructor (siteName: string, operationName: string) {
-    super('UNSUPPORTED_SITE_REQUEST', `${siteName} does not support ${operationName}`);
+  constructor(siteName: string, operationName: string) {
+    super(
+      'UNSUPPORTED_SITE_REQUEST',
+      `${siteName} does not support ${operationName}`,
+    );
   }
 }
 

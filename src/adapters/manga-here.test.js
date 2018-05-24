@@ -1,7 +1,7 @@
 import site from './manga-here';
 import errors from '../errors';
 
-xdescribe('MangaHereAdapter', () => {
+describe('MangaHereAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like mangahere.cc', () => {
       expect(site.supportsUrl('http://www.mangahere.cc')).toBe(true);
@@ -17,17 +17,23 @@ xdescribe('MangaHereAdapter', () => {
 
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
-      expect(site.parseUrl('http://www.mangahere.cc/manga/urami_koi_koi_urami_koi/')).toEqual({
+      expect(
+        site.parseUrl('http://www.mangahere.cc/manga/urami_koi_koi_urami_koi/'),
+      ).toEqual({
         seriesSlug: 'urami_koi_koi_urami_koi',
         chapterSlug: null,
       });
 
       expect(
-        site.parseUrl('http://www.mangahere.cc/manga/urami_koi_koi_urami_koi/c038/1.html'),
+        site.parseUrl(
+          'http://www.mangahere.cc/manga/urami_koi_koi_urami_koi/c038/1.html',
+        ),
       ).toEqual({ seriesSlug: 'urami_koi_koi_urami_koi', chapterSlug: 'c038' });
 
       expect(
-        site.parseUrl('http://www.mangahere.cc/manga/flying_witch_ishizuka_chihiro/c018.5/'),
+        site.parseUrl(
+          'http://www.mangahere.cc/manga/flying_witch_ishizuka_chihiro/c018.5/',
+        ),
       ).toEqual({
         seriesSlug: 'flying_witch_ishizuka_chihiro',
         chapterSlug: 'c018.5',
@@ -69,9 +75,14 @@ xdescribe('MangaHereAdapter', () => {
     it(
       'returns a list of pages',
       async () => {
-        const chapter = await site.getChapter('urami_koi_koi_urami_koi', 'c038');
+        const chapter = await site.getChapter(
+          'urami_koi_koi_urami_koi',
+          'c038',
+        );
 
-        expect(chapter.url).toEqual('http://mangahere.cc/manga/urami_koi_koi_urami_koi/c038');
+        expect(chapter.url).toEqual(
+          'http://mangahere.cc/manga/urami_koi_koi_urami_koi/c038',
+        );
         expect(chapter.pages).toHaveLength(27);
         expect(chapter.pages[0]).toEqual(
           expect.objectContaining({

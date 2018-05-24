@@ -33,12 +33,12 @@ const MerakiScansAdapter: SiteAdapter = {
     return utils.compareDomain(url, 'http://merakiscans.com/');
   },
 
-  supportsReading () {
+  supportsReading() {
     return true;
   },
 
   parseUrl(url) {
-    const matches = utils.pathMatch(url, '/:seriesSlug/:chapterSlug?(\/.+)?');
+    const matches = utils.pathMatch(url, '/:seriesSlug/:chapterSlug?(/.+)?');
 
     invariant(matches, new errors.InvalidUrlError(url));
     invariant(matches.seriesSlug, new errors.InvalidUrlError(url));
@@ -49,11 +49,9 @@ const MerakiScansAdapter: SiteAdapter = {
   },
 
   constructUrl(seriesSlug, chapterSlug) {
-    const url = [
-      'http://merakiscans.com',
-      seriesSlug,
-      chapterSlug,
-    ].filter(Boolean).join('/');
+    const url = ['http://merakiscans.com', seriesSlug, chapterSlug]
+      .filter(Boolean)
+      .join('/');
 
     return utils.normalizeUrl(url);
   },
@@ -61,13 +59,17 @@ const MerakiScansAdapter: SiteAdapter = {
   async getSeries(seriesSlug) {
     const seriesUrl = this.constructUrl(seriesSlug);
 
-    const rss = await utils.getPage(`http://merakiscans.com/manga-rss/${seriesSlug}`);
+    const rss = await utils.getPage(
+      `http://merakiscans.com/manga-rss/${seriesSlug}`,
+    );
     const xml = cheerio.load(rss, { xmlMode: true });
 
     const rssTitle = xml('image > title', 'channel');
     const rssChapters = xml('item', 'channel');
 
-    const titleMatches = /^Recent chapters of (.*?) manga$/.exec(rssTitle.text().trim());
+    const titleMatches = /^Recent chapters of (.*?) manga$/.exec(
+      rssTitle.text().trim(),
+    );
     const title = titleMatches === null ? null : titleMatches[1];
 
     // NOTE: Meraki returns a 200 status RSS feed for all series, even when the
@@ -76,10 +78,17 @@ const MerakiScansAdapter: SiteAdapter = {
     invariant(title, new errors.NotFoundError(seriesUrl));
 
     const chapters: Array<ChapterMetadata> = rssChapters.get().map(el => {
-      const createdAtText = xml(el).find('pubDate').text();
-      const chapterSlugText = xml(el).find('link').text().trim();
+      const createdAtText = xml(el)
+        .find('pubDate')
+        .text();
+      const chapterSlugText = xml(el)
+        .find('link')
+        .text()
+        .trim();
 
-      const createdAt = moment.tz(createdAtText, 'dddd, D MMM YYYY, HH:mm:ss', 'America/Los_Angeles').unix();
+      const createdAt = moment
+        .tz(createdAtText, 'dddd, D MMM YYYY, HH:mm:ss', 'America/Los_Angeles')
+        .unix();
       const slug = utils.extractText(/\/([\d\.]+)\/\d+\/?$/, chapterSlugText);
       const url = this.constructUrl(seriesSlug, slug);
 
@@ -94,7 +103,9 @@ const MerakiScansAdapter: SiteAdapter = {
 
     const html = await utils.getPage(url);
     const dom = cheerio.load(html);
-    const imageUrls = dom('img', '#longWrap').get().map(el => dom(el).attr('src'));
+    const imageUrls = dom('img', '#longWrap')
+      .get()
+      .map(el => dom(el).attr('src'));
     const pages = await pmap(imageUrls, getPage, { concurrency: 3 });
 
     return { slug: chapterSlug, url, pages };
