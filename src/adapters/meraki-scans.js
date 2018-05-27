@@ -9,6 +9,8 @@ import utils, { invariant } from '../utils';
 
 import type { SiteAdapter, ChapterMetadata } from '../types';
 
+const TZ = 'UTC';
+
 function getPage(url, i) {
   return utils.getImageSize(url).then(({ width, height }) => ({
     id: i,
@@ -87,7 +89,7 @@ const MerakiScansAdapter: SiteAdapter = {
         .trim();
 
       const createdAt = moment
-        .tz(createdAtText, 'dddd, D MMM YYYY, HH:mm:ss', 'America/Los_Angeles')
+        .tz(createdAtText, 'dddd, D MMM YYYY, HH:mm:ss', TZ)
         .unix();
       const slug = utils.extractText(/\/([\d\.]+)\/\d+\/?$/, chapterSlugText);
       const url = this.constructUrl(seriesSlug, slug);
