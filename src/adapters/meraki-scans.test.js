@@ -42,7 +42,7 @@ describe('MerakiScansAdapter', () => {
             slug: '21',
             number: '21',
             url: 'http://merakiscans.com/ninja-shinobu-san-no-junjou/21',
-            createdAt: 1505006721,
+            createdAt: 1504981521,
           },
         ]),
       });
