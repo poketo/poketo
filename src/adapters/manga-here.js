@@ -40,16 +40,12 @@ function getChapterNumber(input: string): ?string {
 
 const throttledGetPage = throttle(utils.getPage, 1, 600);
 
-// http://www.mangahere.cc/manga/<series-id>/
-// http://www.mangahere.cc/manga/<series-id>/<chapter-id>/1.html
-// http://www.mangahere.cc/manga/urami_koi_koi_urami_koi/c038/2.html
-
 const MangaHereAdapter: SiteAdapter = {
   id: 'manga-here',
   name: 'Manga Here',
 
   supportsUrl(url) {
-    return /^https?:\/\/(www\.)?mangahere.(co|cc)$/.test(url);
+    return /^https?:\/\/(www\.)?mangahere.(co|cc)/.test(url);
   },
 
   supportsReading() {
