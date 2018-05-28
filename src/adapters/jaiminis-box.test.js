@@ -59,15 +59,19 @@ describe('JaiminisBoxAdapter', () => {
         title: 'Itoshi no Muco',
         chapters: expect.arrayContaining([
           {
-            number: '4',
+            chapterNumber: '4',
+            volumeNumber: '0',
             createdAt: 1483516800,
             slug: 'en/0/4',
+            title: 'Walk!',
             url: 'https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/4/',
           },
           {
-            number: '8',
+            chapterNumber: '8',
+            volumeNumber: '0',
             createdAt: 1487750400,
             slug: 'en/0/8',
+            title: 'Friend!',
             url: 'https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/8/',
           },
         ]),

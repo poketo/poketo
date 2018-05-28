@@ -42,16 +42,22 @@ describe('MangadexAdapter', () => {
         slug: '13127',
         url: 'https://mangadex.org/manga/13127',
         title: 'Uramikoi, Koi, Uramikoi.',
+        author: 'Akitaka',
+        status: 'ongoing',
         chapters: expect.arrayContaining([
           {
             slug: '37060',
-            number: '2',
+            chapterNumber: '2',
+            volumeNumber: '1',
+            title: 'A Cornered Rat Will Even Bite a Rat',
             url: 'https://mangadex.org/chapter/37060',
             createdAt: 1517704912,
           },
           {
             slug: '37348',
-            number: 'Oneshot',
+            chapterNumber: 'Oneshot',
+            volumeNumber: '0',
+            title: 'Oneshot',
             url: 'https://mangadex.org/chapter/37348',
             createdAt: 1517709152,
           },
@@ -69,7 +75,8 @@ describe('MangadexAdapter', () => {
       const seriesWithMultipleGroups = await site.getSeries('19729');
       const seriesWithMultipleVolumes = await site.getSeries('13025');
 
-      const getChapterNumbers = series => series.chapters.map(c => c.number);
+      const getChapterNumbers = series =>
+        series.chapters.map(c => c.chapterNumber);
       const uniq = arr => Array.from(new Set(arr));
 
       const a = getChapterNumbers(seriesWithMultipleGroups);

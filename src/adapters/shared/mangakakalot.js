@@ -135,16 +135,13 @@ export default function makeMangakakalotAdapter({
       const chapterRawData = dom('.row', '.chapter-list')
         .get()
         .map(el => {
-          const number = extractChapterNumber(
-            dom('a', el)
-              .text()
-              .trim(),
-          );
-          const href = dom('a', el).attr('href');
-          const slug = dom('a', el)
-            .attr('href')
-            .split('/')
-            .pop();
+          const link = dom('a', el);
+
+          const title = link.text().split(' : ')[1];
+          const chapterNumber = extractChapterNumber(link.text().trim());
+          // NOTE: no consistent concept of volumes on Mangakakalot
+          const href = link.attr('href');
+          const slug = href.split('/').pop();
           const url = this.constructUrl(seriesSlug, slug);
 
           let createdAtText = normalizeTimestampFormat(
@@ -154,7 +151,13 @@ export default function makeMangakakalotAdapter({
               .trim(),
           );
 
-          return { slug, url, number, createdAtText };
+          return {
+            slug,
+            url,
+            title,
+            chapterNumber,
+            createdAtText,
+          };
         });
 
       // NOTE: since Mangakakalot doesn't give the year with a chapter timestamp,
@@ -167,7 +170,7 @@ export default function makeMangakakalotAdapter({
       const chapters: Array<ChapterMetadata> = chapterRawData.map(
         (chapterData, i, arr) => {
           const prev = arr[i - 1];
-          const { createdAtText, slug, number, url } = chapterData;
+          const { createdAtText, ...rest } = chapterData;
 
           let createdAt = getUnixFromTimestamp(lastUpdatedYear, createdAtText);
 
@@ -186,7 +189,7 @@ export default function makeMangakakalotAdapter({
             }
           }
 
-          return { slug, url, number, createdAt };
+          return { ...rest, createdAt };
         },
       );
 

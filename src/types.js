@@ -18,8 +18,9 @@ type BaseChapter = {
 
 export type ChapterMetadata = {
   ...BaseChapter,
-  title: string,
-  number: ?string,
+  title?: string,
+  chapterNumber?: string,
+  volumeNumber?: string,
   createdAt: number,
 };
 

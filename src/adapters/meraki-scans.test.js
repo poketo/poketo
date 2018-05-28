@@ -40,7 +40,8 @@ describe('MerakiScansAdapter', () => {
         chapters: expect.arrayContaining([
           {
             slug: '21',
-            number: '21',
+            chapterNumber: '21',
+            title: 'You are just!',
             url: 'http://merakiscans.com/ninja-shinobu-san-no-junjou/21',
             createdAt: 1504981521,
           },

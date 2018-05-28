@@ -48,6 +48,7 @@ const extractChapters = (
       slug,
       chapterNumber,
       volumeNumber,
+      title,
       url,
       views,
       language,
@@ -83,12 +84,7 @@ const extractChapters = (
     return true;
   });
 
-  return filteredChapterData.map(
-    ({ language, views, chapterNumber, volumeNumber, ...rest }) => ({
-      ...rest,
-      number: chapterNumber,
-    }),
-  );
+  return filteredChapterData.map(({ language, views, ...rest }) => rest);
 };
 
 const MangadexAdapter: SiteAdapter = {
@@ -104,10 +100,6 @@ const MangadexAdapter: SiteAdapter = {
   },
 
   parseUrl(url) {
-    // https://mangadex.org/manga/13127
-    // https://mangadex.org/manga/13127/uramikoi-koi-uramikoi
-    // https://mangadex.org/chapter/37149/1
-
     const matches = utils.pathMatch(
       url,
       '/:type(manga|chapter)/:first/:second?',
@@ -129,7 +121,7 @@ const MangadexAdapter: SiteAdapter = {
 
     invariant(
       slug,
-      new TypeError('Either series or chapter slug must be non-null'),
+      new TypeError('Either series slug or chapter slug must be non-null'),
     );
 
     return utils.normalizeUrl(`https://mangadex.org/${type}/${slug}`);
@@ -141,17 +133,28 @@ const MangadexAdapter: SiteAdapter = {
     const html = await throttledGet(url);
     const dom = cheerio.load(html);
 
-    const title = dom('.panel-title', '#content > .panel:first-child')
+    const metadataPanel = dom('#content > .panel:first-child');
+    const metadataTable = metadataPanel.find('table tbody');
+
+    const title = metadataPanel
+      .find('.panel-title')
       .first()
       .text()
       .trim();
-    const chapterPaginationText = dom(
+
+    const author = metadataTable.find('tr:nth-child(2) > td').text();
+
+    const statusElement = metadataTable.find('tr:nth-child(7) > td');
+    const status =
+      statusElement.text().toLowerCase() === 'ongoing'
+        ? 'ongoing'
+        : 'completed';
+
+    const chapterPaginationElement = dom(
       '.table-responsive + p',
       '.edit.tab-content',
-    )
-      .first()
-      .text()
-      .trim();
+    ).first();
+    const chapterPaginationText = chapterPaginationElement.text().trim();
     const hasPagination = chapterPaginationText.length > 0;
 
     const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
@@ -178,7 +181,7 @@ const MangadexAdapter: SiteAdapter = {
       );
     }
 
-    return { slug: seriesSlug, url, title, chapters };
+    return { slug: seriesSlug, url, title, status, author, chapters };
   },
 
   async getChapter(_, chapterSlug) {
