@@ -38,6 +38,7 @@ console.log(chapter);
 | Helvetica Scans     | http://helveticascans.com      | ✓        | ✓             |
 | Hot Chocolate Scans | http://hotchocolatescans.com   | ✓        | ✓             |
 | Jaimini’s Box       | https://jaiminisbox.com        | ✓        | ✓             |
+| Kirei Cake          | https://kireicake.com          | ✓        | ✓             |
 | MangaHere           | http://www.mangahere.cc        | ✓        | ✓ (very slow) |
 | MangaUpdates        | http://mangaupdates.com        | ✓        |               |
 | Mangadex            | https://mangadex.org           | ✓        | ✓             |
@@ -45,7 +46,9 @@ console.log(chapter);
 | Manganelo           | http://manganelo.com           | ✓        | ✓             |
 | Meraki Scans        | http://merakiscans.com         | ✓        | ✓             |
 | Phoenix Serenade    | https://serenade.moe           | ✓        | ✓             |
+| Sense Scans         | https://sensescans.com/        | ✓        | ✓             |
 | Silent Sky Scans    | http://www.silentsky-scans.net | ✓        | ✓             |
+| Tuki Scans          | https://tukimoop.pw            | ✓        | ✓             |
 
 If there's a site / group you'd like to see supported, [make an issue!](https://github.com/poketo/lib/issues/new)
 
