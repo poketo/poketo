@@ -10,6 +10,7 @@ import MangakakalotAdapter from './mangakakalot';
 import ManganeloAdapter from './manganelo';
 import MerakiScansAdapter from './meraki-scans';
 import PhoenixSerenadeAdapter from './phoenix-serenade';
+import SenseScansAdapter from './sense-scans';
 import SilentSkyScansAdapter from './silent-sky-scans';
 
 const adapters = [
@@ -23,6 +24,7 @@ const adapters = [
   ManganeloAdapter,
   MerakiScansAdapter,
   PhoenixSerenadeAdapter,
+  SenseScansAdapter,
   SilentSkyScansAdapter,
 ];
 
