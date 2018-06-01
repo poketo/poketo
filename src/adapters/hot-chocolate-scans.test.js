@@ -55,10 +55,7 @@ describe('HotChocolateScansAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('watashi_no_shounen');
 
-      expect(metadata).toEqual({
-        slug: 'watashi_no_shounen',
-        url: 'http://hotchocolatescans.com/fs/series/watashi_no_shounen',
-        title: 'Watashi no Shounen',
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             number: '4',

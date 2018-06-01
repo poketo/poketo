@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MangadexAdapter getSeries returns a metadata object 1`] = `
+Object {
+  "chapters": ArrayContaining [
+    Object {
+      "createdAt": 1517704912,
+      "number": "2",
+      "slug": "37060",
+      "url": "https://mangadex.org/chapter/37060",
+    },
+    Object {
+      "createdAt": 1517709152,
+      "number": "Oneshot",
+      "slug": "37348",
+      "url": "https://mangadex.org/chapter/37348",
+    },
+  ],
+  "slug": "13127",
+  "title": "Uramikoi, Koi, Uramikoi.",
+  "url": "https://mangadex.org/manga/13127",
+}
+`;

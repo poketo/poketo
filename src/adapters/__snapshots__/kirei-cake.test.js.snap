@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KireiCakeAdapter getSeries returns a metadata object 1`] = `
+Object {
+  "chapters": ArrayContaining [
+    Object {
+      "createdAt": 1525765063,
+      "number": "47",
+      "slug": "en/0/47",
+      "url": "https://reader.kireicake.com/read/masamunekuns_revenge/en/0/47/page/1",
+    },
+  ],
+  "slug": "masamunekuns_revenge",
+  "title": "Masamune-kun's Revenge",
+  "url": "https://reader.kireicake.com/series/masamunekuns_revenge",
+}
+`;

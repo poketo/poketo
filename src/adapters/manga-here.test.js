@@ -55,10 +55,7 @@ xdescribe('MangaHereAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('urami_koi_koi_urami_koi');
 
-      expect(metadata).toEqual({
-        slug: 'urami_koi_koi_urami_koi',
-        url: 'http://mangahere.cc/manga/urami_koi_koi_urami_koi',
-        title: 'Urami Koi, Koi, Urami Koi.',
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             url: 'http://mangahere.cc/manga/urami_koi_koi_urami_koi/c013',

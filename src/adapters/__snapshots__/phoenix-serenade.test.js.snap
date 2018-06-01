@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PhoenixSerenadeAdapter getSeries returns a metadata object 1`] = `
+Object {
+  "chapters": ArrayContaining [
+    Object {
+      "createdAt": 1513954489,
+      "number": "7",
+      "slug": "en/0/7",
+      "url": "https://reader.serenade.moe/read/kusuriya-no-hitorigoto/en/0/7/page/1",
+    },
+    Object {
+      "createdAt": 1526538824,
+      "number": "11",
+      "slug": "en/0/11",
+      "url": "https://reader.serenade.moe/read/kusuriya-no-hitorigoto/en/0/11/page/1",
+    },
+  ],
+  "slug": "kusuriya-no-hitorigoto",
+  "title": "Kusuriya no Hitorigoto",
+  "url": "https://reader.serenade.moe/series/kusuriya-no-hitorigoto",
+}
+`;

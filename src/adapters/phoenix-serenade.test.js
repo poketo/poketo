@@ -6,10 +6,7 @@ describe('PhoenixSerenadeAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('kusuriya-no-hitorigoto');
 
-      expect(metadata).toEqual({
-        slug: 'kusuriya-no-hitorigoto',
-        url: 'https://reader.serenade.moe/series/kusuriya-no-hitorigoto',
-        title: 'Kusuriya no Hitorigoto',
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             number: '7',

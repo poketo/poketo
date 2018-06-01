@@ -53,10 +53,7 @@ describe('JaiminisBoxAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('itoshi-no-muco');
 
-      expect(metadata).toEqual({
-        slug: 'itoshi-no-muco',
-        url: 'https://jaiminisbox.com/reader/series/itoshi-no-muco',
-        title: 'Itoshi no Muco',
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             number: '4',

@@ -33,10 +33,7 @@ describe('MerakiScansAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('ninja-shinobu-san-no-junjou');
 
-      expect(metadata).toEqual({
-        slug: 'ninja-shinobu-san-no-junjou',
-        url: 'http://merakiscans.com/ninja-shinobu-san-no-junjou',
-        title: 'Ninja Shinobu-san no Junjou',
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             slug: '21',
