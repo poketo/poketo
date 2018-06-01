@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MangakakalotAdapter getSeries returns a metadata object 1`] = `
+Object {
+  "chapters": ArrayContaining [
+    Object {
+      "createdAt": 1514196540,
+      "number": "38",
+      "slug": "chapter_38",
+      "url": "http://mangakakalot.com/chapter/urami_koi_koi_urami_koi/chapter_38",
+    },
+  ],
+  "slug": "urami_koi_koi_urami_koi",
+  "title": "Urami Koi, Koi, Urami Koi.",
+  "updatedAt": Any<Number>,
+  "url": "http://mangakakalot.com/manga/urami_koi_koi_urami_koi",
+}
+`;

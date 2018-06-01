@@ -6,10 +6,7 @@ describe('KireiCakeAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('masamunekuns_revenge');
 
-      expect(metadata).toEqual({
-        slug: 'masamunekuns_revenge',
-        url: 'https://reader.kireicake.com/series/masamunekuns_revenge',
-        title: "Masamune-kun's Revenge",
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             number: '47',

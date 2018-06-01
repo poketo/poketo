@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MangaUpdatesAdapter getSeries returns a metadata object 1`] = `
+Object {
+  "slug": "111976",
+  "title": "Urami Koi, Koi, Urami Koi.",
+  "updatedAt": Any<Number>,
+  "url": "https://mangaupdates.com/series.html?id=111976",
+}
+`;

@@ -32,10 +32,7 @@ describe('MangaUpdatesAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('111976');
 
-      expect(metadata).toEqual({
-        slug: '111976',
-        url: 'https://mangaupdates.com/series.html?id=111976',
-        title: 'Urami Koi, Koi, Urami Koi.',
+      expect(metadata).toMatchSnapshot({
         updatedAt: expect.any(Number),
       });
     });

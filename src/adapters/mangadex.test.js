@@ -38,10 +38,7 @@ describe('MangadexAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('13127');
 
-      expect(metadata).toEqual({
-        slug: '13127',
-        url: 'https://mangadex.org/manga/13127',
-        title: 'Uramikoi, Koi, Uramikoi.',
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             slug: '37060',

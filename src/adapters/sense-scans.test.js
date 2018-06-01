@@ -6,10 +6,7 @@ describe('SenseScansAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('kingdom');
 
-      expect(metadata).toEqual({
-        slug: 'kingdom',
-        url: 'https://sensescans.com/reader/series/kingdom',
-        title: 'Kingdom',
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             number: '426.5',

@@ -53,10 +53,7 @@ describe('HelveticaScans', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('talentless-nana');
 
-      expect(metadata).toEqual({
-        slug: 'talentless-nana',
-        url: 'http://helveticascans.com/r/series/talentless-nana',
-        title: 'Talentless Nana',
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             number: '1',

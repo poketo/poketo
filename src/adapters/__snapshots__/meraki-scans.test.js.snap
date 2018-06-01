@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MerakiScansAdapter getSeries returns a metadata object 1`] = `
+Object {
+  "chapters": ArrayContaining [
+    Object {
+      "createdAt": 1504981521,
+      "number": "21",
+      "slug": "21",
+      "url": "http://merakiscans.com/ninja-shinobu-san-no-junjou/21",
+    },
+  ],
+  "slug": "ninja-shinobu-san-no-junjou",
+  "title": "Ninja Shinobu-san no Junjou",
+  "url": "http://merakiscans.com/ninja-shinobu-san-no-junjou",
+}
+`;

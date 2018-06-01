@@ -6,10 +6,7 @@ describe('SilentSkyScansAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('all_rounder_meguru_');
 
-      expect(metadata).toEqual({
-        slug: 'all_rounder_meguru_',
-        url: 'http://reader.silentsky-scans.net/series/all_rounder_meguru_',
-        title: 'All Rounder Meguru',
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             number: '81',

@@ -6,10 +6,7 @@ describe('TukiScansAdapter', () => {
     it('returns a metadata object', async () => {
       const metadata = await site.getSeries('madoromi-chan');
 
-      expect(metadata).toEqual({
-        slug: 'madoromi-chan',
-        url: 'https://reader.tukimoop.pw/series/madoromi-chan',
-        title: 'Madoromi-chan ga Iku.',
+      expect(metadata).toMatchSnapshot({
         chapters: expect.arrayContaining([
           {
             number: '17',
