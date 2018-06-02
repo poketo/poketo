@@ -73,11 +73,20 @@ const extractChapters = (
     const duplicateChapters = arr.filter(
       d =>
         d.volumeNumber === data.volumeNumber &&
-        d.chapterNumber === data.chapterNumber,
+        d.chapterNumber === data.chapterNumber &&
+        d.slug !== data.slug,
     );
 
-    if (duplicateChapters.length > 1) {
-      return duplicateChapters.every(d => data.views >= d.views);
+    if (duplicateChapters.length > 0) {
+      return duplicateChapters.every(d => {
+        if (data.views > d.views) {
+          return true;
+        }
+
+        // NOTE: when chapters have exactly the same number of views, we just
+        // do a comparison with the slug, which is guaranteed to be different.
+        return data.views === d.views ? data.slug > d.slug : false;
+      });
     }
 
     return true;
