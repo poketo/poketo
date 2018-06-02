@@ -51,26 +51,15 @@ describe('HelveticaScans', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const metadata = await site.getSeries('talentless-nana');
+      const { chapters, ...metadata } = await site.getSeries('talentless-nana');
 
-      expect(metadata).toMatchSnapshot({
-        chapters: expect.arrayContaining([
-          {
-            number: '1',
-            createdAt: 1496705622,
-            slug: 'en/1/1',
-            url:
-              'http://helveticascans.com/r/read/talentless-nana/en/1/1/page/1',
-          },
-          {
-            number: '8',
-            createdAt: 1507488334,
-            slug: 'en/2/8',
-            url:
-              'http://helveticascans.com/r/read/talentless-nana/en/2/8/page/1',
-          },
-        ]),
-      });
+      expect(metadata).toMatchSnapshot();
+
+      const chapterNumbersToTest = ['4', '8'];
+      const chaptersToTest = chapters.filter(chapter =>
+        chapterNumbersToTest.includes(chapter.chapterNumber),
+      );
+      expect(chaptersToTest).toMatchSnapshot();
     });
   });
 

@@ -4,26 +4,17 @@ import errors from '../errors';
 describe('PhoenixSerenadeAdapter', () => {
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const metadata = await site.getSeries('kusuriya-no-hitorigoto');
+      const { chapters, ...metadata } = await site.getSeries(
+        'kusuriya-no-hitorigoto',
+      );
 
-      expect(metadata).toMatchSnapshot({
-        chapters: expect.arrayContaining([
-          {
-            number: '7',
-            createdAt: 1513954489,
-            slug: 'en/0/7',
-            url:
-              'https://reader.serenade.moe/read/kusuriya-no-hitorigoto/en/0/7/page/1',
-          },
-          {
-            number: '11',
-            createdAt: 1526538824,
-            slug: 'en/0/11',
-            url:
-              'https://reader.serenade.moe/read/kusuriya-no-hitorigoto/en/0/11/page/1',
-          },
-        ]),
-      });
+      expect(metadata).toMatchSnapshot();
+
+      const chapterNumbersToTest = ['7', '11'];
+      const chaptersToTest = chapters.filter(chapter =>
+        chapterNumbersToTest.includes(chapter.chapterNumber),
+      );
+      expect(chaptersToTest).toMatchSnapshot();
     });
   });
 });

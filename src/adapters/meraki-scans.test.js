@@ -31,18 +31,17 @@ describe('MerakiScansAdapter', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const metadata = await site.getSeries('ninja-shinobu-san-no-junjou');
+      const { chapters, ...metadata } = await site.getSeries(
+        'ninja-shinobu-san-no-junjou',
+      );
 
-      expect(metadata).toMatchSnapshot({
-        chapters: expect.arrayContaining([
-          {
-            slug: '21',
-            number: '21',
-            url: 'http://merakiscans.com/ninja-shinobu-san-no-junjou/21',
-            createdAt: 1504981521,
-          },
-        ]),
-      });
+      expect(metadata).toMatchSnapshot();
+
+      const chapterNumbersToTest = ['21'];
+      const chaptersToTest = chapters.filter(chapter =>
+        chapterNumbersToTest.includes(chapter.chapterNumber),
+      );
+      expect(chaptersToTest).toMatchSnapshot();
     });
   });
 

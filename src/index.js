@@ -19,8 +19,8 @@ function getAdapterBySiteId(siteId: string): SiteAdapter {
 }
 
 function sortChapters(a: ChapterMetadata, b: ChapterMetadata): number {
-  const numberA = parseFloat(a.number);
-  const numberB = parseFloat(b.number);
+  const numberA = parseFloat(a.chapterNumber);
+  const numberB = parseFloat(b.chapterNumber);
 
   if (Number.isNaN(numberB)) {
     return -1;

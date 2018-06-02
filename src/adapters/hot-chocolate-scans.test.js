@@ -53,26 +53,17 @@ describe('HotChocolateScansAdapter', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const metadata = await site.getSeries('watashi_no_shounen');
+      const { chapters, ...metadata } = await site.getSeries(
+        'watashi_no_shounen',
+      );
 
-      expect(metadata).toMatchSnapshot({
-        chapters: expect.arrayContaining([
-          {
-            number: '4',
-            createdAt: 1516818687,
-            slug: 'en/0/4',
-            url:
-              'http://hotchocolatescans.com/fs/read/watashi_no_shounen/en/0/4/page/1',
-          },
-          {
-            number: '8',
-            createdAt: 1518828182,
-            slug: 'en/0/8',
-            url:
-              'http://hotchocolatescans.com/fs/read/watashi_no_shounen/en/0/8/page/1',
-          },
-        ]),
-      });
+      expect(metadata).toMatchSnapshot();
+
+      const chapterNumbersToTest = ['4', '8'];
+      const chaptersToTest = chapters.filter(chapter =>
+        chapterNumbersToTest.includes(chapter.chapterNumber),
+      );
+      expect(chaptersToTest).toMatchSnapshot();
     });
   });
 

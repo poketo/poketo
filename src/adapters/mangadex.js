@@ -48,6 +48,7 @@ const extractChapters = (
       slug,
       chapterNumber,
       volumeNumber,
+      title,
       url,
       views,
       language,
@@ -92,12 +93,7 @@ const extractChapters = (
     return true;
   });
 
-  return filteredChapterData.map(
-    ({ language, views, chapterNumber, volumeNumber, ...rest }) => ({
-      ...rest,
-      number: chapterNumber,
-    }),
-  );
+  return filteredChapterData.map(({ language, views, ...rest }) => rest);
 };
 
 const MangadexAdapter: SiteAdapter = {

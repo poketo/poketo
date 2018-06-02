@@ -2,22 +2,20 @@
 
 exports[`SenseScansAdapter getSeries returns a metadata object 1`] = `
 Object {
-  "chapters": ArrayContaining [
-    Object {
-      "createdAt": 1508059938,
-      "number": "426.5",
-      "slug": "en/39/426/5",
-      "url": "https://sensescans.com/reader/read/kingdom/en/39/426/5/page/1",
-    },
-    Object {
-      "createdAt": 1520340128,
-      "number": "550",
-      "slug": "en/51/550",
-      "url": "https://sensescans.com/reader/read/kingdom/en/51/550/page/1",
-    },
-  ],
   "slug": "kingdom",
   "title": "Kingdom",
   "url": "https://sensescans.com/reader/series/kingdom",
 }
+`;
+
+exports[`SenseScansAdapter getSeries returns a metadata object 2`] = `
+Array [
+  Object {
+    "chapterNumber": "550",
+    "createdAt": 1520340128,
+    "slug": "en/51/550",
+    "url": "https://sensescans.com/reader/read/kingdom/en/51/550/page/1",
+    "volumeNumber": "51",
+  },
+]
 `;

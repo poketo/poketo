@@ -2,22 +2,27 @@
 
 exports[`PhoenixSerenadeAdapter getSeries returns a metadata object 1`] = `
 Object {
-  "chapters": ArrayContaining [
-    Object {
-      "createdAt": 1513954489,
-      "number": "7",
-      "slug": "en/0/7",
-      "url": "https://reader.serenade.moe/read/kusuriya-no-hitorigoto/en/0/7/page/1",
-    },
-    Object {
-      "createdAt": 1526538824,
-      "number": "11",
-      "slug": "en/0/11",
-      "url": "https://reader.serenade.moe/read/kusuriya-no-hitorigoto/en/0/11/page/1",
-    },
-  ],
   "slug": "kusuriya-no-hitorigoto",
   "title": "Kusuriya no Hitorigoto",
   "url": "https://reader.serenade.moe/series/kusuriya-no-hitorigoto",
 }
+`;
+
+exports[`PhoenixSerenadeAdapter getSeries returns a metadata object 2`] = `
+Array [
+  Object {
+    "chapterNumber": "7",
+    "createdAt": 1513954489,
+    "slug": "en/0/7",
+    "url": "https://reader.serenade.moe/read/kusuriya-no-hitorigoto/en/0/7/page/1",
+    "volumeNumber": "0",
+  },
+  Object {
+    "chapterNumber": "11",
+    "createdAt": 1526538824,
+    "slug": "en/0/11",
+    "url": "https://reader.serenade.moe/read/kusuriya-no-hitorigoto/en/0/11/page/1",
+    "volumeNumber": "0",
+  },
+]
 `;
