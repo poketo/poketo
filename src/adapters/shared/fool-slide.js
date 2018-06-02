@@ -9,32 +9,26 @@ import type { ChapterMetadata, Page, SiteAdapter } from '../../types';
 type Options = {
   id: string,
   name: string,
-  domain: string,
-  foolSlidePath?: string,
+  foolSlideBaseUrl: string,
   timeZone?: string,
 };
 
 export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
-  const normalizedDomain = options.domain.replace(/\/$/g, '');
-  const normalizedPath = options.foolSlidePath
-    ? options.foolSlidePath.replace(/^\/|\/$/g, '')
-    : undefined;
+  const normalizedBaseUrl = options.foolSlideBaseUrl.replace(/\/$/, '');
   const normalizedTimeZone = options.timeZone || 'UTC';
 
-  const siteRoot = [normalizedDomain, normalizedPath].filter(Boolean).join('/');
+  const url = utils.parseUrl(normalizedBaseUrl);
 
   const foolSlidePathRegex =
     ':type(read|series)/:seriesSlug/:chapterSlug([a-z]{2}/.+)?';
-  const regex = `/${[normalizedPath, foolSlidePathRegex]
-    .filter(Boolean)
-    .join('/')}`;
+  const regex = `${url.pathname}/${foolSlidePathRegex}`;
 
   return {
     id: options.id,
     name: options.name,
 
     supportsUrl(url) {
-      return utils.compareDomain(url, normalizedDomain);
+      return utils.compareDomain(url, normalizedBaseUrl);
     },
 
     supportsReading() {
@@ -59,7 +53,11 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
     constructUrl(seriesSlug, chapterSlug) {
       const isChapter = chapterSlug !== null && chapterSlug !== undefined;
 
-      const parts = [siteRoot, isChapter ? 'read' : 'series', seriesSlug];
+      const parts = [
+        normalizedBaseUrl,
+        isChapter ? 'read' : 'series',
+        seriesSlug,
+      ];
 
       if (isChapter) {
         parts.push(chapterSlug);
@@ -72,9 +70,8 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
     async getSeries(seriesSlug) {
       const url = this.constructUrl(seriesSlug);
 
-      const json = await utils.getJSON(
-        `${siteRoot}/api/reader/comic/stub/${seriesSlug}/format/json`,
-      );
+      const jsonUrl = `${normalizedBaseUrl}/api/reader/comic/stub/${seriesSlug}/format/json`;
+      const json = await utils.getJSON(jsonUrl);
       const title = json.comic.name.trim();
 
       const chapters: Array<ChapterMetadata> = json.chapters.map(data => {

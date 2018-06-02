@@ -31,8 +31,7 @@ const getTimestamp = rawText => {
 const adapter = makeFoolSlideAdapter({
   id: 'jaiminis-box',
   name: 'Jaimini’s Box',
-  domain: 'https://jaiminisbox.com/',
-  foolSlidePath: '/reader/',
+  foolSlideBaseUrl: 'https://jaiminisbox.com/reader/',
   timeZone: TZ,
 });
 

@@ -5,8 +5,7 @@ import makeFoolSlideAdapter from './shared/fool-slide';
 const SenseScansAdapter = makeFoolSlideAdapter({
   id: 'sense-scans',
   name: 'Sense Scans',
-  domain: 'https://sensescans.com/',
-  foolSlidePath: '/reader/',
+  foolSlideBaseUrl: 'https://sensescans.com/reader/',
 });
 
 export default SenseScansAdapter;
