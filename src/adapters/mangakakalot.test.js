@@ -29,20 +29,19 @@ describe('MangakakalotAdapter', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const metadata = await site.getSeries('urami_koi_koi_urami_koi');
+      const { chapters, ...metadata } = await site.getSeries(
+        'urami_koi_koi_urami_koi',
+      );
 
       expect(metadata).toMatchSnapshot({
-        chapters: expect.arrayContaining([
-          {
-            number: '38',
-            createdAt: 1514196540,
-            slug: 'chapter_38',
-            url:
-              'http://mangakakalot.com/chapter/urami_koi_koi_urami_koi/chapter_38',
-          },
-        ]),
         updatedAt: expect.any(Number),
       });
+
+      const chapterNumbersToTest = ['38'];
+      const chaptersToTest = chapters.filter(chapter =>
+        chapterNumbersToTest.includes(chapter.chapterNumber),
+      );
+      expect(chaptersToTest).toMatchSnapshot();
     });
   });
 

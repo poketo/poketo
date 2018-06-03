@@ -50,25 +50,16 @@ describe('JaiminisBoxAdapter', () => {
   });
 
   describe('getSeries', () => {
-    it('returns a metadata object', async () => {
-      const metadata = await site.getSeries('itoshi-no-muco');
+    it('returns series metadata', async () => {
+      const { chapters, ...metadata } = await site.getSeries('itoshi-no-muco');
 
-      expect(metadata).toMatchSnapshot({
-        chapters: expect.arrayContaining([
-          {
-            number: '4',
-            createdAt: 1483516800,
-            slug: 'en/0/4',
-            url: 'https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/4/',
-          },
-          {
-            number: '8',
-            createdAt: 1487750400,
-            slug: 'en/0/8',
-            url: 'https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/8/',
-          },
-        ]),
-      });
+      expect(metadata).toMatchSnapshot();
+
+      const chapterNumbersToTest = ['4', '8'];
+      const chaptersToTest = chapters.filter(chapter =>
+        chapterNumbersToTest.includes(chapter.chapterNumber),
+      );
+      expect(chaptersToTest).toMatchSnapshot();
     });
   });
 

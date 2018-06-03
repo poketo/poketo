@@ -2,16 +2,20 @@
 
 exports[`MerakiScansAdapter getSeries returns a metadata object 1`] = `
 Object {
-  "chapters": ArrayContaining [
-    Object {
-      "createdAt": 1504981521,
-      "number": "21",
-      "slug": "21",
-      "url": "http://merakiscans.com/ninja-shinobu-san-no-junjou/21",
-    },
-  ],
   "slug": "ninja-shinobu-san-no-junjou",
   "title": "Ninja Shinobu-san no Junjou",
   "url": "http://merakiscans.com/ninja-shinobu-san-no-junjou",
 }
+`;
+
+exports[`MerakiScansAdapter getSeries returns a metadata object 2`] = `
+Array [
+  Object {
+    "chapterNumber": "21",
+    "createdAt": 1504981521,
+    "slug": "21",
+    "title": "You are just!",
+    "url": "http://merakiscans.com/ninja-shinobu-san-no-junjou/21",
+  },
+]
 `;

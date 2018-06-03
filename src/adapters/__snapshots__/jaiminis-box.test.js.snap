@@ -1,23 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`JaiminisBoxAdapter getSeries returns a metadata object 1`] = `
+exports[`JaiminisBoxAdapter getSeries returns series metadata 1`] = `
 Object {
-  "chapters": ArrayContaining [
-    Object {
-      "createdAt": 1483516800,
-      "number": "4",
-      "slug": "en/0/4",
-      "url": "https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/4/",
-    },
-    Object {
-      "createdAt": 1487750400,
-      "number": "8",
-      "slug": "en/0/8",
-      "url": "https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/8/",
-    },
-  ],
   "slug": "itoshi-no-muco",
   "title": "Itoshi no Muco",
   "url": "https://jaiminisbox.com/reader/series/itoshi-no-muco",
 }
+`;
+
+exports[`JaiminisBoxAdapter getSeries returns series metadata 2`] = `
+Array [
+  Object {
+    "chapterNumber": "8",
+    "createdAt": 1487750400,
+    "slug": "en/0/8",
+    "title": "Friend!",
+    "url": "https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/8/",
+    "volumeNumber": "0",
+  },
+  Object {
+    "chapterNumber": "4",
+    "createdAt": 1483516800,
+    "slug": "en/0/4",
+    "title": "Walk!",
+    "url": "https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/4/",
+    "volumeNumber": "0",
+  },
+]
 `;

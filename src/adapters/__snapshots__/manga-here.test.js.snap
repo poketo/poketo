@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MangaHereAdapter getSeries returns a metadata object 1`] = `
+Object {
+  "slug": "urami_koi_koi_urami_koi",
+  "title": "Urami Koi, Koi, Urami Koi.",
+  "url": "http://mangahere.cc/manga/urami_koi_koi_urami_koi",
+}
+`;
+
+exports[`MangaHereAdapter getSeries returns a metadata object 2`] = `
+Array [
+  Object {
+    "chapterNumber": "13",
+    "createdAt": 1449993600,
+    "slug": "c013",
+    "title": "Love is Like an Ox",
+    "url": "http://mangahere.cc/manga/urami_koi_koi_urami_koi/c013",
+  },
+]
+`;

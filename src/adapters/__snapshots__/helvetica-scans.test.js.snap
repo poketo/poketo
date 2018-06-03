@@ -2,22 +2,27 @@
 
 exports[`HelveticaScans getSeries returns a metadata object 1`] = `
 Object {
-  "chapters": ArrayContaining [
-    Object {
-      "createdAt": 1496705622,
-      "number": "1",
-      "slug": "en/1/1",
-      "url": "http://helveticascans.com/r/read/talentless-nana/en/1/1/page/1",
-    },
-    Object {
-      "createdAt": 1507488334,
-      "number": "8",
-      "slug": "en/2/8",
-      "url": "http://helveticascans.com/r/read/talentless-nana/en/2/8/page/1",
-    },
-  ],
   "slug": "talentless-nana",
   "title": "Talentless Nana",
   "url": "http://helveticascans.com/r/series/talentless-nana",
 }
+`;
+
+exports[`HelveticaScans getSeries returns a metadata object 2`] = `
+Array [
+  Object {
+    "chapterNumber": "4",
+    "createdAt": 1502298597,
+    "slug": "en/1/4",
+    "url": "http://helveticascans.com/r/read/talentless-nana/en/1/4/page/1",
+    "volumeNumber": "1",
+  },
+  Object {
+    "chapterNumber": "8",
+    "createdAt": 1507488334,
+    "slug": "en/2/8",
+    "url": "http://helveticascans.com/r/read/talentless-nana/en/2/8/page/1",
+    "volumeNumber": "2",
+  },
+]
 `;

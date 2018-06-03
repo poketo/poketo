@@ -2,22 +2,27 @@
 
 exports[`SilentSkyScansAdapter getSeries returns a metadata object 1`] = `
 Object {
-  "chapters": ArrayContaining [
-    Object {
-      "createdAt": 1394828845,
-      "number": "81",
-      "slug": "en/9/81",
-      "url": "http://reader.silentsky-scans.net/read/all_rounder_meguru_/en/9/81/page/1",
-    },
-    Object {
-      "createdAt": 1371899118,
-      "number": "64",
-      "slug": "en/7/64",
-      "url": "http://reader.silentsky-scans.net/read/all_rounder_meguru_/en/7/64/page/1",
-    },
-  ],
   "slug": "all_rounder_meguru_",
   "title": "All Rounder Meguru",
   "url": "http://reader.silentsky-scans.net/series/all_rounder_meguru_",
 }
+`;
+
+exports[`SilentSkyScansAdapter getSeries returns a metadata object 2`] = `
+Array [
+  Object {
+    "chapterNumber": "64",
+    "createdAt": 1371899118,
+    "slug": "en/7/64",
+    "url": "http://reader.silentsky-scans.net/read/all_rounder_meguru_/en/7/64/page/1",
+    "volumeNumber": "7",
+  },
+  Object {
+    "chapterNumber": "81",
+    "createdAt": 1394828845,
+    "slug": "en/9/81",
+    "url": "http://reader.silentsky-scans.net/read/all_rounder_meguru_/en/9/81/page/1",
+    "volumeNumber": "9",
+  },
+]
 `;

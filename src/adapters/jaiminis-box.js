@@ -53,9 +53,17 @@ const JaiminisBoxAdapter = {
     const chapters: ChapterMetadata[] = chapterNodes.get().map(el => {
       const node = dom(el);
 
-      const url = node.find('.title a').attr('href');
+      const link = node.find('.title a');
+
+      const url = link.attr('href');
+      const title = link.attr('title').split(': ')[1];
+
       const slug = this.parseUrl(url).chapterSlug.replace(/\/$/, '');
-      const number = slug.split('/')[2];
+
+      const slugParts = slug.split('/');
+      const volumeNumber = slugParts[1];
+      const chapterNumber = slugParts[2];
+
       const createdAtRawText = node
         .find('.meta_r')
         .text()
@@ -66,9 +74,8 @@ const JaiminisBoxAdapter = {
       );
       const createdAt = getTimestamp(createdAtParsedText);
 
-      return { url, slug, number, createdAt };
+      return { url, title, slug, chapterNumber, volumeNumber, createdAt };
     });
-    const updatedAt = 0;
 
     return { slug: seriesSlug, url, title, chapters };
   },

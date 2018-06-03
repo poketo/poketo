@@ -3,14 +3,14 @@ import errors from '../errors';
 
 xdescribe('MangaHereAdapter', () => {
   describe('supportsUrl', () => {
-    it('returns true for urls like mangahere.cc', () => {
+    it('returns true for urls like mangahere.cc or .co', () => {
       expect(site.supportsUrl('http://www.mangahere.cc')).toBe(true);
       expect(site.supportsUrl('http://www.mangahere.co')).toBe(true);
-      expect(site.supportsUrl('https://mangahere.cc')).toBe(true);
+      expect(site.supportsUrl('https://mangahere.com')).toBe(true);
     });
 
-    it('returns false for urls that are not mangahere.cc', () => {
-      expect(site.supportsUrl('http://www.mangahere.com')).toBe(false);
+    it('returns false for urls that are not mangahere.cc or .co', () => {
+      expect(site.supportsUrl('http://www.mangahere.kc')).toBe(false);
       expect(site.supportsUrl('http://ma.ngahere.co')).toBe(false);
     });
   });
@@ -53,18 +53,17 @@ xdescribe('MangaHereAdapter', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const metadata = await site.getSeries('urami_koi_koi_urami_koi');
+      const { chapters, ...metadata } = await site.getSeries(
+        'urami_koi_koi_urami_koi',
+      );
 
-      expect(metadata).toMatchSnapshot({
-        chapters: expect.arrayContaining([
-          {
-            url: 'http://mangahere.cc/manga/urami_koi_koi_urami_koi/c013',
-            slug: 'c013',
-            number: '13',
-            createdAt: 1449993600,
-          },
-        ]),
-      });
+      expect(metadata).toMatchSnapshot();
+
+      const chapterNumbersToTest = ['13'];
+      const chaptersToTest = chapters.filter(chapter =>
+        chapterNumbersToTest.includes(chapter.chapterNumber),
+      );
+      expect(chaptersToTest).toMatchSnapshot();
     });
   });
 

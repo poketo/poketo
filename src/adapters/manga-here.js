@@ -10,6 +10,55 @@ import type { SiteAdapter, ChapterMetadata, Page } from '../types';
 
 const TZ = 'America/Los_Angeles';
 
+/**
+ * An old jQuery trick to extract the content of text nodes (ie. text that isn't
+ * wrapped in an HTML tag) of an element;
+ */
+const extractTextNodes = (cheerioElement: any) =>
+  cheerioElement
+    .clone()
+    .children()
+    .remove()
+    .end()
+    .text();
+
+function extractChapterMetadata(
+  html: string,
+  getChapterUrl: (slug: string) => string,
+): ChapterMetadata[] {
+  const dom = cheerio.load(html);
+  const chapterDom = dom('.manga_detail > .detail_list');
+  const chapterListElements = chapterDom.find('div + ul > li').get();
+
+  const chapterMetadata = chapterListElements.map(el => {
+    const leftEl = dom(el).find('.left');
+    const rightEl = dom(el).find('.right');
+    const link = leftEl.find('a:first-child');
+
+    const href = link.attr('href');
+    const titleRaw = extractTextNodes(leftEl).trim();
+    const title = titleRaw.length === 0 ? undefined : titleRaw;
+    const slug = utils.extractText(/\/(c[\d|\.]+)\/?$/, href);
+    const url = getChapterUrl(slug);
+
+    const chapterNumberText = dom(el)
+      .find('.left > a')
+      .text()
+      .trim();
+    const chapterNumber = utils.extractText(
+      /\s+([\d\.]+)$/i,
+      chapterNumberText,
+    );
+    // NOTE: MangaHere has no notion of volumes
+
+    const createdAt = getTimestamp(rightEl.text().trim());
+
+    return { slug, title, url, chapterNumber, createdAt };
+  });
+
+  return chapterMetadata;
+}
+
 function getTimestamp(rawText) {
   const text = rawText.toLowerCase();
   if (text === 'today') {
@@ -88,31 +137,8 @@ const MangaHereAdapter: SiteAdapter = {
       .attr('content')
       .trim();
 
-    const chapters: Array<ChapterMetadata> = dom(
-      'div + ul > li',
-      '.manga_detail > .detail_list',
-    )
-      .get()
-      .map(el => {
-        const href = dom(el)
-          .find('a:first-child', '.left')
-          .attr('href');
-        const slug = utils.extractText(/\/(c[\d|\.]+)\/?$/, href);
-        const url = this.constructUrl(seriesSlug, slug);
-        const numberText = dom(el)
-          .find('.left > a')
-          .text()
-          .trim();
-        const number = utils.extractText(/\s+([\d\.]+)$/i, numberText);
-        const createdAt = getTimestamp(
-          dom(el)
-            .find('.right')
-            .text()
-            .trim(),
-        );
-
-        return { slug, url, number, createdAt };
-      });
+    const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
+    const chapters = extractChapterMetadata(html, getChapterUrl);
 
     return { slug: seriesSlug, url, title, chapters };
   },

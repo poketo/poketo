@@ -19,7 +19,8 @@ type BaseChapter = {
 export type ChapterMetadata = {
   ...BaseChapter,
   title: string,
-  number: ?string,
+  chapterNumber: ?string,
+  volumeNumber: ?string,
   createdAt: number,
 };
 
@@ -33,7 +34,8 @@ export type Series = {
   id: string,
   slug: string,
   url: string,
-  title: string,
+  title?: string,
+  coverImageUrl: ?string,
   chapters?: ChapterMetadata[],
   updatedAt: number,
 };

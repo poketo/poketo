@@ -2,22 +2,29 @@
 
 exports[`MangadexAdapter getSeries returns a metadata object 1`] = `
 Object {
-  "chapters": ArrayContaining [
-    Object {
-      "createdAt": 1517704912,
-      "number": "2",
-      "slug": "37060",
-      "url": "https://mangadex.org/chapter/37060",
-    },
-    Object {
-      "createdAt": 1517709152,
-      "number": "Oneshot",
-      "slug": "37348",
-      "url": "https://mangadex.org/chapter/37348",
-    },
-  ],
   "slug": "13127",
   "title": "Uramikoi, Koi, Uramikoi.",
   "url": "https://mangadex.org/manga/13127",
 }
+`;
+
+exports[`MangadexAdapter getSeries returns a metadata object 2`] = `
+Array [
+  Object {
+    "chapterNumber": "2",
+    "createdAt": 1517704912,
+    "slug": "37060",
+    "title": "A Cornered Rat Will Even Bite a Rat",
+    "url": "https://mangadex.org/chapter/37060",
+    "volumeNumber": "1",
+  },
+  Object {
+    "chapterNumber": "Oneshot",
+    "createdAt": 1517709152,
+    "slug": "37348",
+    "title": "Oneshot",
+    "url": "https://mangadex.org/chapter/37348",
+    "volumeNumber": "0",
+  },
+]
 `;

@@ -80,6 +80,12 @@ const MerakiScansAdapter: SiteAdapter = {
     invariant(title, new errors.NotFoundError(seriesUrl));
 
     const chapters: Array<ChapterMetadata> = rssChapters.get().map(el => {
+      // NOTE: Meraki returns RSS titles like this "Senryu Girl - 27 - Nanako and Cooking Class"
+      // so we split on the divider and look for the last element.
+      const title = xml(el)
+        .find('title')
+        .text()
+        .split(' - ')[2];
       const createdAtText = xml(el)
         .find('pubDate')
         .text();
@@ -92,9 +98,11 @@ const MerakiScansAdapter: SiteAdapter = {
         .tz(createdAtText, 'dddd, D MMM YYYY, HH:mm:ss', TZ)
         .unix();
       const slug = utils.extractText(/\/([\d\.]+)\/\d+\/?$/, chapterSlugText);
+      const chapterNumber = slug;
+      // NOTE: no concept of volumes on Meraki
       const url = this.constructUrl(seriesSlug, slug);
 
-      return { slug, number: slug, url, createdAt };
+      return { slug, title, chapterNumber, url, createdAt };
     });
 
     return { slug: seriesSlug, url: seriesUrl, title, chapters };

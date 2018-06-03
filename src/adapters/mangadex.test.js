@@ -36,24 +36,15 @@ describe('MangadexAdapter', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const metadata = await site.getSeries('13127');
+      const { chapters, ...metadata } = await site.getSeries('13127');
 
-      expect(metadata).toMatchSnapshot({
-        chapters: expect.arrayContaining([
-          {
-            slug: '37060',
-            number: '2',
-            url: 'https://mangadex.org/chapter/37060',
-            createdAt: 1517704912,
-          },
-          {
-            slug: '37348',
-            number: 'Oneshot',
-            url: 'https://mangadex.org/chapter/37348',
-            createdAt: 1517709152,
-          },
-        ]),
-      });
+      expect(metadata).toMatchSnapshot();
+
+      const chapterNumbersToTest = ['Oneshot', '2'];
+      const chaptersToTest = chapters.filter(chapter =>
+        chapterNumbersToTest.includes(chapter.chapterNumber),
+      );
+      expect(chaptersToTest).toMatchSnapshot();
     });
 
     it('works for series with multiple pages', async () => {
@@ -66,7 +57,8 @@ describe('MangadexAdapter', () => {
       const seriesWithMultipleGroups = await site.getSeries('19729');
       const seriesWithMultipleVolumes = await site.getSeries('13025');
 
-      const getChapterNumbers = series => series.chapters.map(c => c.number);
+      const getChapterNumbers = series =>
+        series.chapters.map(c => c.chapterNumber);
       const uniq = arr => Array.from(new Set(arr));
 
       const a = getChapterNumbers(seriesWithMultipleGroups);
