@@ -18,10 +18,11 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
   const normalizedTimeZone = options.timeZone || 'UTC';
 
   const url = utils.parseUrl(normalizedBaseUrl);
+  const normalizedPathName = url.pathname === '/' ? '' : url.pathname;
 
   const foolSlidePathRegex =
     ':type(read|series)/:seriesSlug/:chapterSlug([a-z]{2}/.+)?';
-  const regex = `${url.pathname}/${foolSlidePathRegex}`;
+  const regex = `${normalizedPathName}/${foolSlidePathRegex}`;
 
   return {
     id: options.id,
