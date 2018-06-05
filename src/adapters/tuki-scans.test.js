@@ -1,7 +1,7 @@
 import site from './tuki-scans';
 import errors from '../errors';
 
-xdescribe('TukiScansAdapter', () => {
+describe('TukiScansAdapter', () => {
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
       const { chapters, ...metadata } = await site.getSeries('madoromi-chan');
