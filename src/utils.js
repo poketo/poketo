@@ -7,7 +7,7 @@ import pathMatch from 'path-match';
 import probe from 'probe-image-size';
 import { URL, type URLSearchParams } from 'url';
 
-import type { PageDimensions } from './types';
+import type { ChapterMetadata, PageDimensions } from './types';
 
 const timeout = 5 * 1000;
 const match = pathMatch();
@@ -34,6 +34,35 @@ export default {
 
   range(length: number): number[] {
     return [...Array(length).keys()];
+  },
+
+  isNumber(val: mixed): boolean {
+    return Boolean(val) && !Number.isNaN(val);
+  },
+
+  sortChapters(arr: ChapterMetadata[]): ChapterMetadata[] {
+    return arr.slice().sort((a: ChapterMetadata, b: ChapterMetadata) => {
+      const chapterA = parseFloat(a.chapterNumber);
+      const volumeA = parseFloat(a.volumeNumber);
+      const chapterB = parseFloat(b.chapterNumber);
+      const volumeB = parseFloat(b.volumeNumber);
+
+      if (this.isNumber(volumeA) && this.isNumber(volumeB)) {
+        if (volumeA < volumeB) {
+          return 1;
+        } else if (volumeA > volumeB) {
+          return -1;
+        }
+      }
+
+      if (!this.isNumber(chapterB)) {
+        return -1;
+      } else if (!this.isNumber(chapterA)) {
+        return 1;
+      }
+
+      return chapterB - chapterA;
+    });
   },
 
   extractText(pattern: RegExp, input: string, matchIndex: number = 1): string {

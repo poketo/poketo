@@ -18,19 +18,6 @@ function getAdapterBySiteId(siteId: string): SiteAdapter {
   return adapter;
 }
 
-function sortChapters(a: ChapterMetadata, b: ChapterMetadata): number {
-  const numberA = parseFloat(a.chapterNumber);
-  const numberB = parseFloat(b.chapterNumber);
-
-  if (Number.isNaN(numberB)) {
-    return -1;
-  } else if (Number.isNaN(numberA)) {
-    return 1;
-  }
-
-  return numberB - numberA;
-}
-
 const poketo: any = {
   /**
    * Returns the URL for a given chapter or series based on the components
@@ -78,12 +65,12 @@ const poketo: any = {
     };
 
     if (seriesData.chapters) {
-      series.chapters = seriesData.chapters
-        .map(chapterData => ({
+      series.chapters = utils.sortChapters(
+        seriesData.chapters.map(chapterData => ({
           ...chapterData,
           id: utils.generateId(site.id, seriesData.slug, chapterData.slug),
-        }))
-        .sort(sortChapters);
+        })),
+      );
     }
 
     return series;
