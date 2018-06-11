@@ -171,9 +171,8 @@ const MangadexAdapter: SiteAdapter = {
       const pagesPerChapter = 100;
       const pageCount = Math.ceil(chapterCount / pagesPerChapter);
       const pageUrls = utils
-        .range(pageCount)
-        .slice(1) // we already fetched the first page
-        .map(pageNumber => pageNumber + 1) // pages are 1-indexed
+        // 2, since we already fetched the first page
+        .range(2, pageCount - 1)
         .map(page => getPaginatedSeriesUrl(url, page));
 
       const pages = await Promise.all(pageUrls.map(url => throttledGet(url)));
