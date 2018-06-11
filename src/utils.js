@@ -32,8 +32,12 @@ export default {
     return [].concat(...arr);
   },
 
-  range(length: number): number[] {
-    return [...Array(length).keys()];
+  range(low: number, high: number): number[] {
+    const result = [];
+    for (let i = low; i <= high; i++) {
+      result.push(i);
+    }
+    return result;
   },
 
   isNumber(val: mixed): boolean {

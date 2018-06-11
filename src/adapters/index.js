@@ -9,6 +9,7 @@ import MangaUpdatesAdapter from './manga-updates';
 import MangadexAdapter from './mangadex';
 import MangakakalotAdapter from './mangakakalot';
 import ManganeloAdapter from './manganelo';
+import MangaStreamAdapter from './manga-stream';
 import MerakiScansAdapter from './meraki-scans';
 import PhoenixSerenadeAdapter from './phoenix-serenade';
 import SenseScansAdapter from './sense-scans';
