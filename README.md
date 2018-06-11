@@ -1,6 +1,6 @@
-# poketo
+# poketo-node
 
-[![Build Status](https://travis-ci.org/poketo/poketo.svg?branch=master)](https://travis-ci.org/poketo/poketo)
+[![Build Status](https://travis-ci.org/poketo/node.svg?branch=master)](https://travis-ci.org/poketo/node)
 [![npm](https://img.shields.io/npm/v/poketo.svg)](https://www.npmjs.com/package/poketo)
 
 A Node library for scraping manga aggregator and scanlator sites. Makes it easy to build applications on top of other sites.
@@ -51,7 +51,7 @@ console.log(chapter);
 | Silent Sky Scans    | http://www.silentsky-scans.net | ✓        | ✓             |
 | Tuki Scans          | https://tukimoop.pw            | ✓        | ✓             |
 
-If there's a site / group you'd like to see supported, [make an issue!](https://github.com/poketo/poketo/issues/new)
+If there's a site / group you'd like to see supported, [make an issue!](https://github.com/poketo/node/issues/new)
 
 ### API
 
@@ -102,7 +102,7 @@ console.log(chapter);
 
 #### `poketo.constructUrl(siteId: string, seriesSlug: ?string, chapterSlug: ?string): string`
 
-Returns a site URL from the pieces passed in. Used to convert between IDs (eg. `meraki-scans:senryu-girl:5`) and URLs (`http://merakiscans.com/senryu-girl/5`). Find a full list of site IDs from the [adapter folder](https://github.com/poketo/poketo/tree/master/src/adapters)
+Returns a site URL from the pieces passed in. Used to convert between IDs (eg. `meraki-scans:senryu-girl:5`) and URLs (`http://merakiscans.com/senryu-girl/5`). Find a full list of site IDs from the [adapter folder](https://github.com/poketo/node/tree/master/src/adapters)
 
 ```js
 const url = poketo.constructUrl('meraki-scans', 'senryu-girl', '5');
