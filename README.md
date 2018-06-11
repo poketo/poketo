@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/poketo/node.svg?branch=master)](https://travis-ci.org/poketo/node)
 [![npm](https://img.shields.io/npm/v/poketo.svg)](https://www.npmjs.com/package/poketo)
 
-A Node library for scraping manga aggregator and scanlator sites. Makes it easy to build applications on top of other sites.
+Node library for scraping manga aggregator and scanlator sites.
 
 :construction: This project is `v0.x.x` and the API is subject to change as more sites are added.
 
@@ -29,9 +29,7 @@ console.log(chapter);
 // { id: 'meraki-scans:senryu-girl:5', pages: [...], ... }
 ```
 
-## Docs
-
-### Supported Sites
+## Supported Sites
 
 | Site                | URL                            | Tracking | Reading       |
 | ------------------- | ------------------------------ | -------- | ------------- |
@@ -51,9 +49,9 @@ console.log(chapter);
 | Silent Sky Scans    | http://www.silentsky-scans.net | ✓        | ✓             |
 | Tuki Scans          | https://tukimoop.pw            | ✓        | ✓             |
 
-If there's a site / group you'd like to see supported, [make an issue!](https://github.com/poketo/node/issues/new)
+If there's a site or group you'd like to see supported, [make an issue!](https://github.com/poketo/node/issues/new)
 
-### API
+## API
 
 #### `poketo.getSeries(url: string): Promise<Series>`
 
