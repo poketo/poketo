@@ -3,9 +3,9 @@
 [![Build Status](https://travis-ci.org/poketo/poketo.svg?branch=master)](https://travis-ci.org/poketo/poketo)
 [![npm](https://img.shields.io/npm/v/poketo.svg)](https://www.npmjs.com/package/poketo)
 
-A Node library for fetching data from manga aggregator and scanlator sites.
+A Node library for scraping manga aggregator and scanlator sites. Makes it easy to build applications on top of other sites.
 
-:construction: This project is still `v0.x.x` and the API is subject to change, especially as more sites are added.
+:construction: This project is `v0.x.x` and the API is subject to change as more sites are added.
 
 ## Install
 
@@ -13,7 +13,7 @@ A Node library for fetching data from manga aggregator and scanlator sites.
 npm install poketo --save
 ```
 
-You can also use this library over HTTP through the [poketo service](https://github.com/poketo/service), published at [api.poketo.app](https://api.poketo.app).
+You can also use [api.poketo.app](https://api.poketo.app), a hosted micro-service for this library. See the [poketo service repo](https://github.com/poketo/service) for more.
 
 ## Usage
 
@@ -102,7 +102,7 @@ console.log(chapter);
 
 #### `poketo.constructUrl(siteId: string, seriesSlug: ?string, chapterSlug: ?string): string`
 
-Returns a site URL from the pieces passed in. Great for converting between series and chapter IDs to URLs to request. Find a full list of site IDs from the [adapter folder](https://github.com/poketo/poketo/tree/master/src/adapters)
+Returns a site URL from the pieces passed in. Used to convert between IDs (eg. `meraki-scans:senryu-girl:5`) and URLs (`http://merakiscans.com/senryu-girl/5`). Find a full list of site IDs from the [adapter folder](https://github.com/poketo/poketo/tree/master/src/adapters)
 
 ```js
 const url = poketo.constructUrl('meraki-scans', 'senryu-girl', '5');
