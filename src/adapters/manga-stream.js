@@ -39,7 +39,7 @@ const getChapterSlugFromPathname = pathname =>
 const getPageNumberFromPathname = pathname =>
   parseFloat(pathname.split('/').pop());
 
-const getPageFromHTML = async html => {
+const getPageFromHtml = async html => {
   const dom = cheerio.load(html);
   const src = dom('img#manga-page').attr('src');
   const normalizedSrc = src.startsWith('//') ? `https:${src}` : src;
@@ -54,7 +54,7 @@ const getPageFromHTML = async html => {
   };
 };
 
-const getPageFromURL = url => throttledGet(url).then(getPageFromHTML);
+const getPageFromUrl = url => throttledGet(url).then(getPageFromHtml);
 
 const stripLeadingZeroes = str => str.replace(/^0+/, '');
 const stripEndMarker = str => str.replace(/ [\(\[]?end[\)\]]?$/i, '');
@@ -158,7 +158,7 @@ const MangaStreamAdapter: SiteAdapter = {
       .range(firstPageNumber, lastPageNumber)
       .map(getPageUrl);
 
-    const pages = await Promise.all(pageUrls.map(url => getPageFromURL(url)));
+    const pages = await Promise.all(pageUrls.map(url => getPageFromUrl(url)));
 
     return { slug: chapterSlug, url, pages };
   },
