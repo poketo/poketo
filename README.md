@@ -31,23 +31,23 @@ console.log(chapter);
 
 ## Supported Sites
 
-| Site                | URL                            | Tracking | Reading       |
-| ------------------- | ------------------------------ | -------- | ------------- |
-| Helvetica Scans     | http://helveticascans.com      | ✓        | ✓             |
-| Hot Chocolate Scans | http://hotchocolatescans.com   | ✓        | ✓             |
-| Jaimini’s Box       | https://jaiminisbox.com        | ✓        | ✓             |
-| Kirei Cake          | https://kireicake.com          | ✓        | ✓             |
-| MangaHere           | http://www.mangahere.cc        | ✓        | ✓ (very slow) |
-| MangaUpdates        | http://mangaupdates.com        | ✓        |               |
-| Mangadex            | https://mangadex.org           | ✓        | ✓             |
-| Mangakakalot        | http://mangakakalot.com        | ✓        | ✓             |
-| Manganelo           | http://manganelo.com           | ✓        | ✓             |
-| MangaStream         | https://readms.net             | ✓        | ✓             |
-| Meraki Scans        | http://merakiscans.com         | ✓        | ✓             |
-| Phoenix Serenade    | https://serenade.moe           | ✓        | ✓             |
-| Sense Scans         | https://sensescans.com/        | ✓        | ✓             |
-| Silent Sky Scans    | http://www.silentsky-scans.net | ✓        | ✓             |
-| Tuki Scans          | https://tukimoop.pw            | ✓        | ✓             |
+| Site                                                | Series Info | Chapter Images |
+| --------------------------------------------------- | ----------- | -------------- |
+| [Helvetica Scans](http://helveticascans.com)        | ✓           | ✓              |
+| [Hot Chocolate Scans](http://hotchocolatescans.com) | ✓           | ✓              |
+| [Jaimini’s Box](https://jaiminisbox.com)            | ✓           | ✓              |
+| [Kirei Cake](https://kireicake.com)                 | ✓           | ✓              |
+| [MangaHere](http://www.mangahere.cc)                | ✓           | ✓ (slow)       |
+| [MangaUpdates](http://mangaupdates.com)             | ✓           |                |
+| [Mangadex](https://mangadex.org)                    | ✓           | ✓              |
+| [Mangakakalot](http://mangakakalot.com)             | ✓           | ✓              |
+| [Manganelo](http://manganelo.com)                   | ✓           | ✓              |
+| [MangaStream](https://readms.net)                   | ✓           | ✓              |
+| [Meraki Scans](http://merakiscans.com)              | ✓           | ✓              |
+| [Phoenix Serenade](https://serenade.moe)            | ✓           | ✓              |
+| [Sense Scans](https://sensescans.com)               | ✓           | ✓              |
+| [Silent Sky Scans](http://www.silentsky-scans.net)  | ✓           | ✓              |
+| [Tuki Scans](https://tukimoop.pw)                   | ✓           | ✓              |
 
 If there's a site or group you'd like to see supported, [make an issue!](https://github.com/poketo/node/issues/new)
 
