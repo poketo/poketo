@@ -100,7 +100,9 @@ const MangadexAdapter: SiteAdapter = {
     // NOTE: we get seriesSlug here since we don't have it from the URL, but
     // it's still needed to generate chapter IDs.
     const seriesSlug = json.manga_id;
-    const basename = json.server + json.hash;
+    const basename = json.server.startsWith('/data')
+      ? `https://mangadex.org${json.server}${json.hash}`
+      : `${json.server}${json.hash}`;
     const pagePaths = json.page_array;
 
     const pages = await pmap(pagePaths, getPage(basename), { concurrency: 5 });
