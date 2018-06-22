@@ -1,6 +1,5 @@
 // @flow
 
-import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import throttle from 'p-throttle';
 import errors from '../errors';
