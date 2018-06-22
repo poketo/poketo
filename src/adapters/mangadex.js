@@ -4,96 +4,16 @@ import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import throttle from 'p-throttle';
 import errors from '../errors';
+import pmap from 'p-map';
 import utils, { invariant } from '../utils';
 import type { Chapter, ChapterMetadata, SiteAdapter } from '../types';
 
-const throttledGet = throttle(utils.getPage, 5, 500);
+const throttledGet = throttle(utils.getJSON, 5, 500);
 
-const getPaginatedSeriesUrl = (seriesUrl, page: number): string =>
-  `${seriesUrl}/_/chapters/${page}`;
-
-const extractChapters = (
-  html: string,
-  getChapterUrl: (slug: string) => string,
-): ChapterMetadata[] => {
-  const dom = cheerio.load(html);
-  const chapterDom = dom('tr[id^="chapter_"]', 'table').get();
-  const chapterData = chapterDom.map(el => {
-    const tr = dom(el);
-
-    const link = tr.find('a[title]').first();
-    const slug = link.attr('data-chapter-id');
-    const title = link.attr('data-chapter-name');
-    const volumeNumber = link.attr('data-volume-num');
-    const chapterNumber = link.attr('data-chapter-num') || title;
-    const url = getChapterUrl(slug);
-
-    const timeElement = tr.find('time').first();
-    const timeText = timeElement.attr('datetime');
-    const createdAt = moment.tz(timeText, 'YYYY-MM-DD HH:mm:ss', 'UTC').unix();
-
-    // We return a "language" property to later filter out non-English chapters.
-    const languageFlagImage = tr.find('td > img[title]').first();
-    const language = languageFlagImage.attr('title');
-
-    // We return an extra "views" property to filter duplicate chapters by the
-    // most popular scan once we have all the data.
-    const viewsText = tr
-      .find('td')
-      .eq(-2)
-      .text();
-    const views = parseInt(viewsText.replace(/\D+/, ''), 10);
-
-    return {
-      slug,
-      chapterNumber,
-      volumeNumber,
-      title,
-      url,
-      views,
-      language,
-      createdAt,
-    };
-  });
-
-  const filteredChapterData = chapterData.filter((data, _, arr) => {
-    // Since Poketo has no notion of languages or multiple versions of a
-    // chapter, we'll just return the english version.
-    // Sorry, international peeps :(
-    if (data.language !== 'English') {
-      return false;
-    }
-
-    // Mangadex has "pre-release chapters", showing information before the
-    // actual publication. If the timestamp is in the future, we ignore it.
-    const now = moment().unix();
-    if (data.createdAt > now) {
-      return false;
-    }
-
-    const duplicateChapters = arr.filter(
-      d =>
-        d.volumeNumber === data.volumeNumber &&
-        d.chapterNumber === data.chapterNumber &&
-        d.slug !== data.slug,
-    );
-
-    if (duplicateChapters.length > 0) {
-      return duplicateChapters.every(d => {
-        if (data.views > d.views) {
-          return true;
-        }
-
-        // NOTE: when chapters have exactly the same number of views, we just
-        // do a comparison with the slug, which is guaranteed to be different.
-        return data.views === d.views ? data.slug > d.slug : false;
-      });
-    }
-
-    return true;
-  });
-
-  return filteredChapterData.map(({ language, views, ...rest }) => rest);
+const LanguageCodes = {
+  ENGLISH: 'gb',
+  SPANISH: 'es',
+  RUSSIAN: 'ru',
 };
 
 const MangadexAdapter: SiteAdapter = {
@@ -142,77 +62,95 @@ const MangadexAdapter: SiteAdapter = {
 
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
+    const json = await throttledGet(
+      `http://beta.mangadex.org/api/manga/${seriesSlug}`,
+    );
 
-    const html = await throttledGet(url);
-    const dom = cheerio.load(html);
+    const title = json.manga.title;
 
-    const title = dom('.panel-title', '#content > .panel:first-child')
-      .first()
-      .text()
-      .trim();
-    const chapterPaginationText = dom(
-      '.table-responsive + p',
-      '.edit.tab-content',
-    )
-      .first()
-      .text()
-      .trim();
-    const hasPagination = chapterPaginationText.length > 0;
+    const chapterIds = Object.keys(json.chapter);
+    const chapterData = chapterIds.map(id => {
+      const chapter = json.chapter[id];
 
-    const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
+      return {
+        slug: id,
+        title: chapter.title,
+        url: this.constructUrl(seriesSlug, id),
+        language: chapter.lang_code,
+        chapterNumber: chapter.chapter ? chapter.chapter : undefined,
+        volumeNumber: chapter.volume ? chapter.volume : undefined,
+        createdAt: chapter.timestamp,
+      };
+    });
 
-    let chapters: ChapterMetadata[] = extractChapters(html, getChapterUrl);
-
-    if (hasPagination) {
-      const chapterCount = parseInt(
-        chapterPaginationText.split(' of ').pop(),
-        10,
-      );
-      const pagesPerChapter = 100;
-      const pageCount = Math.ceil(chapterCount / pagesPerChapter);
-      const pageUrls = utils
-        // 2, since we already fetched the first page
-        .range(2, pageCount - 1)
-        .map(page => getPaginatedSeriesUrl(url, page));
-
-      const pages = await Promise.all(pageUrls.map(url => throttledGet(url)));
-
-      chapters = chapters.concat(
-        utils.flatten(pages.map(html => extractChapters(html, getChapterUrl))),
-      );
-    }
+    const chapters: ChapterMetadata[] = chapterData
+      .filter(filterLanguage)
+      .filter(filterPreReleases)
+      .filter(filterDuplicates)
+      .map(({ language, ...rest }) => rest);
 
     return { slug: seriesSlug, url, title, chapters };
   },
 
   async getChapter(_, chapterSlug) {
     const url = this.constructUrl(null, chapterSlug);
-    const html = await utils.getPage(url);
-
-    const imageServer = utils.extractJSON(/var\s+server\s+=\s+(.+);/, html);
-    const hash = utils.extractJSON(/var\s+dataurl\s+=\s+(.+);/, html);
-    const pagesJson = utils.extractJSON(
-      /var\s+page_array\s+=\s+([^;]+);/,
-      html,
+    const json = await utils.getJSON(
+      `http://beta.mangadex.org/api/chapter/${chapterSlug}`,
     );
 
-    // NOTE: some series are hosted on the main server. We check if it's a
-    // relative URL and make sure it has a host before using it.
-    const basename = imageServer.startsWith('/data')
-      ? `https://mangadex.org${imageServer}${hash}`
-      : `${imageServer}${hash}`;
+    // NOTE: we get seriesSlug here since we don't have it from the URL, but
+    // it's still needed to generate chapter IDs.
+    const seriesSlug = json.manga_id;
+    const basename = json.server + json.hash;
+    const pagePaths = json.page_array;
 
-    const pages = pagesJson.map(path => ({
-      id: path,
-      url: `${basename}/${path}`,
-    }));
-
-    // NOTE: we return seriesSlug here since we don't get it from the URL, but
-    // we still use it to generate the IDs.
-    const seriesSlug = utils.extractJSON(/var\s+manga_id\s+=\s+(.+);/, html);
+    const pages = await pmap(pagePaths, getPage(basename), { concurrency: 5 });
 
     return { slug: chapterSlug, url, seriesSlug, pages };
   },
+};
+
+const getPage = basename => async path => {
+  const url = `${basename}/${path}`;
+  const { width, height } = await utils.getImageSize(url);
+
+  return { id: path, url, width, height };
+};
+
+/**
+ * Since Poketo has no notion of languages or multiple versions of a chapter,
+ * we'll just return the English version. Sorry, international peeps :(
+ */
+const filterLanguage = (chapter): boolean => {
+  return chapter.language === LanguageCodes.ENGLISH;
+};
+
+/**
+ * Mangadex has "pre-release chapters", showing information before the actual
+ * publication. If the timestamp is in the future, we ignore it.
+ */
+const filterPreReleases = (chapter): boolean => {
+  const now = moment().unix();
+  return chapter.createdAt <= now;
+};
+
+/**
+ * Mangadex supports multiple scanlators uploading versions of the same chapter.
+ * We take the most recently uploaded version to filter out speed-scanlators.
+ */
+const filterDuplicates = (chapter, _, arr): boolean => {
+  const duplicateChapters = arr.filter(
+    d =>
+      d.volumeNumber === chapter.volumeNumber &&
+      d.chapterNumber === chapter.chapterNumber &&
+      d.slug !== chapter.slug,
+  );
+
+  if (duplicateChapters.length === 0) {
+    return true;
+  }
+
+  return duplicateChapters.every(d => chapter.createdAt > d.createdAt);
 };
 
 export default MangadexAdapter;

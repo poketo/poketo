@@ -40,7 +40,7 @@ describe('MangadexAdapter', () => {
 
       expect(metadata).toMatchSnapshot();
 
-      const chapterNumbersToTest = ['Oneshot', '2'];
+      const chapterNumbersToTest = ['2', '8'];
       const chaptersToTest = chapters.filter(chapter =>
         chapterNumbersToTest.includes(chapter.chapterNumber),
       );

@@ -12,7 +12,6 @@ export type Page = {
 };
 
 type BaseChapter = {
-  id: string,
   slug: string,
 };
 
