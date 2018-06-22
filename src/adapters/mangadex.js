@@ -93,7 +93,7 @@ const MangadexAdapter: SiteAdapter = {
 
   async getChapter(_, chapterSlug) {
     const url = this.constructUrl(null, chapterSlug);
-    const json = await utils.getJSON(
+    const json = await throttledGet(
       `http://beta.mangadex.org/api/chapter/${chapterSlug}`,
     );
 
