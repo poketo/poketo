@@ -132,8 +132,19 @@ export default {
     return json;
   },
 
-  async getImageSize(url: string): Promise<PageDimensions> {
-    const { width, height } = await probe(url);
+  async getImageSize(
+    url: string,
+    options: ?Object,
+  ): Promise<{ width: ?number, height: ?number }> {
+    let width;
+    let height;
+
+    try {
+      const size = await probe(url, options);
+      width = size.width;
+      height = size.height;
+    } catch (err) {}
+
     return { width, height };
   },
 };

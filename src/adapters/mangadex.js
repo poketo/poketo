@@ -111,7 +111,14 @@ const MangadexAdapter: SiteAdapter = {
 
 const getPage = basename => async path => {
   const url = `${basename}/${path}`;
-  const { width, height } = await utils.getImageSize(url);
+  let width;
+  let height;
+
+  try {
+    const size = await utils.getImageSize(url, { timeout: 5000 });
+    width = size.width;
+    height = size.height;
+  } catch (err) {}
 
   return { id: path, url, width, height };
 };
