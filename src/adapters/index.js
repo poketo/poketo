@@ -26,6 +26,7 @@ const adapters = [
   MangadexAdapter,
   MangakakalotAdapter,
   ManganeloAdapter,
+  MangaStreamAdapter,
   MerakiScansAdapter,
   PhoenixSerenadeAdapter,
   SenseScansAdapter,
