@@ -45,12 +45,6 @@ describe('MangaStreamAdapter', () => {
       );
 
       expect(metadata).toMatchSnapshot();
-
-      const chapterNumbersToTest = ['264'];
-      const chaptersToTest = chapters.filter(chapter =>
-        chapterNumbersToTest.includes(chapter.chapterNumber),
-      );
-      expect(chaptersToTest).toMatchSnapshot();
     });
   });
 

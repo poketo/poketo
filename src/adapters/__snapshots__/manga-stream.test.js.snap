@@ -168,15 +168,3 @@ Object {
   "url": "https://readms.net/manga/shokugeki_no_souma",
 }
 `;
-
-exports[`MangaStreamAdapter getSeries returns a metadata object 2`] = `
-Array [
-  Object {
-    "chapterNumber": "264",
-    "createdAt": 1527206400,
-    "slug": "264/5101",
-    "title": "From: Tadokoro Megumi",
-    "url": "https://readms.net/r/shokugeki_no_souma/264/5101",
-  },
-]
-`;
