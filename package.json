@@ -8,8 +8,10 @@
   "keywords": ["manga", "parser"],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "babel src -d lib --ignore '*.test.js,types.js'",
-    "postbuild": "mv lib/supports.js supports.js",
+    "build": "yarn build:node && yarn build:browser",
+    "build:node": "babel src -d lib --ignore '*.test.js,types.js,supports.js'",
+    "build:browser":
+      "babel --no-babelrc src/supports.js --out-file supports.js --presets=es2015,flow",
     "format": "prettier --write src/**/*.{js,json,md}",
     "prepublish": "yarn clean && yarn build",
     "lint": "flow",
@@ -29,6 +31,7 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-flow": "^6.23.0",
     "flow-bin": "^0.69.0",
     "jest": "^23.1.0",
