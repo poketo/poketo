@@ -12,6 +12,8 @@ const supportedDomains = [
   'mangadex.org',
   'mangakakalot.com',
   'manganelo.com',
+  'mangarock.com/manga',
+  'readms.net',
   'merakiscans.com',
   'reader.serenade.moe',
   'sensescans.com/reader',
