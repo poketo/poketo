@@ -9,6 +9,7 @@ import MangaUpdatesAdapter from './manga-updates';
 import MangadexAdapter from './mangadex';
 import MangakakalotAdapter from './mangakakalot';
 import ManganeloAdapter from './manganelo';
+import MangaRockAdapter from './manga-rock';
 import MangaStreamAdapter from './manga-stream';
 import MerakiScansAdapter from './meraki-scans';
 import PhoenixSerenadeAdapter from './phoenix-serenade';
@@ -26,6 +27,7 @@ const adapters = [
   MangadexAdapter,
   MangakakalotAdapter,
   ManganeloAdapter,
+  MangaRockAdapter,
   MangaStreamAdapter,
   MerakiScansAdapter,
   PhoenixSerenadeAdapter,
