@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MangaRockAdapter getChapter returns a list of pages 1`] = `
+Array [
+  Object {
+    "height": 1200,
+    "id": "T3.3BZTN7p5.mri",
+    "url": "https://mri-image-decoder.now.sh/?url=https://f01.mrcdn.info/file/mrfiles/i/6/n/l/T3.3BZTN7p5.mri",
+    "width": 802,
+  },
+]
+`;
+
+exports[`MangaRockAdapter getSeries returns a metadata object 1`] = `
+Object {
+  "slug": "153037",
+  "title": "Love So Life",
+  "url": "https://mangarock.com/manga/mrs-serie-153037",
+}
+`;

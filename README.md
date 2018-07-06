@@ -42,6 +42,7 @@ console.log(chapter);
 | [Mangadex](https://mangadex.org)                    | ✓           | ✓              |
 | [Mangakakalot](http://mangakakalot.com)             | ✓           | ✓              |
 | [Manganelo](http://manganelo.com)                   | ✓           | ✓              |
+| [MangaRock](https://mangarock.com)                  | ✓           | ✓              |
 | [MangaStream](https://readms.net)                   | ✓           | ✓              |
 | [Meraki Scans](http://merakiscans.com)              | ✓           | ✓              |
 | [Phoenix Serenade](https://serenade.moe)            | ✓           | ✓              |
