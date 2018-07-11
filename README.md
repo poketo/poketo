@@ -1,7 +1,7 @@
 # poketo-node
 
 [![Build Status](https://travis-ci.org/poketo/node.svg?branch=master)](https://travis-ci.org/poketo/node)
-[![npm](https://img.shields.io/npm/v/poketo.svg)](https://www.npmjs.com/package/poketo)
+[![npm](https://badgen.now.sh/npm/v/poketo)](https://www.npmjs.com/package/poketo)
 
 Node library for scraping manga aggregator and scanlator sites.
 
