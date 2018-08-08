@@ -62,7 +62,7 @@ const MangadexAdapter: SiteAdapter = {
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
     const json = await throttledGet(
-      `http://beta.mangadex.org/api/manga/${seriesSlug}`,
+      `http://mangadex.org/api/manga/${seriesSlug}`,
     );
 
     const title = json.manga.title;
@@ -94,7 +94,7 @@ const MangadexAdapter: SiteAdapter = {
   async getChapter(_, chapterSlug) {
     const url = this.constructUrl(null, chapterSlug);
     const json = await throttledGet(
-      `http://beta.mangadex.org/api/chapter/${chapterSlug}`,
+      `http://mangadex.org/api/chapter/${chapterSlug}`,
     );
 
     // NOTE: we get seriesSlug here since we don't have it from the URL, but
