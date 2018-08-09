@@ -11,11 +11,18 @@ Object {
 exports[`SenseScansAdapter getSeries returns a metadata object 2`] = `
 Array [
   Object {
-    "chapterNumber": "550",
-    "createdAt": 1520340128,
-    "slug": "en/51/550",
-    "url": "https://sensescans.com/reader/read/kingdom/en/51/550/page/1",
-    "volumeNumber": "51",
+    "chapterNumber": "566",
+    "createdAt": 1531948698,
+    "slug": "en/52/566",
+    "url": "https://sensescans.com/reader/read/kingdom/en/52/566/page/1",
+    "volumeNumber": "52",
+  },
+  Object {
+    "chapterNumber": "568",
+    "createdAt": 1533701318,
+    "slug": "en/52/568",
+    "url": "https://sensescans.com/reader/read/kingdom/en/52/568/page/1",
+    "volumeNumber": "52",
   },
 ]
 `;

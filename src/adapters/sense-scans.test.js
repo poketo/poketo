@@ -8,7 +8,7 @@ describe('SenseScansAdapter', () => {
 
       expect(metadata).toMatchSnapshot();
 
-      const chapterNumbersToTest = ['426.5', '550'];
+      const chapterNumbersToTest = ['566', '568'];
       const chaptersToTest = chapters.filter(chapter =>
         chapterNumbersToTest.includes(chapter.chapterNumber),
       );
