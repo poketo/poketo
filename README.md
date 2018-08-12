@@ -5,7 +5,13 @@
 
 Node library for scraping manga aggregator and scanlator sites.
 
-:construction: This project is `v0.x.x` and the API is subject to change as more sites are added.
+People should be able to read content on the web in the way that works for them. Manga sites are often a special brand of bad. Each page is a new page load, ads everywhere, yuck!
+
+This library wraps scraping logic for 15+ sites, providing open access to their content, and an easy way to build readers, downloaders, and more.
+
+For a working example, check out the [Poketo manga reader](https://poketo.app)!
+
+> :construction: This project is `v0.x.x` and the API is subject to change as more sites are added.
 
 ## Install
 
@@ -107,12 +113,6 @@ Returns a site URL from the pieces passed in. Used to convert between IDs (eg. `
 const url = poketo.constructUrl('meraki-scans', 'senryu-girl', '5');
 // http://merakiscans.com/senryu-girl/5
 ```
-
-### Motivation
-
-People should be able to read content on the web in the way that works for them. Manga reader sites are a special brand of bad. Each page in a chapter is a new page load, ads everywhere, yuck!
-
-The Poketo Node library wraps scraping logic across a number of sites to make it easy to fetch data about and read series how you'd like.
 
 ## License
 
