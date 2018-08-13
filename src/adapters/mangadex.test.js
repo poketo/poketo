@@ -2,6 +2,17 @@ import site from './mangadex';
 import errors from '../errors';
 
 describe('MangadexAdapter', () => {
+  const server = createVcrServer(site._getHost());
+
+  beforeAll(async () => {
+    const url = await server.listen(57163);
+    site._getHost = () => url;
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('supportsUrl', () => {
     it('returns true for urls like mangadex.org', () => {
       expect(site.supportsUrl('http://mangadex.org')).toBe(true);
@@ -70,21 +81,17 @@ describe('MangadexAdapter', () => {
   });
 
   describe('getChapter', () => {
-    it(
-      'returns a chapter',
-      async () => {
-        const chapter = await site.getChapter(null, '37052');
+    it('returns a chapter', async () => {
+      const chapter = await site.getChapter(null, '37052');
 
-        expect(chapter.url).toEqual('https://mangadex.org/chapter/37052');
-        expect(chapter.pages).toHaveLength(86);
-        expect(chapter.pages[0]).toEqual(
-          expect.objectContaining({
-            id: expect.any(String),
-            url: expect.stringContaining('http'),
-          }),
-        );
-      },
-      10000,
-    );
+      expect(chapter.url).toEqual(`${site._getHost()}/chapter/37052`);
+      expect(chapter.pages).toHaveLength(86);
+      expect(chapter.pages[0]).toEqual(
+        expect.objectContaining({
+          id: expect.any(String),
+          url: expect.stringContaining('http'),
+        }),
+      );
+    });
   });
 });

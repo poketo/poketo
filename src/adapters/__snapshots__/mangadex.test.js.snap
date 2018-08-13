@@ -5,7 +5,7 @@ Object {
   "coverImageUrl": "/images/manga/13127.large.jpg?1529770840",
   "slug": "13127",
   "title": "Uramikoi, Koi, Uramikoi.",
-  "url": "https://mangadex.org/manga/13127",
+  "url": "http://localhost:57163/manga/13127",
 }
 `;
 
@@ -16,7 +16,7 @@ Array [
     "createdAt": 1517704912,
     "slug": "37060",
     "title": "A Cornered Rat Will Even Bite a Rat",
-    "url": "https://mangadex.org/chapter/37060",
+    "url": "http://localhost:57163/chapter/37060",
     "volumeNumber": "1",
   },
   Object {
@@ -24,7 +24,7 @@ Array [
     "createdAt": 1517705219,
     "slug": "37089",
     "title": "Where the Cat Goes, the Dog will Follow",
-    "url": "https://mangadex.org/chapter/37089",
+    "url": "http://localhost:57163/chapter/37089",
     "volumeNumber": "2",
   },
 ]

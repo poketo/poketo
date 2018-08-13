@@ -1,0 +1,35 @@
+var path = require("path");
+
+/**
+ * GET /reader/api/reader/comic/stub/kingdom/format/json
+ *
+ * user-agent: got/8.3.0 (https://github.com/sindresorhus/got)
+ * accept-encoding: gzip,deflate
+ * accept: application/json
+ * host: sensescans.com
+ * connection: close
+ */
+
+module.exports = function (req, res) {
+  res.statusCode = 200;
+
+  res.setHeader("date", "Mon, 13 Aug 2018 03:40:25 GMT");
+  res.setHeader("content-type", "application/json");
+  res.setHeader("transfer-encoding", "chunked");
+  res.setHeader("connection", "close");
+  res.setHeader("set-cookie", ["__cfduid=d3555a16045f7c5bfc020216724c515341534131625; expires=Tue, 13-Aug-19 03:40:25 GMT; path=/; domain=.sensescans.com; HttpOnly","ci_session=CzxbbFU8XD4AfFN0AjtQYgFjWDkFdQB1XjxRcFZ1Um4MalltXV1daQAyCyRVMwkiVmtWMQ8%2BAjsPfwhqUmVUMFFnDDgFYQVnATkLMwFrWTwLaFtvVTlcPABkU2YCN1BjAWZYZgVlAGReaVFmVmBSZQwxWWZdYF0wADULJFUzCSJWa1YzDzwCOw9%2FCDpScFQNUTcMOgUxBSIBbQsiAS1ZJgtmWyVVMlw1ADNTPQIjUGIBZFgxBXkAMF5hUS1WN1I0DDdZLV0zXTIAZwskVTMJIlZrVjMPPAI7D38IJlJzVDdRJAwBBTQFNwFtCz8BKlkmC2ZbJVUyXDAAMFM9AiNQNAE8WHcFeAA%2BXndRMFYoUjcMJVkrXWpddAAiC3ZVewlrVn5WLQ9rAmgPKQg7UnVUMFF4DD0FOgU9AScLIgE3WWoLOVskVW1cdwBoU3UCaVAmASBYLAUwAGleLVEqViRSPAx2WTldM10zAGwLJFVkCTBWIlZ2D1MCYA8%2BCCdSaVQkUT8MKgUsBXIBMws4AWRZNQtoW2VVPFw1ADRTNgI4UGABYlg4BSo%3D; expires=Mon, 13-Aug-2018 05:45:31 GMT; Max-Age=7200; path=/","ci_session=UGcNOgNqAWNVKQAnAjtXZQRmAGEPf1EkVDYAIVFyU29YPgg8CAgMOAEzDSJUMlpxATwCZVVkATgEdF0%2FADcDZ1NlVmJUMF48ADgMNFgyD2pQMw05A28BYVUxADUCN1dkBGMAPg9vUTVUYwA3UWdTZFhlCDcINQxhATQNIlQyWnEBPAJnVWYBOAR0XW8AIgNaUzVWYFRgXnkAbAwlWHQPcFA9DXMDZAFoVWYAbgIjV2UEYQBpD3NRYVRrAHxRMFM1WGMIfAhmDGMBZg0iVDJacQE8AmdVZgE4BHRdcwAhA2BTJlZbVGVebABsDDhYcw9wUD0NcwNkAW1VZQBuAiNXMwQ5AC8PclFvVH0AYVEvUzZYcQh6CD8MJQEjDXBUelo4ASkCeVUxAWsEIl1uACcDZ1N6VmdUa15mACYMJVhuDzxQYg1yAzsBKlU9ACYCaVchBCUAdA86UThUJwB7USNTPVgiCGgIZgxiAW0NIlRlWmMBdQIiVQkBYwQ1XXIAOwNzUz1WcFR9XikAMgw%2FWD0PY1AzDTMDagFoVWEAZQI4V2cEZwBgDyA%3D; expires=Mon, 13-Aug-2018 05:45:31 GMT; Max-Age=7200; path=/"]);
+  res.setHeader("x-powered-by", "PHP/5.5.38-1~dotdeb+7.1");
+  res.setHeader("last-modified", "Mon, 13 Aug 2018 03:45:31 GMT");
+  res.setHeader("content-encoding", "gzip");
+  res.setHeader("expect-ct", "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"");
+  res.setHeader("server", "cloudflare");
+  res.setHeader("cf-ray", "449829004cbd9354-SJC");
+
+  res.setHeader("x-yakbak-tape", path.basename(__filename, ".js"));
+
+  res.write(new Buffer("H4sIAAAAAAAAA+2dWW/jyBHHv0qDL/tiWX3yehtMkGSxG0ywnmQQRAuiRbYsxhKp8Bjt7MDfPdWkJB6yuBZNP0TogYgR1aVid/WfVT/x8ncrTLdxaPnfrTiyfMbvrERuleVbP8XJY5RurTsrL8olfPB0+qBM4v9qa0s4zFbCo5HE0oGGdRxFKoEGDCuyLNZpBit//fDLB/QvmZfrOJe6ISvivHihIVJ5mMW7Ik61j7/Fmw28y1G6Qt+UzHK0ll8V2sk8VxHK4yRUqFjDEm9VZbRRjyqJ8ju0X6ukatqn2Saq2rYyQTKJ0GMK63uVKZQX4L+yymHA9+jH6iv50V9coL3Mq3boVpypk5tiLQu0Tb9CJ07bgK8XKK7NVSa1qX4rMK66Dq4yH33W1jLLII6wdVmAy53K4hS+fQj20UVepNk37USib2kJ5sv0G9LzEqGHdZzAAFP0mKk9ipMiBSN4D32C0cO2N9U45WFsRRbLTV59tNykMPh11W2w3igZoXW81WaZul8ki+RLWoeNOMUafVa/l08SfYLolOhjuSlK7fsDDCBCf8m0w79n8e/qHuatWJfbZSLjTaOS+13yCC1hCUPZhmu5K5SWAny0SrOtLI4aicDx4X2oB6G0rCgm9gyLGeEIuz4XPrahfSPzIle1vODfrHohjP3qpWW5izoO3BnliHi+wD73jhuoFClgTUVxvUKc4xCCMtNDWBfFzl/MF/NcJTlIUib5Pewlizl8P1LZYh6mSaGSQr+BfSdfzA+DDjr7w2JeO+1GZFVuNjnELQreZZPdja0ztXqN9xxkqBqni7n1DOGqZy23/H9/N1nCZAmTJUyWuJgljqmBMBff1dkiqHZ+xnXclNzWqxTW/pOCIOvVakZP886pnsG8XDYf6Tn4mm7KKtkwr5rg5LGUj3odZvmUiP6Zbu4R89CnrXxSTToCl4EIwEPAvCA9tDWZyVOMLiml2BO0n5m6eaYn4L4SnRnBMyIQ9nxGfeJercSWA459QjtKrMTXleJrJ03/35oylSzmzFvMIS6LuYAphGHFxeYYQQjgxzr2CCzuhY/6cY3SfbJJZRS8tgPHLwx14rmWSF1q9MzQ07w+aLezB+23mdVmWzqM1b6x3+/vu12os0i5HepknETqt/vdegfGcRYe5nkfF00ikqFapunTwUteudEbOzbUjhrHVUyPjbXmsYs58TxqE4zZWRIjMwyTTxGFaeeQx0ZIB7MZppX2bJ+xrnTayqFXCEdPSG9cz78+3xkUMChgUMCgwKtQgIxHAaaDfBkFOLaGUYDjMxRgzgEFOL6EAnZE8JIt+5lpNAqwOh1fp8QeCtgdJU6LAhzDwpyXUAACeEIB5pxQoBXXqVCg0wmDAgYFDAoYFDAocFsoQMejANe/pgdQgFh/gALkDAW4e0QBcgkFlhyvnMjuZ6bRKAD5nF+txC4K0JPU3wMFCCzcfREFSIMC3G1QgEyPAu1OGBQwKGBQwKCAQYHbQgE2HgWEnoABFKDWH6AAPUMB4R1RgF5CgXAF4/NIPzONRgHhE3K1Enso8K5HBSgswnsRBWiDAsJrUIBOjwLtThgUMChgUMCggEGB20IBPh4FHL0+gAL1cfcBFGBnKODgIwqwCygQMneJo+qH/DQoYPvieiV2UaApGO+BAgwWB7+IAqxBAQc3KMCmR4F2JwwKGBQwKGBQwKDAbaGAGI8Crk5cAyhQH3cfQAF+hgIuOaIAv4QCjutCnmb9zDQaBdxaaNcpsYcC73pUgMPikhdRgDco4JIGBfj0KNDuhEEBgwIGBQwKGBS4JRTgzngUEOcnCLTBCQU=", "base64"));
+  res.write(new Buffer("xMAJgl/ix3WBvkDXfsjRp7KALrSIADwHOMi0TbAHmzxITyZNnlpiTiNXKOnxt1054GpdUop0anfGXETYciCoL9yOLqk1Mru/gAWCwqKP01tdJhDNmQJo9tGF8E4FBk03DBUYKjBUYKjAUMFtUYE3ngpsvT6OCrTioWA97CAJN9kIPAIN5NCWB/mhqU0BkeNwT4aYvu1MQV3EPUSELuL8+osG2g6gHHSz+eQUYONBCrCxj3rhnLT6V5s31d9Uf1P9TfU31f+mqr/rvKH6n50eeHX1/3ELhaqodynQ7QP0caPQgz4AYLVggAAMxJVpkK4CbRrklWmQH0xbcEAJXoXMXkYr3E9b18KBPSMMEapzNfGulmnLAWc+7j5yoCNTccV8XoQDMgwHxEfD0Z6WFYhhBcMKhhUMKxhWuDVW8MY/gUjYunkcK/xJ9xJ9TLew80FvrRYfUOCDSDcHYau5zQSSRcJerkJJ++npeiagGBHic+ITfLUcTw6YT4kvBuR4TVK/yAR0mAmoj86jOi0HUMMBhgMMBxgOMBxwcxww/pkDwtZpbBwH/JyC4g471OcsXqo79JMsZBZbLSJgQAQbMKyPF6ig0IbB09GuhQaMh5h7nofl225ArCu7q9EA05FXFJwcOP1nEUx/uIANowHz0VCgp4UEZiDBQIKBBAMJBhJuDhLG34IobG08DhIeykRXHKuFBFxfUXD6uE0AEVsubWET8rabDVydxDFH8MOeOmOeUdx24PpMdOQ3/dUEfJgAuI+aKE5b77mp96bem3pv6r2p9zdX79031Hsd8nH1/h87kKXed/6cQRDQz3GiWrUDPEPxL8GmOhiw0jbB5mDTIgHOo4hwZ8lXUT9RXU8CBCNi66P8h2cpXyPMlgPBfUY6wpyeBM7vOOyQgPDRhfhOiwXmnkODBQYLDBYYLLg1LBB4/EMJhX32V4tejQWfZbKXP+RQy9K4e3+BDUBQ6NY8CI+NbRJYSeUtMRaR7OemESTg6p/0xB19TKB2QDnQxGUtTnJWwB4mARsyUT+k0zKAbRjAMIBhAMMAhgFujgHe8NwBWwd5JAOk2zTL0r2+La7snBFwNAMcWnN9bqCTm5bCEYTSyHND3M9N1zOAlpLtE8dnIxmgdkCpL977vIAzzAAOZKJ+SKdlAMcwgGEAwwCGAQwD3BoDkLccBzj7O0WvZwBQ5EORpcmjygv0Re9AaecOAlejwFoF+dEo2J+MWkhgSzsMbeHa4ZsvFtQvhLkP6hyHBEcHlPQfUTz9YQF3GAncOjG9FOFpycA1ZPB/RAa/Pv8PsqT2zf+EAAA=", "base64"));
+  res.end();
+
+  return __filename;
+};

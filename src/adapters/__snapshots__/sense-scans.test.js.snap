@@ -5,7 +5,7 @@ Object {
   "coverImageUrl": "http://sensescans.com/reader/content/comics/kingdom_5736e592da0a7/thumb_kingdom.png",
   "slug": "kingdom",
   "title": "Kingdom",
-  "url": "https://sensescans.com/reader/series/kingdom",
+  "url": "http://localhost:57168/reader/series/kingdom",
 }
 `;
 
@@ -15,14 +15,14 @@ Array [
     "chapterNumber": "566",
     "createdAt": 1531948698,
     "slug": "en/52/566",
-    "url": "https://sensescans.com/reader/read/kingdom/en/52/566/page/1",
+    "url": "http://localhost:57168/reader/read/kingdom/en/52/566/page/1",
     "volumeNumber": "52",
   },
   Object {
     "chapterNumber": "568",
     "createdAt": 1533701318,
     "slug": "en/52/568",
-    "url": "https://sensescans.com/reader/read/kingdom/en/52/568/page/1",
+    "url": "http://localhost:57168/reader/read/kingdom/en/52/568/page/1",
     "volumeNumber": "52",
   },
 ]

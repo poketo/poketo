@@ -99,7 +99,11 @@ const MangaStreamAdapter: SiteAdapter = {
     const initial = chapterSlug ? 'r' : 'manga';
     const slug = [initial, seriesSlug, chapterSlug].filter(Boolean).join('/');
 
-    return utils.normalizeUrl(`https://readms.net/${slug}`);
+    return utils.normalizeUrl(`${this._getHost()}/${slug}`);
+  },
+
+  _getHost() {
+    return `https://readms.net`;
   },
 
   async getSeries(seriesSlug) {

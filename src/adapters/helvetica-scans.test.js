@@ -2,11 +2,10 @@ import site from './helvetica-scans';
 import errors from '../errors';
 
 describe('HelveticaScans', () => {
-  const server = createVcrServer('https://helveticascans.com');
-  const port = 57153; // arbitrary high-level port
+  const server = createVcrServer(site._getHost());
 
   beforeAll(async () => {
-    const url = await server.listen(port);
+    const url = await server.listen(57153);
     site._getHost = () => url;
   });
 

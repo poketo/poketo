@@ -2,10 +2,10 @@
 
 exports[`MangaHereAdapter getSeries returns a metadata object 1`] = `
 Object {
-  "coverImageUrl": "https://l.mangatown.com/store/manga/15237/cover.jpg?token=da6a7c379af0c700ff184cc4c20f0916f451c3db&ttl=1534208400&v=1533018597",
+  "coverImageUrl": "https://l.mangatown.com/store/manga/15237/cover.jpg?token=452a310c0187b47efbc126051e37bca274564e0d&ttl=1534215600&v=1533018597",
   "slug": "urami_koi_koi_urami_koi",
   "title": "Urami Koi, Koi, Urami Koi.",
-  "url": "http://mangahere.cc/manga/urami_koi_koi_urami_koi",
+  "url": "http://localhost:57157/manga/urami_koi_koi_urami_koi",
 }
 `;
 
@@ -16,7 +16,7 @@ Array [
     "createdAt": 1449993600,
     "slug": "c013",
     "title": "Love is Like an Ox",
-    "url": "http://mangahere.cc/manga/urami_koi_koi_urami_koi/c013",
+    "url": "http://localhost:57157/manga/urami_koi_koi_urami_koi/c013",
   },
 ]
 `;

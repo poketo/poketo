@@ -2,6 +2,17 @@ import site from './jaiminis-box';
 import errors from '../errors';
 
 describe('JaiminisBoxAdapter', () => {
+  const server = createVcrServer(site._getHost());
+
+  beforeAll(async () => {
+    const url = await server.listen(57154);
+    site._getHost = () => url;
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('supportsUrl', () => {
     it('returns true for urls like jaiminisbox.com', () => {
       expect(site.supportsUrl('http://jaiminisbox.com')).toBe(true);

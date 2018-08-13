@@ -1,6 +1,17 @@
 import site from './meraki-scans';
 
 describe('MerakiScansAdapter', () => {
+  const server = createVcrServer(site._getHost());
+
+  beforeAll(async () => {
+    const url = await server.listen(57165);
+    site._getHost = () => url;
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('supportsUrl', () => {
     it('returns true for urls at merakiscans.com', () => {
       expect(site.supportsUrl('http://merakiscans.com')).toBe(true);
@@ -46,25 +57,21 @@ describe('MerakiScansAdapter', () => {
   });
 
   describe('getChapter', () => {
-    it(
-      'returns a chapter',
-      async () => {
-        const chapter = await site.getChapter(
-          'ninja-shinobu-san-no-junjou',
-          '32',
-        );
+    it('returns a chapter', async () => {
+      const chapter = await site.getChapter(
+        'ninja-shinobu-san-no-junjou',
+        '32',
+      );
 
-        expect(chapter.url).toEqual(
-          'http://merakiscans.com/ninja-shinobu-san-no-junjou/32',
-        );
-        expect(chapter.pages).toHaveLength(37);
-        expect(chapter.pages[0]).toEqual(
-          expect.objectContaining({
-            url: expect.stringContaining('http'),
-          }),
-        );
-      },
-      10000,
-    );
+      expect(chapter.url).toEqual(
+        `${site._getHost()}/ninja-shinobu-san-no-junjou/32`,
+      );
+      expect(chapter.pages).toHaveLength(37);
+      expect(chapter.pages[0]).toEqual(
+        expect.objectContaining({
+          url: expect.stringContaining('http'),
+        }),
+      );
+    });
   });
 });

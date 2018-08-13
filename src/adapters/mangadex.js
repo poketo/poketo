@@ -56,13 +56,17 @@ const MangadexAdapter: SiteAdapter = {
       new TypeError('Either series or chapter slug must be non-null'),
     );
 
-    return utils.normalizeUrl(`https://mangadex.org/${type}/${slug}`);
+    return utils.normalizeUrl(`${this._getHost()}/${type}/${slug}`);
+  },
+
+  _getHost() {
+    return `https://mangadex.org`;
   },
 
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
     const json = await throttledGet(
-      `http://mangadex.org/api/manga/${seriesSlug}`,
+      `${this._getHost()}/api/manga/${seriesSlug}`,
     );
 
     const title = json.manga['title'];
@@ -96,14 +100,14 @@ const MangadexAdapter: SiteAdapter = {
   async getChapter(_, chapterSlug) {
     const url = this.constructUrl(null, chapterSlug);
     const json = await throttledGet(
-      `http://mangadex.org/api/chapter/${chapterSlug}`,
+      `${this._getHost()}/api/chapter/${chapterSlug}`,
     );
 
     // NOTE: we get seriesSlug here since we don't have it from the URL, but
     // it's still needed to generate chapter IDs.
     const seriesSlug = json.manga_id;
     const basename = json.server.startsWith('/data')
-      ? `https://mangadex.org${json.server}${json.hash}`
+      ? `${this._getHost()}${json.server}${json.hash}`
       : `${json.server}${json.hash}`;
     const pagePaths = json.page_array;
 

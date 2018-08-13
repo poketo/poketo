@@ -1,7 +1,18 @@
 import site from './manga-here';
 import errors from '../errors';
 
-describe('MangaHereAdapter', () => {
+xdescribe('MangaHereAdapter', () => {
+  const server = createVcrServer(site._getHost());
+
+  beforeAll(async () => {
+    const url = await server.listen(57157);
+    site._getHost = () => url;
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('supportsUrl', () => {
     it('returns true for urls like mangahere.cc or .co', () => {
       expect(site.supportsUrl('http://www.mangahere.cc')).toBe(true);
@@ -67,27 +78,17 @@ describe('MangaHereAdapter', () => {
     });
   });
 
-  describe('getChapter', () => {
-    it(
-      'returns a list of pages',
-      async () => {
-        const chapter = await site.getChapter(
-          'urami_koi_koi_urami_koi',
-          'c038',
-        );
+  xdescribe('getChapter', () => {
+    it('returns a list of pages', async () => {
+      const chapter = await site.getChapter('urami_koi_koi_urami_koi', 'c038');
 
-        expect(chapter.url).toEqual(
-          'http://mangahere.cc/manga/urami_koi_koi_urami_koi/c038',
-        );
-        expect(chapter.pages).toHaveLength(27);
-        expect(chapter.pages[0]).toEqual(
-          expect.objectContaining({
-            id: expect.any(String),
-            url: expect.stringContaining('http'),
-          }),
-        );
-      },
-      30000,
-    );
+      expect(chapter.pages).toHaveLength(27);
+      expect(chapter.pages[0]).toEqual(
+        expect.objectContaining({
+          id: expect.any(String),
+          url: expect.stringContaining('http'),
+        }),
+      );
+    });
   });
 });

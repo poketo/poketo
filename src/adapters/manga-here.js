@@ -118,12 +118,18 @@ const MangaHereAdapter: SiteAdapter = {
   constructUrl(seriesSlug, chapterSlug) {
     invariant(seriesSlug, new TypeError('Series slug must be non-null'));
     return utils.normalizeUrl(
-      `http://mangahere.cc/manga/${seriesSlug}/${chapterSlug || ''}`,
+      `${this._getHost()}/manga/${seriesSlug}/${chapterSlug || ''}`,
     );
+  },
+
+  _getHost() {
+    return `http://www.mangahere.cc`;
   },
 
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
+    console.log('requesting', url);
+
     const html = await throttledGetPage(url);
 
     invariant(

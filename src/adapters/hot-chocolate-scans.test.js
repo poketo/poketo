@@ -2,11 +2,10 @@ import site from './hot-chocolate-scans';
 import errors from '../errors';
 
 describe('HotChocolateScansAdapter', () => {
-  const server = createVcrServer('http://hotchocolatescans.com');
-  const port = 57155; // arbitrary high-level port
+  const server = createVcrServer(site._getHost());
 
   beforeAll(async () => {
-    const url = await server.listen(port);
+    const url = await server.listen(57155);
     site._getHost = () => url;
   });
 

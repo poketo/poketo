@@ -5,7 +5,7 @@ Object {
   "coverImageUrl": undefined,
   "slug": "masamunekuns_revenge",
   "title": "Masamune-kun's Revenge",
-  "url": "https://reader.kireicake.com/series/masamunekuns_revenge",
+  "url": "http://localhost:57156/series/masamunekuns_revenge",
 }
 `;
 
@@ -15,7 +15,7 @@ Array [
     "chapterNumber": "47",
     "createdAt": 1525765063,
     "slug": "en/0/47",
-    "url": "https://reader.kireicake.com/read/masamunekuns_revenge/en/0/47/page/1",
+    "url": "http://localhost:57156/read/masamunekuns_revenge/en/0/47/page/1",
     "volumeNumber": "0",
   },
 ]

@@ -2,6 +2,17 @@ import site from './manga-rock';
 import errors from '../errors';
 
 describe('MangaRockAdapter', () => {
+  const server = createVcrServer(site._getApiHost());
+
+  beforeAll(async () => {
+    const url = await server.listen(57159);
+    site._getApiHost = () => url;
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(

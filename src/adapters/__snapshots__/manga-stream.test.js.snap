@@ -165,6 +165,6 @@ exports[`MangaStreamAdapter getSeries returns a metadata object 1`] = `
 Object {
   "slug": "shokugeki_no_souma",
   "title": "Shokugeki no Souma",
-  "url": "https://readms.net/manga/shokugeki_no_souma",
+  "url": "http://localhost:57160/manga/shokugeki_no_souma",
 }
 `;
