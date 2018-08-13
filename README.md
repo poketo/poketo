@@ -116,4 +116,4 @@ const url = poketo.constructUrl('meraki-scans', 'senryu-girl', '5');
 
 ## License
 
-MIT
+[MIT](https://github.com/poketo/node/blob/master/LICENSE.md)
