@@ -128,8 +128,6 @@ const MangaHereAdapter: SiteAdapter = {
 
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
-    console.log('requesting', url);
-
     const html = await throttledGetPage(url);
 
     invariant(
