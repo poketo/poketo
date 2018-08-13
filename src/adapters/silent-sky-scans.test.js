@@ -2,7 +2,7 @@ import site from './silent-sky-scans';
 import errors from '../errors';
 
 describe('SilentSkyScansAdapter', () => {
-  const server = createVcrServer(site._getHost());
+  const server = createVcrServer(site);
 
   beforeAll(async () => {
     const url = await server.listen(57169);

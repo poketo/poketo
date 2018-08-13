@@ -2,7 +2,7 @@ import site from './manga-stream';
 import errors from '../errors';
 
 describe('MangaStreamAdapter', () => {
-  const server = createVcrServer(site._getHost());
+  const server = createVcrServer(site);
 
   beforeAll(async () => {
     const url = await server.listen(57160);

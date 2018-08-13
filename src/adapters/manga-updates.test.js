@@ -2,7 +2,7 @@ import site from './manga-updates';
 import errors from '../errors';
 
 describe('MangaUpdatesAdapter', () => {
-  const server = createVcrServer(site._getHost());
+  const server = createVcrServer(site);
 
   beforeAll(async () => {
     const url = await server.listen(57161);

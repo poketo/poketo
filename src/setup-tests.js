@@ -6,9 +6,10 @@ jest.mock('probe-image-size', () => () => ({
   height: 1200,
 }));
 
-global.createVcrServer = host => {
-  const proxy = yakbak(host, {
-    dirname: __dirname + '/adapters/__tapes__',
+global.createVcrServer = adapter => {
+  const proxy = yakbak(adapter._getHost(), {
+    dirname: `${__dirname}/adapters/__tapes__/${adapter.id}/`,
+    noRecord: process.env.CI === 'true',
   });
   const server = http.createServer(proxy);
 

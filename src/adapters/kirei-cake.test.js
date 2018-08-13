@@ -2,7 +2,7 @@ import site from './kirei-cake';
 import errors from '../errors';
 
 describe('KireiCakeAdapter', () => {
-  const server = createVcrServer(site._getHost());
+  const server = createVcrServer(site);
 
   beforeAll(async () => {
     const url = await server.listen(57156);

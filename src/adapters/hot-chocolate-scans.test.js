@@ -2,7 +2,7 @@ import site from './hot-chocolate-scans';
 import errors from '../errors';
 
 describe('HotChocolateScansAdapter', () => {
-  const server = createVcrServer(site._getHost());
+  const server = createVcrServer(site);
 
   beforeAll(async () => {
     const url = await server.listen(57155);

@@ -2,7 +2,7 @@ import site from './sense-scans';
 import errors from '../errors';
 
 describe('SenseScansAdapter', () => {
-  const server = createVcrServer(site._getHost());
+  const server = createVcrServer(site);
 
   beforeAll(async () => {
     const url = await server.listen(57168);

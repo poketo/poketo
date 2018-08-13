@@ -2,7 +2,7 @@ import site from './helvetica-scans';
 import errors from '../errors';
 
 describe('HelveticaScans', () => {
-  const server = createVcrServer(site._getHost());
+  const server = createVcrServer(site);
 
   beforeAll(async () => {
     const url = await server.listen(57153);

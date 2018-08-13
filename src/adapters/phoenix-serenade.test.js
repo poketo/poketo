@@ -2,7 +2,7 @@ import site from './phoenix-serenade';
 import errors from '../errors';
 
 describe('PhoenixSerenadeAdapter', () => {
-  const server = createVcrServer(site._getHost());
+  const server = createVcrServer(site);
 
   beforeAll(async () => {
     const url = await server.listen(57166);

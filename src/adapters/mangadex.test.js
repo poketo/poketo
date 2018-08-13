@@ -2,7 +2,7 @@ import site from './mangadex';
 import errors from '../errors';
 
 describe('MangadexAdapter', () => {
-  const server = createVcrServer(site._getHost());
+  const server = createVcrServer(site);
 
   beforeAll(async () => {
     const url = await server.listen(57163);

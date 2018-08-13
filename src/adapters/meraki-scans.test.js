@@ -1,7 +1,7 @@
 import site from './meraki-scans';
 
 describe('MerakiScansAdapter', () => {
-  const server = createVcrServer(site._getHost());
+  const server = createVcrServer(site);
 
   beforeAll(async () => {
     const url = await server.listen(57165);
