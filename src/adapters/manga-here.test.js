@@ -2,11 +2,10 @@ import site from './manga-here';
 import errors from '../errors';
 
 xdescribe('MangaHereAdapter', () => {
-  const server = createVcrServer(site);
+  const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
-    const url = await server.listen(57157);
-    site._getHost = () => url;
+    await server.listenAndMock(57157);
   });
 
   afterAll(() => {

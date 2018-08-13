@@ -2,11 +2,10 @@ import site from './kirei-cake';
 import errors from '../errors';
 
 describe('KireiCakeAdapter', () => {
-  const server = createVcrServer(site);
+  const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
-    const url = await server.listen(57156);
-    site._getHost = () => url;
+    await server.listenAndMock(57156);
   });
 
   afterAll(() => {

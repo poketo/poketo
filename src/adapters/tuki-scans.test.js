@@ -2,11 +2,10 @@ import site from './tuki-scans';
 import errors from '../errors';
 
 describe('TukiScansAdapter', () => {
-  const server = createVcrServer(site);
+  const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
-    const url = await server.listen(57170);
-    site._getHost = () => url;
+    await server.listenAndMock(57170);
   });
 
   afterAll(() => {

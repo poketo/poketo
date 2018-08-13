@@ -2,11 +2,10 @@ import site from './mangadex';
 import errors from '../errors';
 
 describe('MangadexAdapter', () => {
-  const server = createVcrServer(site);
+  const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
-    const url = await server.listen(57163);
-    site._getHost = () => url;
+    await server.listenAndMock(57163);
   });
 
   afterAll(() => {

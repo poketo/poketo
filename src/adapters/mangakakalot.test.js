@@ -2,7 +2,15 @@ import site from './mangakakalot';
 import errors from '../errors';
 
 describe('MangakakalotAdapter', () => {
-  describe('supportsUrl', () => {});
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57171);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   describe('parseUrl', () => {
     it('returns the components of a url', () => {

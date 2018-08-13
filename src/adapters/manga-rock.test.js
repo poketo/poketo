@@ -2,11 +2,10 @@ import site from './manga-rock';
 import errors from '../errors';
 
 describe('MangaRockAdapter', () => {
-  const server = createVcrServer(site);
+  const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
-    const url = await server.listen(57159);
-    site._getHost = () => url;
+    await server.listenAndMock(57159);
   });
 
   afterAll(() => {

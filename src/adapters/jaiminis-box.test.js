@@ -2,11 +2,10 @@ import site from './jaiminis-box';
 import errors from '../errors';
 
 describe('JaiminisBoxAdapter', () => {
-  const server = createVcrServer(site);
+  const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
-    const url = await server.listen(57154);
-    site._getHost = () => url;
+    await server.listenAndMock(57154);
   });
 
   afterAll(() => {

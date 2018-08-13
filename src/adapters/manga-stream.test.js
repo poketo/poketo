@@ -2,11 +2,10 @@ import site from './manga-stream';
 import errors from '../errors';
 
 describe('MangaStreamAdapter', () => {
-  const server = createVcrServer(site);
+  const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
-    const url = await server.listen(57160);
-    site._getHost = () => url;
+    await server.listenAndMock(57160);
   });
 
   afterAll(() => {

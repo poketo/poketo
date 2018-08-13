@@ -6,24 +6,36 @@ jest.mock('probe-image-size', () => () => ({
   height: 1200,
 }));
 
-global.createVcrServer = adapter => {
-  const proxy = yakbak(adapter._getHost(), {
-    dirname: `${__dirname}/adapters/__tapes__/${adapter.id}/`,
-    noRecord: process.env.CI === 'true',
-  });
-  const server = http.createServer(proxy);
-
-  return {
-    listen: port =>
-      new Promise((resolve, reject) => {
-        server.on('error', reject);
-        server.listen(port, () => {
-          const { port } = server.address();
-          resolve(`http://localhost:${port}`);
-        });
+class AdapterVcrServer {
+  constructor(adapter) {
+    this.adapter = adapter;
+    this.originalHost = adapter._getHost();
+    this.server = http.createServer(
+      yakbak(this.originalHost, {
+        dirname: `${__dirname}/adapters/__tapes__/${adapter.id}/`,
+        noRecord: process.env.CI === 'true',
       }),
-    close: () => {
-      server.close();
-    },
-  };
-};
+    );
+  }
+
+  listen(port) {
+    return new Promise((resolve, reject) => {
+      this.server.on('error', reject);
+      this.server.listen(port, () => {
+        const { port } = this.server.address();
+        resolve(`http://localhost:${port}`);
+      });
+    });
+  }
+
+  async listenAndMock(port) {
+    const url = await this.listen(port);
+    this.adapter._getHost = jest.fn().mockReturnValue(url);
+  }
+
+  close() {
+    this.server.close();
+  }
+}
+
+global.AdapterVcrServer = AdapterVcrServer;

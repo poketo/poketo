@@ -2,11 +2,10 @@ import site from './hot-chocolate-scans';
 import errors from '../errors';
 
 describe('HotChocolateScansAdapter', () => {
-  const server = createVcrServer(site);
+  const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
-    const url = await server.listen(57155);
-    site._getHost = () => url;
+    await server.listenAndMock(57155);
   });
 
   afterAll(() => {

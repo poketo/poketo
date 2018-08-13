@@ -1,11 +1,10 @@
 import site from './meraki-scans';
 
 describe('MerakiScansAdapter', () => {
-  const server = createVcrServer(site);
+  const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
-    const url = await server.listen(57165);
-    site._getHost = () => url;
+    await server.listenAndMock(57165);
   });
 
   afterAll(() => {
