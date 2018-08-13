@@ -2,6 +2,16 @@ import site from './manga-updates';
 import errors from '../errors';
 
 describe('MangaUpdatesAdapter', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57161);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('supportsUrl', () => {
     it('returns true for urls like mangaupdates.com', () => {
       expect(site.supportsUrl('http://mangaupdates.com')).toBe(true);

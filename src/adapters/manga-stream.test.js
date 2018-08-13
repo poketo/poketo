@@ -2,6 +2,16 @@ import site from './manga-stream';
 import errors from '../errors';
 
 describe('MangaStreamAdapter', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57160);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(site.parseUrl('https://readms.net/manga/attack_on_titan')).toEqual(
@@ -29,11 +39,11 @@ describe('MangaStreamAdapter', () => {
   describe('constructUrl', () => {
     it('returns a valid url', () => {
       expect(site.constructUrl('attack_on_titan')).toEqual(
-        'https://readms.net/manga/attack_on_titan',
+        `${site._getHost()}/manga/attack_on_titan`,
       );
 
       expect(site.constructUrl('attack_on_titan', '103/4949')).toEqual(
-        'https://readms.net/r/attack_on_titan/103/4949',
+        `${site._getHost()}/r/attack_on_titan/103/4949`,
       );
     });
   });

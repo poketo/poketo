@@ -18,6 +18,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
   const normalizedTimeZone = options.timeZone || 'UTC';
 
   const url = utils.parseUrl(normalizedBaseUrl);
+  const normalizedHostName = url.origin;
   const normalizedPathName = url.pathname === '/' ? '' : url.pathname;
 
   const foolSlidePathRegex =
@@ -55,7 +56,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
       const isChapter = chapterSlug !== null && chapterSlug !== undefined;
 
       const parts = [
-        normalizedBaseUrl,
+        this._getBaseUrl(),
         isChapter ? 'read' : 'series',
         seriesSlug,
       ];
@@ -68,10 +69,18 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
       return utils.normalizeUrl(parts.join('/'));
     },
 
+    _getHost() {
+      return normalizedHostName;
+    },
+
+    _getBaseUrl() {
+      return this._getHost() + normalizedPathName;
+    },
+
     async getSeries(seriesSlug) {
       const url = this.constructUrl(seriesSlug);
 
-      const jsonUrl = `${normalizedBaseUrl}/api/reader/comic/stub/${seriesSlug}/format/json`;
+      const jsonUrl = `${this._getBaseUrl()}/api/reader/comic/stub/${seriesSlug}/format/json`;
       const json = await utils.getJSON(jsonUrl);
       const title = json.comic.name.trim();
       const coverImageUrl = json.comic['thumb_url'] || undefined;

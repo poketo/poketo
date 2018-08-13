@@ -70,7 +70,7 @@ export default function makeMangakakalotAdapter({
     name: siteName,
 
     supportsUrl(url) {
-      return utils.compareDomain(url, domain);
+      return utils.compareDomain(url, this._getHost());
     },
 
     supportsReading() {
@@ -96,13 +96,21 @@ export default function makeMangakakalotAdapter({
     constructUrl(seriesSlug, chapterSlug) {
       const isChapter = chapterSlug !== null && chapterSlug !== undefined;
 
-      const parts = [domain, isChapter ? 'chapter' : 'manga', seriesSlug];
+      const parts = [
+        this._getHost(),
+        isChapter ? 'chapter' : 'manga',
+        seriesSlug,
+      ];
 
       if (isChapter) {
         parts.push(chapterSlug);
       }
 
       return utils.normalizeUrl(parts.join('/'));
+    },
+
+    _getHost() {
+      return domain;
     },
 
     async getSeries(seriesSlug) {

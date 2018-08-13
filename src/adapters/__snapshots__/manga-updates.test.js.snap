@@ -6,6 +6,6 @@ Object {
   "slug": "111976",
   "title": "Urami Koi, Koi, Urami Koi.",
   "updatedAt": Any<Number>,
-  "url": "https://mangaupdates.com/series.html?id=111976",
+  "url": "http://localhost:57161/series.html?id=111976",
 }
 `;

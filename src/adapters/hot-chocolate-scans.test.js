@@ -2,6 +2,16 @@ import site from './hot-chocolate-scans';
 import errors from '../errors';
 
 describe('HotChocolateScansAdapter', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57155);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('supportsUrl', () => {
     it('returns true for urls like hotchocolatescans.com', () => {
       expect(site.supportsUrl('http://hotchocolatescans.com')).toBe(true);

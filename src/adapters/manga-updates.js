@@ -35,14 +35,18 @@ const MangaUpdatesAdapter: SiteAdapter = {
   constructUrl(seriesSlug) {
     invariant(seriesSlug, new TypeError('Series slug must be non-null'));
     return utils.normalizeUrl(
-      `https://www.mangaupdates.com/series.html?id=${seriesSlug}`,
+      `${this._getHost()}/series.html?id=${seriesSlug}`,
     );
+  },
+
+  _getHost() {
+    return `https://www.mangaupdates.com`;
   },
 
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
     const html = await utils.getPage(
-      `https://www.mangaupdates.com/series.html?id=${seriesSlug}`,
+      `${this._getHost()}/series.html?id=${seriesSlug}`,
     );
     const dom = cheerio.load(html);
 

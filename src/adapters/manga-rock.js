@@ -72,10 +72,14 @@ const MangaRockAdapter: SiteAdapter = {
     return parts.join('/');
   },
 
+  _getHost() {
+    return `https://api.mangarockhd.com`;
+  },
+
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
     const json = await throttledGetJSON(
-      `https://api.mangarockhd.com/query/web400/info?oid=mrs-serie-${seriesSlug}`,
+      `${this._getHost()}/query/web400/info?oid=mrs-serie-${seriesSlug}`,
     );
 
     invariant(json.code !== 103, new errors.NotFoundError(url)); // Not found
@@ -102,7 +106,7 @@ const MangaRockAdapter: SiteAdapter = {
   async getChapter(seriesSlug, chapterSlug) {
     const url = this.constructUrl(seriesSlug, chapterSlug);
     const pagesJSON = await throttledGetJSON(
-      `https://api.mangarockhd.com/query/web400/pages?oid=mrs-chapter-${chapterSlug}`,
+      `${this._getHost()}/query/web400/pages?oid=mrs-chapter-${chapterSlug}`,
     );
 
     const pages = await Promise.all(pagesJSON.data.map(url => getPage(url)));

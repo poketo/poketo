@@ -5,7 +5,7 @@ Object {
   "coverImageUrl": "http://merakiscans.com/wp-content/manga/cover/tbn/ninja_200x0.jpg",
   "slug": "ninja-shinobu-san-no-junjou",
   "title": "Ninja Shinobu-san no Junjou",
-  "url": "http://merakiscans.com/ninja-shinobu-san-no-junjou",
+  "url": "http://localhost:57165/ninja-shinobu-san-no-junjou",
 }
 `;
 
@@ -16,7 +16,7 @@ Array [
     "createdAt": 1504981521,
     "slug": "21",
     "title": "You are just!",
-    "url": "http://merakiscans.com/ninja-shinobu-san-no-junjou/21",
+    "url": "http://localhost:57165/ninja-shinobu-san-no-junjou/21",
   },
 ]
 `;

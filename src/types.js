@@ -42,6 +42,7 @@ export type Series = {
 export type SiteAdapter = {
   id: string,
   name: string,
+  _getHost: () => string,
   constructUrl: (seriesSlug: ?string, chapterSlug: ?string) => string,
   supportsUrl: (url: string) => boolean,
   supportsReading: () => boolean,

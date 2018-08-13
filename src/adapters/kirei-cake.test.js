@@ -2,6 +2,16 @@ import site from './kirei-cake';
 import errors from '../errors';
 
 describe('KireiCakeAdapter', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57156);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(

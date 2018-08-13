@@ -5,7 +5,7 @@ Object {
   "coverImageUrl": undefined,
   "slug": "kusuriya-no-hitorigoto",
   "title": "Kusuriya no Hitorigoto",
-  "url": "https://reader.serenade.moe/series/kusuriya-no-hitorigoto",
+  "url": "http://localhost:57166/series/kusuriya-no-hitorigoto",
 }
 `;
 
@@ -15,14 +15,14 @@ Array [
     "chapterNumber": "7",
     "createdAt": 1513954489,
     "slug": "en/0/7",
-    "url": "https://reader.serenade.moe/read/kusuriya-no-hitorigoto/en/0/7/page/1",
+    "url": "http://localhost:57166/read/kusuriya-no-hitorigoto/en/0/7/page/1",
     "volumeNumber": "0",
   },
   Object {
     "chapterNumber": "11",
     "createdAt": 1526538824,
     "slug": "en/0/11",
-    "url": "https://reader.serenade.moe/read/kusuriya-no-hitorigoto/en/0/11/page/1",
+    "url": "http://localhost:57166/read/kusuriya-no-hitorigoto/en/0/11/page/1",
     "volumeNumber": "0",
   },
 ]

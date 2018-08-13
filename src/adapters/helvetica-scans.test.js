@@ -2,6 +2,16 @@ import site from './helvetica-scans';
 import errors from '../errors';
 
 describe('HelveticaScans', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57153);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('supportsUrl', () => {
     it('returns true for urls like helveticascans.com', () => {
       expect(site.supportsUrl('http://helveticascans.com')).toBe(true);
@@ -59,7 +69,8 @@ describe('HelveticaScans', () => {
       const chaptersToTest = chapters.filter(chapter =>
         chapterNumbersToTest.includes(chapter.chapterNumber),
       );
-      expect(chaptersToTest).toMatchSnapshot();
+      expect(chaptersToTest[0]).toMatchSnapshot();
+      expect(chaptersToTest[1]).toMatchSnapshot();
     });
   });
 

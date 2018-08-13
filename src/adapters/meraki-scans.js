@@ -51,18 +51,22 @@ const MerakiScansAdapter: SiteAdapter = {
   },
 
   constructUrl(seriesSlug, chapterSlug) {
-    const url = ['http://merakiscans.com', seriesSlug, chapterSlug]
+    const url = [this._getHost(), seriesSlug, chapterSlug]
       .filter(Boolean)
       .join('/');
 
     return utils.normalizeUrl(url);
   },
 
+  _getHost() {
+    return 'http://merakiscans.com';
+  },
+
   async getSeries(seriesSlug) {
     const seriesUrl = this.constructUrl(seriesSlug);
 
     const rss = await utils.getPage(
-      `http://merakiscans.com/manga-rss/${seriesSlug}`,
+      `${this._getHost()}/manga-rss/${seriesSlug}`,
     );
     const xml = cheerio.load(rss, { xmlMode: true });
 
