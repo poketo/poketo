@@ -82,10 +82,10 @@ describe('MangadexAdapter', () => {
 
   describe('getChapter', () => {
     it('returns a chapter', async () => {
-      const chapter = await site.getChapter(null, '37052');
+      const chapter = await site.getChapter(null, '385894');
 
-      expect(chapter.url).toEqual(`${site._getHost()}/chapter/37052`);
-      expect(chapter.pages).toHaveLength(86);
+      expect(chapter.url).toEqual(`${site._getHost()}/chapter/385894`);
+      expect(chapter.pages).toHaveLength(1);
       expect(chapter.pages[0]).toEqual(
         expect.objectContaining({
           id: expect.any(String),
