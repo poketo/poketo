@@ -2,6 +2,7 @@
 
 exports[`HelveticaScans getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": "https://helveticascans.com/r/content/comics/talentless-nana_5935ea4001c59/thumb_0001.png",
   "slug": "talentless-nana",
   "title": "Talentless Nana",
   "url": "http://helveticascans.com/r/series/talentless-nana",

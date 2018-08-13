@@ -2,6 +2,7 @@
 
 exports[`JaiminisBoxAdapter getSeries returns series metadata 1`] = `
 Object {
+  "coverImageUrl": "https://i1.wp.com/jaiminisbox.com/reader/content/comics/itoshi-no-muco_586c3e495e85d/thumb_mucothumbnailresized.jpg",
   "slug": "itoshi-no-muco",
   "title": "Itoshi no Muco",
   "url": "https://jaiminisbox.com/reader/series/itoshi-no-muco",

@@ -2,6 +2,7 @@
 
 exports[`PhoenixSerenadeAdapter getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": undefined,
   "slug": "kusuriya-no-hitorigoto",
   "title": "Kusuriya no Hitorigoto",
   "url": "https://reader.serenade.moe/series/kusuriya-no-hitorigoto",

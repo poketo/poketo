@@ -2,6 +2,7 @@
 
 exports[`HotChocolateScansAdapter getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": "http://hotchocolatescans.com/fs/content/comics/watashi_no_shounen_5a68c187815a3/thumb_001.jpg",
   "slug": "watashi_no_shounen",
   "title": "Watashi no Shounen",
   "url": "http://hotchocolatescans.com/fs/series/watashi_no_shounen",

@@ -2,6 +2,7 @@
 
 exports[`TukiScansAdapter getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": "https://reader.tukimoop.pw/content/comics/madoromi-chan_5a5435fb56565/thumb_thumb.jpg",
   "slug": "madoromi-chan",
   "title": "Madoromi-chan ga Iku.",
   "url": "https://reader.tukimoop.pw/series/madoromi-chan",

@@ -2,6 +2,7 @@
 
 exports[`KireiCakeAdapter getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": undefined,
   "slug": "masamunekuns_revenge",
   "title": "Masamune-kun's Revenge",
   "url": "https://reader.kireicake.com/series/masamunekuns_revenge",

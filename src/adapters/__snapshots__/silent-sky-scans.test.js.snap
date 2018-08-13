@@ -2,6 +2,7 @@
 
 exports[`SilentSkyScansAdapter getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": "http://reader.silentsky-scans.net/content/comics/all_rounder_meguru__51c584cb54c37/thumb_v12.jpg",
   "slug": "all_rounder_meguru_",
   "title": "All Rounder Meguru",
   "url": "http://reader.silentsky-scans.net/series/all_rounder_meguru_",
