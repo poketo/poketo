@@ -1,19 +1,13 @@
-import http from 'http';
-import yakbak from 'yakbak';
-import listen from 'test-listen';
 import site from './helvetica-scans';
 import errors from '../errors';
 
 describe('HelveticaScans', () => {
-  let server;
+  const server = createVcrServer('https://helveticascans.com');
+  const port = 57153; // arbitrary high-level port
+
   beforeAll(async () => {
-    server = http.createServer(
-      yakbak('https://helveticascans.com', {
-        dirname: __dirname + '/__tapes__',
-      }),
-    );
-    server.listen(57153);
-    site._getHost = () => 'http://localhost:57153';
+    const url = await server.listen(port);
+    site._getHost = () => url;
   });
 
   afterAll(() => {

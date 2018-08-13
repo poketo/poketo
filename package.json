@@ -39,6 +39,9 @@
     "prettier": "^1.11.1",
     "yakbak": "^3.0.0"
   },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setup-tests.js"
+  },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all"

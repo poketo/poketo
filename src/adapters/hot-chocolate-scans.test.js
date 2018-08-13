@@ -2,6 +2,18 @@ import site from './hot-chocolate-scans';
 import errors from '../errors';
 
 describe('HotChocolateScansAdapter', () => {
+  const server = createVcrServer('http://hotchocolatescans.com');
+  const port = 57155; // arbitrary high-level port
+
+  beforeAll(async () => {
+    const url = await server.listen(port);
+    site._getHost = () => url;
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('supportsUrl', () => {
     it('returns true for urls like hotchocolatescans.com', () => {
       expect(site.supportsUrl('http://hotchocolatescans.com')).toBe(true);
