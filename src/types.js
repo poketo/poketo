@@ -34,8 +34,7 @@ export type Series = {
   slug: string,
   url: string,
   title?: string,
-  coverImageUrl: ?string,
-  coverImageThumbnailUrl: ?string,
+  coverImageUrl?: string,
   chapters?: ChapterMetadata[],
   updatedAt: number,
 };

@@ -136,20 +136,12 @@ const MangaHereAdapter: SiteAdapter = {
     const title = dom('meta[property="og:title"]')
       .attr('content')
       .trim();
-    const coverImageThumbnailUrl = dom('img.img', '.manga_detail_top').attr(
-      'src',
-    );
+    const coverImageUrl = dom('img.img', '.manga_detail_top').attr('src');
 
     const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
     const chapters = extractChapterMetadata(html, getChapterUrl);
 
-    return {
-      slug: seriesSlug,
-      coverImageThumbnailUrl,
-      url,
-      title,
-      chapters,
-    };
+    return { slug: seriesSlug, coverImageUrl, url, title, chapters };
   },
 
   async getChapter(seriesSlug, chapterSlug) {

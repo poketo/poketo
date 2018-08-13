@@ -66,8 +66,8 @@ const MangadexAdapter: SiteAdapter = {
     );
 
     const title = json.manga['title'];
-    const coverImageUrl = json.manga['cover_url'];
-    const coverImageThumbnailUrl = coverImageUrl.replace('.jpg', '.large.jpg');
+    // NOTE: we swap out the URL to get a "large" thumbnail-sized version.
+    const coverImageUrl = json.manga['cover_url'].replace('.jpg', '.large.jpg');
 
     const chapterIds = Object.keys(json.chapter);
     const chapterData = chapterIds.map(id => {
@@ -90,14 +90,7 @@ const MangadexAdapter: SiteAdapter = {
       .filter(filterDuplicates)
       .map(({ language, ...rest }) => rest);
 
-    return {
-      slug: seriesSlug,
-      coverImageUrl,
-      coverImageThumbnailUrl,
-      url,
-      title,
-      chapters,
-    };
+    return { slug: seriesSlug, coverImageUrl, url, title, chapters };
   },
 
   async getChapter(_, chapterSlug) {

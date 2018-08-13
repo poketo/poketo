@@ -123,9 +123,7 @@ export default function makeMangakakalotAdapter({
         .first()
         .text()
         .trim();
-      const coverImageThumbnailUrl = dom('img', 'div.manga-info-pic').attr(
-        'src',
-      );
+      const coverImageUrl = dom('img', 'div.manga-info-pic').attr('src');
 
       const updatedAtRawText = $infoSection
         .find('li')
@@ -202,7 +200,7 @@ export default function makeMangakakalotAdapter({
 
       return {
         slug: seriesSlug,
-        coverImageThumbnailUrl,
+        coverImageUrl,
         url,
         title,
         chapters,

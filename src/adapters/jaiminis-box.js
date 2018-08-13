@@ -54,11 +54,11 @@ const JaiminisBoxAdapter = {
       .text()
       .trim();
 
-    const coverImageUrl = $comicInfo.find('.thumbnail img').attr('src');
-    const coverImageThumbnailUrl = coverImageUrl.replace(
-      /\/([^\/]+)\.(jpg|png)/,
-      '/thumb_$1.$2',
-    );
+    const coverImageUrl = $comicInfo
+      .find('.thumbnail img')
+      .attr('src')
+      // NOTE: we swap the URL to get the thumbnail-sized image
+      .replace(/\/([^\/]+)\.(jpg|png)/, '/thumb_$1.$2');
 
     const chapterNodes = dom('.element', '#content .list .group');
     const chapters: ChapterMetadata[] = chapterNodes.get().map(el => {
@@ -88,14 +88,7 @@ const JaiminisBoxAdapter = {
       return { url, title, slug, chapterNumber, volumeNumber, createdAt };
     });
 
-    return {
-      slug: seriesSlug,
-      coverImageUrl,
-      coverImageThumbnailUrl,
-      url,
-      title,
-      chapters,
-    };
+    return { slug: seriesSlug, coverImageUrl, url, title, chapters };
   },
 
   async getChapter(seriesSlug, chapterSlug) {

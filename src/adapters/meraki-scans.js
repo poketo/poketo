@@ -83,7 +83,7 @@ const MerakiScansAdapter: SiteAdapter = {
 
     // NOTE: Meraki's RSS returns a 32px wide image by default. We replace the
     // URL with the 200px wide version shown on series pages.
-    const coverImageThumbnailUrl = $rssImage.text().replace('32x0', '200x0');
+    const coverImageUrl = $rssImage.text().replace('32x0', '200x0');
 
     const chapters: Array<ChapterMetadata> = $rssChapters.get().map(el => {
       // NOTE: Meraki returns RSS titles like this "Senryu Girl - 27 - Nanako and Cooking Class"
@@ -113,7 +113,7 @@ const MerakiScansAdapter: SiteAdapter = {
 
     return {
       slug: seriesSlug,
-      coverImageThumbnailUrl,
+      coverImageUrl,
       url: seriesUrl,
       title,
       chapters,

@@ -51,7 +51,7 @@ const MangaUpdatesAdapter: SiteAdapter = {
     const $seriesMetadataColumnB = $content.find('.sContainer + .sContainer');
 
     const title = $content.find('.releasestitle.tabletitle').text();
-    const coverImageThumbnailUrl = $seriesMetadataColumnB
+    const coverImageUrl = $seriesMetadataColumnB
       .find('center img[width][height]')
       .attr('src');
 
@@ -60,7 +60,7 @@ const MangaUpdatesAdapter: SiteAdapter = {
       .tz($updatedAt.text(), 'MMMM Do YYYY, h:mma zz', 'America/Los_Angeles')
       .unix();
 
-    return { slug: seriesSlug, coverImageThumbnailUrl, url, title, updatedAt };
+    return { slug: seriesSlug, coverImageUrl, url, title, updatedAt };
   },
 
   async getChapter() {
