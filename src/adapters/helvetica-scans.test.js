@@ -13,7 +13,7 @@ describe('HelveticaScans', () => {
       }),
     );
     server.listen(57153);
-    site.getHost = () => 'http://localhost:57153/r';
+    site._getHost = () => 'http://localhost:57153';
   });
 
   afterAll(() => {
@@ -71,14 +71,14 @@ describe('HelveticaScans', () => {
     it('returns a metadata object', async () => {
       const { chapters, ...metadata } = await site.getSeries('talentless-nana');
 
-      expect(metadata).toMatchSnapshot({ url: expect.any(String) });
+      expect(metadata).toMatchSnapshot();
 
       const chapterNumbersToTest = ['4', '8'];
       const chaptersToTest = chapters.filter(chapter =>
         chapterNumbersToTest.includes(chapter.chapterNumber),
       );
-      expect(chaptersToTest[0]).toMatchSnapshot({ url: expect.any(String) });
-      expect(chaptersToTest[1]).toMatchSnapshot({ url: expect.any(String) });
+      expect(chaptersToTest[0]).toMatchSnapshot();
+      expect(chaptersToTest[1]).toMatchSnapshot();
     });
   });
 
