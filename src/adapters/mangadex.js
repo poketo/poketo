@@ -65,7 +65,9 @@ const MangadexAdapter: SiteAdapter = {
       `http://mangadex.org/api/manga/${seriesSlug}`,
     );
 
-    const title = json.manga.title;
+    const title = json.manga['title'];
+    const coverImageUrl = json.manga['cover_url'];
+    const coverImageThumbnailUrl = coverImageUrl.replace('.jpg', '.large.jpg');
 
     const chapterIds = Object.keys(json.chapter);
     const chapterData = chapterIds.map(id => {
@@ -88,7 +90,14 @@ const MangadexAdapter: SiteAdapter = {
       .filter(filterDuplicates)
       .map(({ language, ...rest }) => rest);
 
-    return { slug: seriesSlug, url, title, chapters };
+    return {
+      slug: seriesSlug,
+      coverImageUrl,
+      coverImageThumbnailUrl,
+      url,
+      title,
+      chapters,
+    };
   },
 
   async getChapter(_, chapterSlug) {

@@ -133,14 +133,23 @@ const MangaHereAdapter: SiteAdapter = {
 
     const dom = cheerio.load(html);
 
-    const title = dom('meta[property="og:title"]', 'head')
+    const title = dom('meta[property="og:title"]')
       .attr('content')
       .trim();
+    const coverImageThumbnailUrl = dom('img.img', '.manga_detail_top').attr(
+      'src',
+    );
 
     const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
     const chapters = extractChapterMetadata(html, getChapterUrl);
 
-    return { slug: seriesSlug, url, title, chapters };
+    return {
+      slug: seriesSlug,
+      coverImageThumbnailUrl,
+      url,
+      title,
+      chapters,
+    };
   },
 
   async getChapter(seriesSlug, chapterSlug) {

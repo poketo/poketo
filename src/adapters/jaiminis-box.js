@@ -46,9 +46,20 @@ const JaiminisBoxAdapter = {
     const html = await utils.getPage(url);
     const dom = cheerio.load(html);
 
-    const title = dom('h1.title', '#content .comic.info')
+    const $content = dom('#content');
+    const $comicInfo = dom('.comic.info');
+
+    const title = $comicInfo
+      .find('h1.title')
       .text()
       .trim();
+
+    const coverImageUrl = $comicInfo.find('.thumbnail img').attr('src');
+    const coverImageThumbnailUrl = coverImageUrl.replace(
+      /\/([^\/]+)\.(jpg|png)/,
+      '/thumb_$1.$2',
+    );
+
     const chapterNodes = dom('.element', '#content .list .group');
     const chapters: ChapterMetadata[] = chapterNodes.get().map(el => {
       const node = dom(el);
@@ -77,7 +88,14 @@ const JaiminisBoxAdapter = {
       return { url, title, slug, chapterNumber, volumeNumber, createdAt };
     });
 
-    return { slug: seriesSlug, url, title, chapters };
+    return {
+      slug: seriesSlug,
+      coverImageUrl,
+      coverImageThumbnailUrl,
+      url,
+      title,
+      chapters,
+    };
   },
 
   async getChapter(seriesSlug, chapterSlug) {

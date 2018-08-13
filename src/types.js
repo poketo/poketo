@@ -35,6 +35,7 @@ export type Series = {
   url: string,
   title?: string,
   coverImageUrl: ?string,
+  coverImageThumbnailUrl: ?string,
   chapters?: ChapterMetadata[],
   updatedAt: number,
 };

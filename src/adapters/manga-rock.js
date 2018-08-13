@@ -82,6 +82,7 @@ const MangaRockAdapter: SiteAdapter = {
     invariant(json.code !== 104, new errors.NotFoundError(url)); // Series is licensed
 
     const title = json.data.name;
+    const coverImageThumbnailUrl = json.data.thumbnail;
     const chapters = json.data.chapters
       .sort((a, b) => b.order - a.order)
       .map(chapterData => {
@@ -95,7 +96,7 @@ const MangaRockAdapter: SiteAdapter = {
         return { slug, title, url, createdAt, chapterNumber, volumeNumber };
       });
 
-    return { slug: seriesSlug, url, title, chapters };
+    return { slug: seriesSlug, coverImageThumbnailUrl, url, title, chapters };
   },
 
   async getChapter(seriesSlug, chapterSlug) {
