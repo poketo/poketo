@@ -5,25 +5,26 @@ Object {
   "coverImageUrl": "https://helveticascans.com/r/content/comics/talentless-nana_5935ea4001c59/thumb_0001.png",
   "slug": "talentless-nana",
   "title": "Talentless Nana",
-  "url": "http://helveticascans.com/r/series/talentless-nana",
+  "url": Any<String>,
 }
 `;
 
 exports[`HelveticaScans getSeries returns a metadata object 2`] = `
-Array [
-  Object {
-    "chapterNumber": "4",
-    "createdAt": 1502298597,
-    "slug": "en/1/4",
-    "url": "http://helveticascans.com/r/read/talentless-nana/en/1/4/page/1",
-    "volumeNumber": "1",
-  },
-  Object {
-    "chapterNumber": "8",
-    "createdAt": 1507488334,
-    "slug": "en/2/8",
-    "url": "http://helveticascans.com/r/read/talentless-nana/en/2/8/page/1",
-    "volumeNumber": "2",
-  },
-]
+Object {
+  "chapterNumber": "4",
+  "createdAt": 1502298597,
+  "slug": "en/1/4",
+  "url": Any<String>,
+  "volumeNumber": "1",
+}
+`;
+
+exports[`HelveticaScans getSeries returns a metadata object 3`] = `
+Object {
+  "chapterNumber": "8",
+  "createdAt": 1507488334,
+  "slug": "en/2/8",
+  "url": Any<String>,
+  "volumeNumber": "2",
+}
 `;

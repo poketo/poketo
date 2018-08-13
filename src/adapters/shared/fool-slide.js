@@ -54,11 +54,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
     constructUrl(seriesSlug, chapterSlug) {
       const isChapter = chapterSlug !== null && chapterSlug !== undefined;
 
-      const parts = [
-        normalizedBaseUrl,
-        isChapter ? 'read' : 'series',
-        seriesSlug,
-      ];
+      const parts = [this.getHost(), isChapter ? 'read' : 'series', seriesSlug];
 
       if (isChapter) {
         parts.push(chapterSlug);
@@ -68,10 +64,14 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
       return utils.normalizeUrl(parts.join('/'));
     },
 
+    getHost() {
+      return normalizedBaseUrl;
+    },
+
     async getSeries(seriesSlug) {
       const url = this.constructUrl(seriesSlug);
 
-      const jsonUrl = `${normalizedBaseUrl}/api/reader/comic/stub/${seriesSlug}/format/json`;
+      const jsonUrl = `${this.getHost()}/api/reader/comic/stub/${seriesSlug}/format/json`;
       const json = await utils.getJSON(jsonUrl);
       const title = json.comic.name.trim();
       const coverImageUrl = json.comic['thumb_url'] || undefined;

@@ -1,7 +1,25 @@
+import http from 'http';
+import yakbak from 'yakbak';
+import listen from 'test-listen';
 import site from './helvetica-scans';
 import errors from '../errors';
 
 describe('HelveticaScans', () => {
+  let server;
+  beforeAll(async () => {
+    server = http.createServer(
+      yakbak('https://helveticascans.com', {
+        dirname: __dirname + '/__tapes__',
+      }),
+    );
+    server.listen(57153);
+    site.getHost = () => 'http://localhost:57153/r';
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   describe('supportsUrl', () => {
     it('returns true for urls like helveticascans.com', () => {
       expect(site.supportsUrl('http://helveticascans.com')).toBe(true);
@@ -53,13 +71,14 @@ describe('HelveticaScans', () => {
     it('returns a metadata object', async () => {
       const { chapters, ...metadata } = await site.getSeries('talentless-nana');
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({ url: expect.any(String) });
 
       const chapterNumbersToTest = ['4', '8'];
       const chaptersToTest = chapters.filter(chapter =>
         chapterNumbersToTest.includes(chapter.chapterNumber),
       );
-      expect(chaptersToTest).toMatchSnapshot();
+      expect(chaptersToTest[0]).toMatchSnapshot({ url: expect.any(String) });
+      expect(chaptersToTest[1]).toMatchSnapshot({ url: expect.any(String) });
     });
   });
 

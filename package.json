@@ -4,19 +4,15 @@
   "description": "Library for fetching and reading manga sites",
   "main": "lib/index.js",
   "repository": "https://github.com/poketo/lib",
-  "files": [
-    "lib",
-    "supports.js"
-  ],
-  "keywords": [
-    "manga",
-    "parser"
-  ],
+  "files": ["lib", "supports.js"],
+  "keywords": ["manga", "parser"],
   "scripts": {
     "clean": "rm -rf lib",
     "build": "yarn build:node && yarn build:browser",
-    "build:node": "babel src -d lib --ignore '*.test.js,types.js,supports.js'",
-    "build:browser": "babel --no-babelrc src/supports.js --out-file supports.js --presets=es2015,flow",
+    "build:node":
+      "babel src -d lib --ignore '*.test.js,types.js,supports.js,__tapes__/*.js'",
+    "build:browser":
+      "babel --no-babelrc src/supports.js --out-file supports.js --presets=es2015,flow",
     "format": "prettier --write src/**/*.{js,json,md}",
     "prepublish": "yarn clean && yarn build",
     "lint": "flow",
@@ -40,7 +36,8 @@
     "babel-preset-flow": "^6.23.0",
     "flow-bin": "^0.69.0",
     "jest": "^23.1.0",
-    "prettier": "^1.11.1"
+    "prettier": "^1.11.1",
+    "yakbak": "^3.0.0"
   },
   "prettier": {
     "singleQuote": true,
