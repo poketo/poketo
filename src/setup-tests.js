@@ -1,6 +1,11 @@
 import http from 'http';
 import yakbak from 'yakbak';
 
+jest.mock('probe-image-size', () => () => ({
+  width: 700,
+  height: 1200,
+}));
+
 global.createVcrServer = host => {
   const proxy = yakbak(host, {
     dirname: __dirname + '/adapters/__tapes__',

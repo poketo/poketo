@@ -1,5 +1,8 @@
 import site from './manga-stream';
 import errors from '../errors';
+import utils from '../utils';
+
+jest.mock('probe-image-size', () => () => ({ width: 700, height: 1200 }));
 
 describe('MangaStreamAdapter', () => {
   const server = createVcrServer(site._getHost());
