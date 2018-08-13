@@ -33,8 +33,8 @@ export type Series = {
   id: string,
   slug: string,
   url: string,
-  title?: string,
-  coverImageUrl: ?string,
+  title: string,
+  coverImageUrl?: string,
   chapters?: ChapterMetadata[],
   updatedAt: number,
 };
@@ -54,6 +54,7 @@ export type SiteAdapter = {
     slug: string,
     url: string,
     title: string,
+    coverImageUrl?: string,
     chapters?: ChapterMetadata[],
     updatedAt?: number,
   }>,

@@ -2,6 +2,7 @@
 
 exports[`MangakakalotAdapter getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": "http://avatar.mkklcdnv2.com/avatar_manga/3566-urami_koi_koi_urami_koi.jpg",
   "slug": "urami_koi_koi_urami_koi",
   "title": "Urami Koi, Koi, Urami Koi.",
   "updatedAt": Any<Number>,

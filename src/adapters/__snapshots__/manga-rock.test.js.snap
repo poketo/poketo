@@ -13,6 +13,7 @@ Array [
 
 exports[`MangaRockAdapter getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": "https://f01.mrcdn.info/file/mrportal/h/9/4/m/cC.btfAGMrS.jpg",
   "slug": "153037",
   "title": "Love So Life",
   "url": "https://mangarock.com/manga/mrs-serie-153037",

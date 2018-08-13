@@ -42,26 +42,25 @@ const MangaUpdatesAdapter: SiteAdapter = {
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
     const html = await utils.getPage(
-      `https://www.mangaupdates.com/releases.html?search=${seriesSlug}&stype=series`,
+      `https://www.mangaupdates.com/series.html?id=${seriesSlug}`,
     );
     const dom = cheerio.load(html);
 
-    const content = dom('#main_content');
-    // NOTE: we strip a '*' from the end of the title since MangaUpdates uses that
-    // to show if series information has updated in the last 24 hours.
-    const titleElement = content
-      .find('td.text.pad[bgcolor]:nth-child(2)')
-      .first();
-    const title = titleElement.text().replace(/\*$/, '');
+    const $content = dom('#main_content');
+    const $seriesMetadataColumnA = $content.find('.sContainer[text]');
+    const $seriesMetadataColumnB = $content.find('.sContainer + .sContainer');
 
-    const updatedAtElement = content
-      .find('td.text.pad[bgcolor]:nth-child(1)')
-      .first();
+    const title = $content.find('.releasestitle.tabletitle').text();
+    const coverImageUrl = $seriesMetadataColumnB
+      .find('center img[width][height]')
+      .attr('src');
+
+    const $updatedAt = $seriesMetadataColumnA.find('.sContent').last();
     const updatedAt = moment
-      .tz(updatedAtElement.text(), 'MM/DD/YY', 'America/Los_Angeles')
+      .tz($updatedAt.text(), 'MMMM Do YYYY, h:mma zz', 'America/Los_Angeles')
       .unix();
 
-    return { slug: seriesSlug, url, title, updatedAt };
+    return { slug: seriesSlug, coverImageUrl, url, title, updatedAt };
   },
 
   async getChapter() {

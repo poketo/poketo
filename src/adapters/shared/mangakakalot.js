@@ -115,12 +115,18 @@ export default function makeMangakakalotAdapter({
         new errors.NotFoundError(url),
       );
 
-      const title = dom('h1', 'ul.manga-info-text')
+      const $infoSection = dom('ul.manga-info-text');
+      const $chapterRows = dom('.row', '.chapter-list');
+
+      const title = $infoSection
+        .find('h1')
         .first()
         .text()
         .trim();
+      const coverImageUrl = dom('img', 'div.manga-info-pic').attr('src');
 
-      const updatedAtRawText = dom('li', 'ul.manga-info-text')
+      const updatedAtRawText = $infoSection
+        .find('li')
         .eq(3)
         .text()
         .trim();
@@ -132,34 +138,32 @@ export default function makeMangakakalotAdapter({
       );
       const updatedAt = updatedAtTimestamp.unix();
 
-      const chapterRawData = dom('.row', '.chapter-list')
-        .get()
-        .map(el => {
-          const link = dom('a', el);
-          const linkText = link.text().trim();
+      const chapterRawData = $chapterRows.get().map(el => {
+        const link = dom('a', el);
+        const linkText = link.text().trim();
 
-          const title = linkText.split(' : ')[1];
-          const chapterNumber = extractChapterNumber(linkText);
-          // NOTE: no formal concept of volumes on Mangakakalot
-          const href = link.attr('href');
-          const slug = href.split('/').pop();
-          const url = this.constructUrl(seriesSlug, slug);
+        const title = linkText.split(' : ')[1];
+        const chapterNumber = extractChapterNumber(linkText);
+        // NOTE: no formal concept of volumes on Mangakakalot
+        const href = link.attr('href');
+        const slug = href.split('/').pop();
+        const url = this.constructUrl(seriesSlug, slug);
 
-          let createdAtText = normalizeTimestampFormat(
-            dom('span', el)
-              .eq(2)
-              .text()
-              .trim(),
-          );
+        let createdAtText = normalizeTimestampFormat(
+          dom('span', el)
+            .eq(2)
+            .text()
+            .trim(),
+        );
 
-          return {
-            slug,
-            title,
-            url,
-            chapterNumber,
-            createdAtText,
-          };
-        });
+        return {
+          slug,
+          title,
+          url,
+          chapterNumber,
+          createdAtText,
+        };
+      });
 
       // NOTE: since Mangakakalot doesn't give the year with a chapter timestamp,
       // we assume the most recent chapter matches the updatedAt timestamp for the
@@ -168,7 +172,7 @@ export default function makeMangakakalotAdapter({
 
       let lastUpdatedYear = updatedAtTimestamp.year();
 
-      const chapters: Array<ChapterMetadata> = chapterRawData.map(
+      const chapters: ChapterMetadata[] = chapterRawData.map(
         (chapterData, i, arr) => {
           const prev = arr[i - 1];
           const { createdAtText, ...rest } = chapterData;
@@ -194,7 +198,14 @@ export default function makeMangakakalotAdapter({
         },
       );
 
-      return { slug: seriesSlug, url, title, chapters, updatedAt };
+      return {
+        slug: seriesSlug,
+        coverImageUrl,
+        url,
+        title,
+        chapters,
+        updatedAt,
+      };
     },
 
     async getChapter(seriesSlug, chapterSlug) {

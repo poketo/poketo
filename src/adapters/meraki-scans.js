@@ -66,11 +66,13 @@ const MerakiScansAdapter: SiteAdapter = {
     );
     const xml = cheerio.load(rss, { xmlMode: true });
 
-    const rssTitle = xml('image > title', 'channel');
-    const rssChapters = xml('item', 'channel');
+    const $rssMetadata = xml('image', 'channel');
+    const $rssTitle = $rssMetadata.find('title');
+    const $rssImage = $rssMetadata.find('url');
+    const $rssChapters = xml('item', 'channel');
 
     const titleMatches = /^Recent chapters of (.*?) manga$/.exec(
-      rssTitle.text().trim(),
+      $rssTitle.text().trim(),
     );
     const title = titleMatches === null ? null : titleMatches[1];
 
@@ -79,7 +81,11 @@ const MerakiScansAdapter: SiteAdapter = {
     // the title, chances are it was a 404.
     invariant(title, new errors.NotFoundError(seriesUrl));
 
-    const chapters: Array<ChapterMetadata> = rssChapters.get().map(el => {
+    // NOTE: Meraki's RSS returns a 32px wide image by default. We replace the
+    // URL with the 200px wide version shown on series pages.
+    const coverImageUrl = $rssImage.text().replace('32x0', '200x0');
+
+    const chapters: Array<ChapterMetadata> = $rssChapters.get().map(el => {
       // NOTE: Meraki returns RSS titles like this "Senryu Girl - 27 - Nanako and Cooking Class"
       // so we split on the divider and look for the last element.
       const title = xml(el)
@@ -105,7 +111,13 @@ const MerakiScansAdapter: SiteAdapter = {
       return { slug, title, chapterNumber, url, createdAt };
     });
 
-    return { slug: seriesSlug, url: seriesUrl, title, chapters };
+    return {
+      slug: seriesSlug,
+      coverImageUrl,
+      url: seriesUrl,
+      title,
+      chapters,
+    };
   },
 
   async getChapter(seriesSlug, chapterSlug) {

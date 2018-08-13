@@ -2,6 +2,7 @@
 
 exports[`MangadexAdapter getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": "/images/manga/13127.large.jpg?1529770840",
   "slug": "13127",
   "title": "Uramikoi, Koi, Uramikoi.",
   "url": "https://mangadex.org/manga/13127",

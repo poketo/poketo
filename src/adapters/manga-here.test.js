@@ -1,7 +1,7 @@
 import site from './manga-here';
 import errors from '../errors';
 
-xdescribe('MangaHereAdapter', () => {
+describe('MangaHereAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like mangahere.cc or .co', () => {
       expect(site.supportsUrl('http://www.mangahere.cc')).toBe(true);

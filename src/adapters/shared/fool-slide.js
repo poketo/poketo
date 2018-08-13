@@ -74,8 +74,9 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
       const jsonUrl = `${normalizedBaseUrl}/api/reader/comic/stub/${seriesSlug}/format/json`;
       const json = await utils.getJSON(jsonUrl);
       const title = json.comic.name.trim();
+      const coverImageUrl = json.comic['thumb_url'] || undefined;
 
-      const chapters: Array<ChapterMetadata> = json.chapters.map(data => {
+      const chapters: ChapterMetadata[] = json.chapters.map(data => {
         const subchapter =
           data.chapter.subchapter === '0' ? null : data.chapter.subchapter;
 
@@ -106,12 +107,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
         };
       });
 
-      return {
-        slug: seriesSlug,
-        url,
-        title,
-        chapters,
-      };
+      return { slug: seriesSlug, coverImageUrl, url, title, chapters };
     },
 
     async getChapter(seriesSlug, chapterSlug) {
@@ -121,7 +117,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
       // parse this blob to get all the URLs.
       const json = utils.extractJSON(/var\s+pages\s+=\s+(.+);/, html);
 
-      const pages: Array<Page> = json.map(image => ({
+      const pages: Page[] = json.map(image => ({
         id: image.id,
         width: Number(image.width),
         height: Number(image.height),

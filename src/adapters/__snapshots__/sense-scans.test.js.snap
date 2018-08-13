@@ -2,6 +2,7 @@
 
 exports[`SenseScansAdapter getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": "http://sensescans.com/reader/content/comics/kingdom_5736e592da0a7/thumb_kingdom.png",
   "slug": "kingdom",
   "title": "Kingdom",
   "url": "https://sensescans.com/reader/series/kingdom",

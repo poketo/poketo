@@ -2,6 +2,7 @@
 
 exports[`MangaUpdatesAdapter getSeries returns a metadata object 1`] = `
 Object {
+  "coverImageUrl": "https://www.mangaupdates.com/image/i276561.jpg",
   "slug": "111976",
   "title": "Urami Koi, Koi, Urami Koi.",
   "updatedAt": Any<Number>,
