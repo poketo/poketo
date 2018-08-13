@@ -6,7 +6,7 @@ Object {
   "slug": "urami_koi_koi_urami_koi",
   "title": "Urami Koi, Koi, Urami Koi.",
   "updatedAt": Any<Number>,
-  "url": "http://mangakakalot.com/manga/urami_koi_koi_urami_koi",
+  "url": "http://localhost:57171/manga/urami_koi_koi_urami_koi",
 }
 `;
 
@@ -17,7 +17,7 @@ Array [
     "createdAt": 1514196540,
     "slug": "chapter_38",
     "title": undefined,
-    "url": "http://mangakakalot.com/chapter/urami_koi_koi_urami_koi/chapter_38",
+    "url": "http://localhost:57171/chapter/urami_koi_koi_urami_koi/chapter_38",
   },
 ]
 `;
