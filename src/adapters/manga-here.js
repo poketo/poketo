@@ -116,7 +116,11 @@ const MangaHereAdapter: SiteAdapter = {
   },
 
   constructUrl(seriesSlug, chapterSlug) {
-    invariant(seriesSlug, new TypeError('Series slug must be non-null'));
+    invariant(
+      typeof seriesSlug === 'string',
+      new TypeError(`'seriesSlug' must be a string, not ${typeof seriesSlug}`),
+    );
+
     return utils.normalizeUrl(
       `${this._getHost()}/manga/${seriesSlug}/${chapterSlug || ''}`,
     );

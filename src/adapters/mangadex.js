@@ -53,7 +53,9 @@ const MangadexAdapter: SiteAdapter = {
 
     invariant(
       slug,
-      new TypeError('Either series or chapter slug must be non-null'),
+      new TypeError(
+        `Either 'seriesSlug' or 'chapterSlug' must be a string, not ${typeof seriesSlug} and ${typeof chapterSlug}`,
+      ),
     );
 
     return utils.normalizeUrl(`${this._getHost()}/${type}/${slug}`);
