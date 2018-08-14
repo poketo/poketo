@@ -3,7 +3,7 @@ node_js:
 - node
 notifications:
   email: false
-script: yarn test:ci --ci --coverage --coverageReporters=text-lcov | ./node_modules/.bin/coveralls && rm -rf ./coverage
+script: yarn test --ci --coverage --coverageReporters=text-lcov | ./node_modules/.bin/coveralls && rm -rf ./coverage
 cache: yarn
 deploy:
   provider: npm
