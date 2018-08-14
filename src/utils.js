@@ -1,12 +1,11 @@
 // @flow
 
-import got from 'got';
-import cheerio from 'cheerio';
 import normalize from 'normalize-url';
 import pathMatch from 'path-match';
 import probe from 'probe-image-size';
 import { URL, type URLSearchParams } from 'url';
 
+import get from './get';
 import type { ChapterMetadata, PageDimensions } from './types';
 
 const timeout = 5 * 1000;
@@ -121,13 +120,13 @@ export default {
     [site, series, chapter].filter(Boolean).join(':'),
 
   async getPage(url: string): Promise<string> {
-    const res = await got(url, { timeout });
+    const res = await get(url, { timeout });
     const html = res.body;
     return html;
   },
 
   async getJSON(url: string): Promise<Object> {
-    const res = await got(url, { json: true, timeout });
+    const res = await get(url, { json: true, timeout });
     const json = res.body;
     return json;
   },

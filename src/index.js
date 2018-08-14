@@ -26,10 +26,15 @@ const poketo: any = {
    * Meant for reconstructing URLs from pieces in routes.
    */
   constructUrl(
-    siteId: string,
-    seriesSlug: string,
+    siteId: ?string,
+    seriesSlug: ?string,
     chapterSlug: ?string,
   ): string {
+    invariant(
+      typeof siteId === 'string',
+      new TypeError(`'siteId' must be a string, not ${typeof siteId}`),
+    );
+
     const site = getAdapterBySiteId(siteId);
     return site.constructUrl(seriesSlug, chapterSlug);
   },

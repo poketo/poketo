@@ -10,6 +10,22 @@ describe('poketo', () => {
         'http://merakiscans.com/senryu-girl/5',
       );
     });
+
+    it('throws a TypeError without arguments', () => {
+      expect(() => {
+        poketo.constructUrl();
+      }).toThrow(TypeError);
+    });
+  });
+
+  describe('getSeries', () => {
+    fit('throws for invalid urls', async () => {
+      expect.assertions(1);
+
+      await expect(
+        poketo.getSeries('http://helveticascans.com/r/series/non-existent/'),
+      ).rejects.toThrow(poketo.NotFoundError);
+    });
   });
 
   describe('getChapter', () => {
