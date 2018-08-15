@@ -1,6 +1,7 @@
 # poketo-node
 
 [![Build Status](https://badgen.net/travis/poketo/node)](https://travis-ci.org/poketo/node)
+[![Coverage](https://badgen.net/coveralls/c/github/poketo/node)](https://coveralls.io/github/poketo/node)
 [![npm](https://badgen.now.sh/npm/v/poketo)](https://www.npmjs.com/package/poketo)
 
 Node library for scraping manga aggregator and scanlator sites.
