@@ -26,10 +26,15 @@ const poketo: any = {
    * Meant for reconstructing URLs from pieces in routes.
    */
   constructUrl(
-    siteId: string,
-    seriesSlug: string,
+    siteId: ?string,
+    seriesSlug: ?string,
     chapterSlug: ?string,
   ): string {
+    invariant(
+      typeof siteId === 'string',
+      new TypeError(`'siteId' must be a string, not ${typeof siteId}`),
+    );
+
     const site = getAdapterBySiteId(siteId);
     return site.constructUrl(seriesSlug, chapterSlug);
   },
@@ -42,7 +47,7 @@ const poketo: any = {
     const site = getAdapterByUrl(url);
     const parts = site.parseUrl(url);
 
-    invariant(parts.seriesSlug, new Error('Could not read series slug'));
+    invariant(parts.seriesSlug, new errors.InvalidUrlError(url));
 
     const seriesData = await site.getSeries(parts.seriesSlug);
 
@@ -87,7 +92,7 @@ const poketo: any = {
     // NOTE: we don't check for series slug here since some sites (eg. Mangadex)
     // have chapter-only urls (eg. https://mangadex.org/chapter/123456). Only the
     // chapter url is really required.
-    invariant(parts.chapterSlug, new Error('Could not read chapter slug'));
+    invariant(parts.chapterSlug, new errors.InvalidUrlError(url));
 
     const chapterData = await site.getChapter(
       parts.seriesSlug,
@@ -95,7 +100,7 @@ const poketo: any = {
     );
     const seriesSlug = parts.seriesSlug || chapterData.seriesSlug;
 
-    invariant(seriesSlug, new Error('Could not read series slug'));
+    invariant(seriesSlug, new errors.InvalidUrlError(url));
 
     return {
       id: utils.generateId(site.id, seriesSlug, parts.chapterSlug),

@@ -1,13 +1,17 @@
 // @flow
 
 type ErrorCode =
+  | 'ERROR'
+  | 'HTTP_ERROR'
   | 'INVALID_URL'
+  | 'REQUEST_ERROR'
   | 'UNSUPPORTED_SITE'
-  | 'UNSUPPORTED_SITE_REQUEST'
-  | 'NOT_FOUND';
+  | 'UNSUPPORTED_OPERATION'
+  | 'TIMEOUT';
 
 class PoketoError extends Error {
   code: ErrorCode;
+
   constructor(errorCode: ErrorCode, message: string) {
     super(message);
     Error.captureStackTrace(this, this.constructor);
@@ -18,26 +22,49 @@ class PoketoError extends Error {
 
 class InvalidUrlError extends PoketoError {
   constructor(url: string) {
-    super('INVALID_URL', `Could not parse url '${url}'`);
+    super('INVALID_URL', `Unable to parse '${url}'`);
   }
 }
 
-class NotFoundError extends PoketoError {
+class HTTPError extends PoketoError {
+  statusCode: number;
+  url: string;
+
+  constructor(statusCode: number, message: string, url: string) {
+    super('HTTP_ERROR', message);
+    this.statusCode = statusCode;
+    this.url = url;
+  }
+}
+
+class RequestError extends PoketoError {
   constructor(url: string) {
-    super('NOT_FOUND', `Could not find resource at '${url}'`);
+    super('REQUEST_ERROR', `Failed to make a request to '${url}'`);
+  }
+}
+
+class NotFoundError extends HTTPError {
+  constructor(url: string) {
+    super(404, 'Not Found', url);
+  }
+}
+
+class TimeoutError extends PoketoError {
+  constructor(message: string, url: string) {
+    super('TIMEOUT', message);
   }
 }
 
 class UnsupportedSiteError extends PoketoError {
-  constructor(site: string) {
-    super('UNSUPPORTED_SITE', `Site at '${site}' is not supported`);
+  constructor(url: string) {
+    super('UNSUPPORTED_SITE', `Site at '${url}' is not supported`);
   }
 }
 
-class UnsupportedSiteRequestError extends PoketoError {
+class UnsupportedOperationError extends PoketoError {
   constructor(siteName: string, operationName: string) {
     super(
-      'UNSUPPORTED_SITE_REQUEST',
+      'UNSUPPORTED_OPERATION',
       `${siteName} does not support ${operationName}`,
     );
   }
@@ -45,8 +72,11 @@ class UnsupportedSiteRequestError extends PoketoError {
 
 export default {
   PoketoError,
+  HTTPError,
   InvalidUrlError,
   NotFoundError,
+  RequestError,
+  TimeoutError,
   UnsupportedSiteError,
-  UnsupportedSiteRequestError,
+  UnsupportedOperationError,
 };
