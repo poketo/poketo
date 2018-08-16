@@ -23,7 +23,7 @@ async function get(url: string, opts: RequestOptions) {
       throw new errors.RequestError(url);
     }
 
-    throw err;
+    throw new errors.PoketoError('ERROR', err.message);
   }
 }
 

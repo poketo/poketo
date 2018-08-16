@@ -1,8 +1,9 @@
 // @flow
 
 type ErrorCode =
-  | 'INVALID_URL'
+  | 'ERROR'
   | 'HTTP_ERROR'
+  | 'INVALID_URL'
   | 'REQUEST_ERROR'
   | 'UNSUPPORTED_SITE'
   | 'UNSUPPORTED_OPERATION'
