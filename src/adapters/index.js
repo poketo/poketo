@@ -14,6 +14,7 @@ import MangaStreamAdapter from './manga-stream';
 import MerakiScansAdapter from './meraki-scans';
 import PhoenixSerenadeAdapter from './phoenix-serenade';
 import SenseScansAdapter from './sense-scans';
+import SenMangaAdapter from './sen-manga';
 import SilentSkyScansAdapter from './silent-sky-scans';
 import TukiScansAdapter from './tuki-scans';
 
@@ -32,6 +33,7 @@ const adapters = [
   MerakiScansAdapter,
   PhoenixSerenadeAdapter,
   SenseScansAdapter,
+  SenMangaAdapter,
   SilentSkyScansAdapter,
   TukiScansAdapter,
 ];

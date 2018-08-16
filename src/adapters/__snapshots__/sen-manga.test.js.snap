@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SenMangaAdapter getSeries returns a metadata object 1`] = `
+Object {
+  "coverImageUrl": "",
+  "slug": "Yotsubato!",
+  "title": "",
+  "url": "https://raw.senmanga.com/Yotsubato!",
+}
+`;
+
+exports[`SenMangaAdapter getSeries returns a metadata object 2`] = `Array []`;
