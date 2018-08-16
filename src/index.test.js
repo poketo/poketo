@@ -20,7 +20,7 @@ describe('poketo', () => {
 
   describe('getSeries', () => {
     it('throws for invalid urls', async () => {
-      expect.assertions(2);
+      expect.assertions(1);
 
       await expect(
         poketo.getSeries('http://helveticascans.com/r/series/non-existent/'),
