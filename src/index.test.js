@@ -19,12 +19,16 @@ describe('poketo', () => {
   });
 
   describe('getSeries', () => {
-    fit('throws for invalid urls', async () => {
-      expect.assertions(1);
+    it('throws for invalid urls', async () => {
+      expect.assertions(2);
 
       await expect(
         poketo.getSeries('http://helveticascans.com/r/series/non-existent/'),
       ).rejects.toThrow(poketo.NotFoundError);
+
+      await expect(poketo.getSeries('https://httpstat.us/500')).rejects.toThrow(
+        poketo.Htt,
+      );
     });
   });
 
