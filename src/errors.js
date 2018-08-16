@@ -2,13 +2,15 @@
 
 type ErrorCode =
   | 'INVALID_URL'
+  | 'HTTP_ERROR'
+  | 'REQUEST_ERROR'
   | 'UNSUPPORTED_SITE'
-  | 'UNSUPPORTED_SITE_REQUEST'
-  | 'TIMEOUT'
-  | 'HTTP_ERROR';
+  | 'UNSUPPORTED_OPERATION'
+  | 'TIMEOUT';
 
 class PoketoError extends Error {
   code: ErrorCode;
+
   constructor(errorCode: ErrorCode, message: string) {
     super(message);
     Error.captureStackTrace(this, this.constructor);
@@ -19,7 +21,7 @@ class PoketoError extends Error {
 
 class InvalidUrlError extends PoketoError {
   constructor(url: string) {
-    super('INVALID_URL', `Unable to parse url '${url}'`);
+    super('INVALID_URL', `Unable to parse '${url}'`);
   }
 }
 
@@ -31,6 +33,12 @@ class HTTPError extends PoketoError {
     super('HTTP_ERROR', message);
     this.statusCode = statusCode;
     this.url = url;
+  }
+}
+
+class RequestError extends PoketoError {
+  constructor(url: string) {
+    super('REQUEST_ERROR', `Failed to make a request to '${url}'`);
   }
 }
 
@@ -47,15 +55,15 @@ class TimeoutError extends PoketoError {
 }
 
 class UnsupportedSiteError extends PoketoError {
-  constructor(site: string) {
-    super('UNSUPPORTED_SITE', `Site at '${site}' is not supported`);
+  constructor(url: string) {
+    super('UNSUPPORTED_SITE', `Site at '${url}' is not supported`);
   }
 }
 
-class UnsupportedSiteRequestError extends PoketoError {
+class UnsupportedOperationError extends PoketoError {
   constructor(siteName: string, operationName: string) {
     super(
-      'UNSUPPORTED_SITE_REQUEST',
+      'UNSUPPORTED_OPERATION',
       `${siteName} does not support ${operationName}`,
     );
   }
@@ -66,7 +74,8 @@ export default {
   HTTPError,
   InvalidUrlError,
   NotFoundError,
+  RequestError,
   TimeoutError,
   UnsupportedSiteError,
-  UnsupportedSiteRequestError,
+  UnsupportedOperationError,
 };
