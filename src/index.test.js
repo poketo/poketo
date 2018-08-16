@@ -25,10 +25,6 @@ describe('poketo', () => {
       await expect(
         poketo.getSeries('http://helveticascans.com/r/series/non-existent/'),
       ).rejects.toThrow(poketo.NotFoundError);
-
-      await expect(poketo.getSeries('https://httpstat.us/500')).rejects.toThrow(
-        poketo.Htt,
-      );
     });
   });
 
