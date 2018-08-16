@@ -72,10 +72,7 @@ const MangaUpdatesAdapter: SiteAdapter = {
   },
 
   async getChapter() {
-    throw new errors.UnsupportedOperationError(
-      this.name,
-      'fetching chapters',
-    );
+    throw new errors.UnsupportedOperationError(this.name, 'fetching chapters');
   },
 };
 
