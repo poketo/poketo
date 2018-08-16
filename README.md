@@ -27,13 +27,15 @@ You can also use [api.poketo.app](https://api.poketo.app), a hosted micro-servic
 ```js
 import poketo from 'poketo';
 
-const series = await poketo.getSeries('http://merakiscans.com/senryu-girl/');
-const chapter = await poketo.getChapter('http://merakiscans.com/senryu-girl/5/');
+poketo.getSeries('http://merakiscans.com/senryu-girl/').then(series => {
+  console.log(series);
+  // { id: 'meraki-scans:senryu-girl', title: 'Senryu Girl', chapters: [...], ... }
+});
 
-console.log(series);
-// { id: 'meraki-scans:senryu-girl', title: 'Senryu Girl', chapters: [...], ... }
-console.log(chapter);
-// { id: 'meraki-scans:senryu-girl:5', pages: [...], ... }
+poketo.getChapter('http://merakiscans.com/senryu-girl/5/').then(chapter => {
+  console.log(chapter);
+  // { id: 'meraki-scans:senryu-girl:5', pages: [...], ... }
+});
 ```
 
 ## Supported Sites
@@ -66,8 +68,9 @@ If there's a site or group you'd like to see supported, [make an issue!](https:/
 Get metadata about a series, including for individual chapters (but not pages within those chapters).
 
 ```js
-const series = await poketo.getSeries('http://merakiscans.com/senryu-girl');
-console.log(series);
+poketo.getSeries('http://merakiscans.com/senryu-girl').then(series => {
+  console.log(series);
+});
 
 // {
 //   id: 'meraki-scans:senryu-girl',
@@ -92,8 +95,10 @@ console.log(series);
 Get page data for a given chapter. Unlike `poketo.getSeries`, this method does not include much metadata.
 
 ```js
-const chapter = await poketo.getChapter('http://merakiscans.com/senryu-girl/5');
-console.log(chapter);
+poketo.getChapter('http://merakiscans.com/senryu-girl/5').then(chapter => {
+  console.log(chapter);
+});
+
 // {
 //  id: 'meraki-scans:senryu-girl:1',
 //  slug: '1',
@@ -108,7 +113,7 @@ console.log(chapter);
 
 #### `poketo.constructUrl(siteId: string, seriesSlug: ?string, chapterSlug: ?string): string`
 
-Returns a site URL from the pieces passed in. Used to convert between IDs (eg. `meraki-scans:senryu-girl:5`) and URLs (`http://merakiscans.com/senryu-girl/5`). Find a full list of site IDs from the [adapter folder](https://github.com/poketo/node/tree/master/src/adapters)
+Returns a site URL from the pieces passed in. Used to convert between IDs (eg. `meraki-scans:senryu-girl:5`) and URLs (`http://merakiscans.com/senryu-girl/5`). Find a full list of site IDs from the [adapter folder](https://github.com/poketo/node/tree/master/src/adapters).
 
 ```js
 const url = poketo.constructUrl('meraki-scans', 'senryu-girl', '5');
