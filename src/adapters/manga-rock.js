@@ -126,13 +126,10 @@ const MangaRockAdapter: SiteAdapter = {
  */
 const getPage = async (url: string) => {
   const decodedUrl = `https://mri-image-decoder.now.sh/?url=${url}`;
-  const { width, height } = await utils.getImageSize(decodedUrl);
 
   return {
     id: url.split('/').pop(),
     url: decodedUrl,
-    width,
-    height,
   };
 };
 

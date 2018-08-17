@@ -3,22 +3,12 @@
 import { HTTPError } from 'got/errors';
 import cheerio from 'cheerio';
 import moment from 'moment-timezone';
-import pmap from 'p-map';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
 
 import type { SiteAdapter, ChapterMetadata } from '../types';
 
 const TZ = 'UTC';
-
-function getPage(url, i) {
-  return utils.getImageSize(url).then(({ width, height }) => ({
-    id: i,
-    url,
-    width,
-    height,
-  }));
-}
 
 // Series URLs
 // http://merakiscans.com/senryu-girl/
@@ -132,7 +122,7 @@ const MerakiScansAdapter: SiteAdapter = {
     const imageUrls = dom('img', '#longWrap')
       .get()
       .map(el => dom(el).attr('src'));
-    const pages = await pmap(imageUrls, getPage, { concurrency: 3 });
+    const pages = imageUrls.map((url, i) => ({ id: i, url }));
 
     return { slug: chapterSlug, url, pages };
   },

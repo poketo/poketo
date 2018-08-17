@@ -30,8 +30,7 @@
     "moment-timezone": "^0.5.14",
     "p-map": "^1.2.0",
     "p-throttle": "^1.1.0",
-    "path-match": "^1.2.4",
-    "probe-image-size": "^4.0.0"
+    "path-match": "^1.2.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

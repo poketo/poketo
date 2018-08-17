@@ -2,7 +2,6 @@
 
 import normalize from 'normalize-url';
 import pathMatch from 'path-match';
-import probe from 'probe-image-size';
 import { URL, type URLSearchParams } from 'url';
 
 import get from './get';
@@ -129,22 +128,6 @@ export default {
     const res = await get(url, { json: true, timeout, ...opts });
     const json = res.body;
     return json;
-  },
-
-  async getImageSize(
-    url: string,
-    options: ?Object,
-  ): Promise<{ width: ?number, height: ?number }> {
-    let width;
-    let height;
-
-    try {
-      const size = await probe(url, options);
-      width = size.width;
-      height = size.height;
-    } catch (err) {}
-
-    return { width, height };
   },
 };
 
