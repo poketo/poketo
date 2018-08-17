@@ -6,12 +6,7 @@ import cookie from 'cookie';
 import get from '../get';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-
 import type { ChapterMetadata, SiteAdapter } from '../types';
-
-// https://raw.senmanga.com/Yotsubato!
-// https://raw.senmanga.com/Yotsubato!/82/1
-// Add the "viewer = 1" cookie to get all the pages
 
 const SESSION_ID_KEY = 'PHPSESSID';
 
