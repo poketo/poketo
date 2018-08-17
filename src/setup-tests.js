@@ -1,11 +1,6 @@
 import http from 'http';
 import yakbak from 'yakbak';
 
-jest.mock('probe-image-size', () => () => ({
-  width: 700,
-  height: 1200,
-}));
-
 class AdapterVcrServer {
   constructor(adapter) {
     this.adapter = adapter;

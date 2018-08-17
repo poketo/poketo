@@ -3,7 +3,6 @@
 import moment from 'moment-timezone';
 import throttle from 'p-throttle';
 import errors from '../errors';
-import pmap from 'p-map';
 import utils, { invariant } from '../utils';
 import type { Chapter, ChapterMetadata, SiteAdapter } from '../types';
 
@@ -113,24 +112,13 @@ const MangadexAdapter: SiteAdapter = {
       : `${json.server}${json.hash}`;
     const pagePaths = json.page_array;
 
-    const pages = await pmap(pagePaths, getPage(basename), { concurrency: 5 });
+    const pages = pagePaths.map(path => {
+      const url = `${basename}/${path}`;
+      return { id: path, url };
+    });
 
     return { slug: chapterSlug, url, seriesSlug, pages };
   },
-};
-
-const getPage = basename => async path => {
-  const url = `${basename}/${path}`;
-  let width;
-  let height;
-
-  try {
-    const size = await utils.getImageSize(url, { timeout: 5000 });
-    width = size.width;
-    height = size.height;
-  } catch (err) {}
-
-  return { id: path, url, width, height };
 };
 
 /**

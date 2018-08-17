@@ -44,13 +44,9 @@ const getPageFromHtml = async html => {
   const src = dom('img#manga-page').attr('src');
   const normalizedSrc = src.startsWith('//') ? `https:${src}` : src;
 
-  const { width, height } = await utils.getImageSize(normalizedSrc);
-
   return {
     id: normalizedSrc.split('/').pop(),
     url: normalizedSrc,
-    width,
-    height,
   };
 };
 
