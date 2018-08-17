@@ -4,11 +4,12 @@ import got from 'got';
 import errors from './errors';
 
 type RequestOptions = {
+  headers?: Object,
   json?: boolean,
   timeout?: number,
 };
 
-async function get(url: string, opts: RequestOptions) {
+async function get(url: string, opts?: RequestOptions) {
   try {
     return await got(url, opts);
   } catch (err) {

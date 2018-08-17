@@ -56,6 +56,7 @@ poketo.getChapter('http://merakiscans.com/senryu-girl/5/').then(chapter => {
 | [Meraki Scans](http://merakiscans.com)              | ✓           | ✓              |
 | [Phoenix Serenade](https://serenade.moe)            | ✓           | ✓              |
 | [Sense Scans](https://sensescans.com)               | ✓           | ✓              |
+| [Sen Manga](https://raw.senmanga.com)               | ✓           | ✓              |
 | [Silent Sky Scans](http://www.silentsky-scans.net)  | ✓           | ✓              |
 | [Tuki Scans](https://tukimoop.pw)                   | ✓           | ✓              |
 

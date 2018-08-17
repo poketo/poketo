@@ -119,14 +119,14 @@ export default {
   generateId: (site: string, series: string, chapter: ?string) =>
     [site, series, chapter].filter(Boolean).join(':'),
 
-  async getPage(url: string): Promise<string> {
-    const res = await get(url, { timeout });
+  async getPage(url: string, opts?: Object): Promise<string> {
+    const res = await get(url, { timeout, ...opts });
     const html = res.body;
     return html;
   },
 
-  async getJSON(url: string): Promise<Object> {
-    const res = await get(url, { json: true, timeout });
+  async getJSON(url: string, opts?: Object): Promise<Object> {
+    const res = await get(url, { json: true, timeout, ...opts });
     const json = res.body;
     return json;
   },
