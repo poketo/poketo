@@ -16,6 +16,7 @@ const supportedDomains = [
   'readms.net',
   'merakiscans.com',
   'reader.serenade.moe',
+  'raw.senmanga.com',
   'sensescans.com/reader',
   'reader.silentsky-scans.net',
   'reader.tukimoop.pw',
