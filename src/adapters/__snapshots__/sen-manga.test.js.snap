@@ -195,13 +195,11 @@ Object {
 `;
 
 exports[`SenMangaAdapter getSeries returns a metadata object 2`] = `
-Array [
-  Object {
-    "chapterNumber": "82",
-    "createdAt": 1388563200,
-    "slug": "82",
-    "title": undefined,
-    "url": "http://localhost:57172/Yotsubato!/82",
-  },
-]
+Object {
+  "chapterNumber": "82",
+  "createdAt": Any<Number>,
+  "slug": "82",
+  "title": undefined,
+  "url": "http://localhost:57172/Yotsubato!/82",
+}
 `;

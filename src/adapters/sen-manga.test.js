@@ -22,7 +22,9 @@ describe('SenMangaAdapter', () => {
       const chaptersToTest = chapters.filter(chapter =>
         chapterNumbersToTest.includes(chapter.chapterNumber),
       );
-      expect(chaptersToTest).toMatchSnapshot();
+      expect(chaptersToTest[0]).toMatchSnapshot({
+        createdAt: expect.any(Number),
+      });
     });
   });
 
