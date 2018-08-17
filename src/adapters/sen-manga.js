@@ -140,7 +140,7 @@ const SenMangaAdapter: SiteAdapter = {
       proxyImageUrl(imageUrl, sessionId, url),
     );
 
-    const pages = proxiedImageUrls.map(url => ({ url }));
+    const pages = proxiedImageUrls.map(url => ({ id: url, url }));
 
     return { slug: chapterSlug, url, pages };
   },
