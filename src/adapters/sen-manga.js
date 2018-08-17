@@ -128,6 +128,9 @@ const SenMangaAdapter: SiteAdapter = {
     const sessionId = cookie.parse(sessionCookie)[SESSION_ID_KEY];
 
     const html = response.body;
+
+    invariant(html.indexOf('404 Error') === -1, new errors.NotFoundError(url));
+
     const dom = cheerio.load(html);
 
     const $script = dom('#reader > script');

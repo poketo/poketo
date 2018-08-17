@@ -1,4 +1,5 @@
 import site from './sen-manga';
+import errors from '../errors';
 
 describe('SenMangaAdapter', () => {
   const server = new AdapterVcrServer(site);
@@ -30,6 +31,14 @@ describe('SenMangaAdapter', () => {
       const chapter = await site.getChapter('Yotsubato!', '82');
 
       expect(chapter.pages).toMatchSnapshot();
+    });
+
+    it('throws when not found', async () => {
+      expect.assertions(1);
+
+      await expect(site.getChapter('Yotsubato!', '21')).rejects.toThrow(
+        errors.NotFoundError,
+      );
     });
   });
 });
