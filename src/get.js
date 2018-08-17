@@ -18,9 +18,10 @@ async function get(url: string, opts?: RequestOptions) {
         throw new errors.NotFoundError(url);
       }
       throw new errors.HTTPError(err.statusCode, err.statusMessage, url);
-    } else if (err instanceof got.TimeoutError) {
-      throw new errors.TimeoutError(err.message, url);
     } else if (err instanceof got.RequestError) {
+      if (err.code === 'ETIMEDOUT') {
+        throw new errors.TimeoutError(err.message, url);
+      }
       throw new errors.RequestError(url);
     }
 
