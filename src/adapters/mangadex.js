@@ -71,10 +71,12 @@ const MangadexAdapter: SiteAdapter = {
     );
 
     const title = json.manga['title'];
-    // NOTE: we swap out the URL to get a "large" thumbnail-sized version.
+    // We swap out the URL to get a "large" thumbnail-sized version.
     const coverImageUrl = json.manga['cover_url'].replace('.jpg', '.large.jpg');
 
-    const chapterIds = Object.keys(json.chapter);
+    // If the chapter object doesn't exist, the series doesn't have any chapters
+    // available to read.
+    const chapterIds = json.chapter ? Object.keys(json.chapter) : [];
     const chapterData = chapterIds.map(id => {
       const chapter = json.chapter[id];
 
@@ -104,7 +106,7 @@ const MangadexAdapter: SiteAdapter = {
       `${this._getHost()}/api/chapter/${chapterSlug}`,
     );
 
-    // NOTE: we get seriesSlug here since we don't have it from the URL, but
+    // We get seriesSlug here since we don't have it from the URL, but
     // it's still needed to generate chapter IDs.
     const seriesSlug = json.manga_id;
     const basename = json.server.startsWith('/data')

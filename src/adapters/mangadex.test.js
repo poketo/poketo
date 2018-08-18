@@ -77,6 +77,14 @@ describe('MangadexAdapter', () => {
       expect(a).toEqual(uniq(a));
       expect(b).not.toEqual(uniq(b));
     });
+
+    it('does not error for series with no readable chapters', async () => {
+      const series = await site.getSeries('12545');
+
+      expect(series).toMatchObject({
+        chapters: [],
+      });
+    });
   });
 
   describe('getChapter', () => {
