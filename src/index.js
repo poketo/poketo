@@ -185,4 +185,4 @@ const poketo: any = {
 
 Object.assign(poketo, errors);
 
-export default poketo;
+module.exports = poketo;
