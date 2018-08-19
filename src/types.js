@@ -11,6 +11,12 @@ export type Page = {
   height?: number,
 };
 
+export type IdComponents = {
+  siteId: string,
+  seriesSlug: ?string,
+  chapterSlug: ?string,
+};
+
 type BaseChapter = {
   slug: string,
 };
@@ -46,9 +52,7 @@ export type SiteAdapter = {
   constructUrl: (seriesSlug: ?string, chapterSlug: ?string) => string,
   supportsUrl: (url: string) => boolean,
   supportsReading: () => boolean,
-  parseUrl: (
-    url: string,
-  ) => { seriesSlug: string | null, chapterSlug: string | null },
+  parseUrl: (url: string) => { seriesSlug: ?string, chapterSlug: ?string },
   getSeries: (
     seriesSlug: string,
   ) => Promise<{

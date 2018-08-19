@@ -3,6 +3,7 @@
 type ErrorCode =
   | 'ERROR'
   | 'HTTP_ERROR'
+  | 'INVALID_ID'
   | 'INVALID_URL'
   | 'REQUEST_ERROR'
   | 'UNSUPPORTED_SITE'
@@ -17,6 +18,12 @@ class PoketoError extends Error {
     Error.captureStackTrace(this, this.constructor);
     this.name = this.constructor.name;
     this.code = errorCode;
+  }
+}
+
+class InvalidIdError extends PoketoError {
+  constructor(id: string) {
+    super('INVALID_ID', `'${id}' is not a valid Poketo ID`);
   }
 }
 
@@ -57,7 +64,7 @@ class TimeoutError extends PoketoError {
 
 class UnsupportedSiteError extends PoketoError {
   constructor(url: string) {
-    super('UNSUPPORTED_SITE', `Site at '${url}' is not supported`);
+    super('UNSUPPORTED_SITE', `Site '${url}' is not supported`);
   }
 }
 
@@ -73,6 +80,7 @@ class UnsupportedOperationError extends PoketoError {
 export default {
   PoketoError,
   HTTPError,
+  InvalidIdError,
   InvalidUrlError,
   NotFoundError,
   RequestError,

@@ -1,5 +1,6 @@
 // @flow
 
+import { URLSearchParams } from 'url';
 import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import cookie from 'cookie';

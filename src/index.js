@@ -4,7 +4,53 @@ import adapters from './adapters';
 import errors from './errors';
 import utils, { invariant } from './utils';
 
-import type { Chapter, ChapterMetadata, SiteAdapter, Series } from './types';
+import type {
+  Chapter,
+  ChapterMetadata,
+  IdComponents,
+  SiteAdapter,
+  Series,
+} from './types';
+
+function isUrl(input: string) {
+  return /^https?/.test(input);
+}
+
+function isPoketoId(input: string) {
+  const components = input.split(':');
+  const isValidId = components.length > 1 && components.length < 4;
+  return !isUrl(input) && isValidId;
+}
+
+function isChapter(components: IdComponents) {
+  return (
+    components.chapterSlug !== null && components.chapterSlug !== undefined
+  );
+}
+
+function parseId(id: string): IdComponents {
+  invariant(isPoketoId(id), new errors.InvalidIdError(id));
+
+  const components = id.split(':');
+
+  const [siteId, seriesSlug, chapterSlug] = components;
+  const isValidSiteId = adapters.map(adapter => adapter.id).includes(siteId);
+
+  invariant(isValidSiteId, new errors.UnsupportedSiteError(siteId));
+
+  return { siteId, seriesSlug, chapterSlug };
+}
+
+function getComponentsFromIdOrUrl(idOrUrl: string): IdComponents {
+  if (isUrl(idOrUrl)) {
+    const site = getAdapterByUrl(idOrUrl);
+    return { siteId: site.id, ...site.parseUrl(idOrUrl) };
+  } else if (isPoketoId(idOrUrl)) {
+    return parseId(idOrUrl);
+  }
+
+  throw new poketo.InvalidIdError(idOrUrl);
+}
 
 function getAdapterByUrl(url: string): SiteAdapter {
   const adapter = adapters.find(adapter => adapter.supportsUrl(url));
@@ -25,31 +71,49 @@ const poketo: any = {
    *
    * Meant for reconstructing URLs from pieces in routes.
    */
-  constructUrl(
-    siteId: ?string,
-    seriesSlug: ?string,
-    chapterSlug: ?string,
-  ): string {
+  constructUrl(id: ?mixed): string {
     invariant(
-      typeof siteId === 'string',
-      new TypeError(`'siteId' must be a string, not ${typeof siteId}`),
+      typeof id === 'string',
+      new TypeError(`'constructUrl' must be passed a string, not ${typeof id}`),
     );
 
-    const site = getAdapterBySiteId(siteId);
-    return site.constructUrl(seriesSlug, chapterSlug);
+    const components = parseId(id);
+
+    const site = getAdapterBySiteId(components.siteId);
+    return site.constructUrl(components.seriesSlug, components.chapterSlug);
+  },
+
+  getType(input: ?mixed): 'series' | 'chapter' {
+    invariant(
+      typeof input === 'string',
+      new TypeError(`'getType' must be passed a string, not ${typeof input}`),
+    );
+
+    const components = getComponentsFromIdOrUrl(input);
+
+    return isChapter(components) ? 'chapter' : 'series';
   },
 
   /**
    * Returns a `Series` object with details about a manga series at the given
    * URL. If the URL is not supported, an error will be thrown.
    */
-  async getSeries(url: string): Promise<Series> {
-    const site = getAdapterByUrl(url);
-    const parts = site.parseUrl(url);
+  async getSeries(input: mixed): Promise<Series> {
+    invariant(
+      typeof input === 'string',
+      new TypeError(`'getSeries' expects a string, not ${typeof input}`),
+    );
 
-    invariant(parts.seriesSlug, new errors.InvalidUrlError(url));
+    const components = getComponentsFromIdOrUrl(input);
+    const site = getAdapterBySiteId(components.siteId);
 
-    const seriesData = await site.getSeries(parts.seriesSlug);
+    const ErrorType = isUrl(input)
+      ? errors.InvalidUrlError
+      : errors.InvalidIdError;
+
+    invariant(components.seriesSlug, new ErrorType(input));
+
+    const seriesData = await site.getSeries(components.seriesSlug);
 
     const series: any = {
       id: utils.generateId(site.id, seriesData.slug),
@@ -85,25 +149,34 @@ const poketo: any = {
    * Returns a `Chapter` object with details about a single chapter of a manga
    * series from a given URL. If the URL is not supported, an error will be thrown.
    */
-  async getChapter(url: string): Promise<Chapter> {
-    const site = getAdapterByUrl(url);
-    const parts = site.parseUrl(url);
+  async getChapter(input: string): Promise<Chapter> {
+    invariant(
+      typeof input === 'string',
+      new TypeError(`'getChapter' expects a string, not ${typeof input}`),
+    );
+
+    const components = getComponentsFromIdOrUrl(input);
+    const site = getAdapterBySiteId(components.siteId);
+
+    const ErrorType = isUrl(input)
+      ? errors.InvalidUrlError
+      : errors.InvalidIdError;
 
     // NOTE: we don't check for series slug here since some sites (eg. Mangadex)
     // have chapter-only urls (eg. https://mangadex.org/chapter/123456). Only the
     // chapter url is really required.
-    invariant(parts.chapterSlug, new errors.InvalidUrlError(url));
+    invariant(components.chapterSlug, new ErrorType(input));
 
     const chapterData = await site.getChapter(
-      parts.seriesSlug,
-      parts.chapterSlug,
+      components.seriesSlug,
+      components.chapterSlug,
     );
-    const seriesSlug = parts.seriesSlug || chapterData.seriesSlug;
+    const seriesSlug = components.seriesSlug || chapterData.seriesSlug;
 
-    invariant(seriesSlug, new errors.InvalidUrlError(url));
+    invariant(seriesSlug, new ErrorType(input));
 
     return {
-      id: utils.generateId(site.id, seriesSlug, parts.chapterSlug),
+      id: utils.generateId(site.id, seriesSlug, components.chapterSlug),
       url: chapterData.url,
       pages: chapterData.pages,
     };

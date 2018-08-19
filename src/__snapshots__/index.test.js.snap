@@ -487,3 +487,33 @@ Object {
   "url": "https://helveticascans.com/r/read/talentless-nana/en/1/2/page/1",
 }
 `;
+
+exports[`poketo getSeries returns a series with metadata 1`] = `
+Object {
+  "id": "mangadex:13127",
+  "site": Object {
+    "id": "mangadex",
+    "name": "Mangadex",
+  },
+  "slug": "13127",
+  "supportsReading": true,
+  "title": "Uramikoi, Koi, Uramikoi.",
+  "updatedAt": Any<Number>,
+  "url": "https://mangadex.org/manga/13127",
+}
+`;
+
+exports[`poketo getSeries returns a series with metadata 2`] = `
+Object {
+  "id": "mangadex:13127",
+  "site": Object {
+    "id": "mangadex",
+    "name": "Mangadex",
+  },
+  "slug": "13127",
+  "supportsReading": true,
+  "title": "Uramikoi, Koi, Uramikoi.",
+  "updatedAt": Any<Number>,
+  "url": "https://mangadex.org/manga/13127",
+}
+`;
