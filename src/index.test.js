@@ -66,13 +66,22 @@ describe('poketo', () => {
     });
 
     it('throws errors on invalid arguments', () => {
-      expect(() => poketo.getType('hello')).toThrow(poketo.InvalidIdError);
-      expect(() => poketo.getType('google:my-series')).toThrow(
-        poketo.UnsupportedSiteError,
-      );
-      expect(() =>
-        poketo.getType('https://google.com/chapter/420649/1'),
-      ).toThrow(poketo.UnsupportedSiteError);
+      const invalidIds = ['hello', 'h8942nrm23cl;.,/,./23,./'];
+      const unsupportedIds = [
+        'https://google.com/chapter/420649/1',
+        'google:my-series',
+        'example:series:chapter-5',
+      ];
+
+      const getType = input => () => poketo.getType(input);
+
+      invalidIds.forEach(input => {
+        expect(getType(input)).toThrow(poketo.InvalidIdError);
+      });
+
+      unsupportedIds.forEach(input => {
+        expect(getType(input)).toThrow(poketo.UnsupportedSiteError);
+      });
     });
   });
 
