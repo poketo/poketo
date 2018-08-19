@@ -38,7 +38,7 @@ describe('poketo', () => {
     });
   });
 
-  describe('isType', () => {
+  describe('getType', () => {
     it(`returns 'series' for series inputs`, () => {
       const inputs = [
         'https://merakiscans.com/senryu-girl',
@@ -49,7 +49,7 @@ describe('poketo', () => {
         'https://jaiminisbox.com/reader/series/my-hero-academia',
       ];
 
-      inputs.forEach(input => expect(poketo.isType(input)).toEqual('series'));
+      inputs.forEach(input => expect(poketo.getType(input)).toEqual('series'));
     });
 
     it(`returns 'chapter' for chapter inputs`, () => {
@@ -62,26 +62,37 @@ describe('poketo', () => {
         'https://jaiminisbox.com/reader/read/my-hero-academia/en/0/191/page/1',
       ];
 
-      inputs.forEach(input => expect(poketo.isType(input)).toEqual('chapter'));
+      inputs.forEach(input => expect(poketo.getType(input)).toEqual('chapter'));
     });
 
-    it('throws an TypeError on invalid arguments', () => {
-      expect(() => {
-        poketo.isType('hello');
-      }).toThrow(TypeError);
-    });
-
-    it('throws an UnsupportedSiteError on invalid arguments', () => {
-      expect(() => {
-        poketo.isType('google:my-series');
-      }).toThrow(poketo.UnsupportedSiteError);
-      expect(() => {
-        poketo.isType('https://google.com/chapter/420649/1');
-      }).toThrow(poketo.UnsupportedSiteError);
+    it('throws errors on invalid arguments', () => {
+      expect(() => poketo.getType('hello')).toThrow(poketo.InvalidIdError);
+      expect(() => poketo.getType('google:my-series')).toThrow(
+        poketo.UnsupportedSiteError,
+      );
+      expect(() =>
+        poketo.getType('https://google.com/chapter/420649/1'),
+      ).toThrow(poketo.UnsupportedSiteError);
     });
   });
 
   describe('getSeries', () => {
+    it('returns a series with metadata', async () => {
+      expect.assertions(2);
+
+      const { chapters: a, ...metadataFromUrl } = await poketo.getSeries(
+        'https://mangadex.org/manga/13127',
+      );
+      const { chapters: b, ...metadataFromId } = await poketo.getSeries(
+        'mangadex:13127',
+      );
+
+      const updatedWhenever = { updatedAt: expect.any(Number) };
+
+      expect(metadataFromUrl).toMatchSnapshot(updatedWhenever);
+      expect(metadataFromId).toMatchSnapshot(updatedWhenever);
+    });
+
     it('throws for invalid urls', async () => {
       expect.assertions(1);
 
@@ -99,16 +110,14 @@ describe('poketo', () => {
         poketo.getChapter('http://merakiscans.com/senryu-girl/2'),
       ).resolves.toMatchSnapshot();
       await expect(
-        poketo.getChapter(
-          'http://helveticascans.com/r/read/talentless-nana/en/1/2/page/1',
-        ),
+        poketo.getChapter('helvetica-scans:talentless-nana:en/1/2'),
       ).resolves.toMatchSnapshot();
     });
 
     it('throws for invalid urls', async () => {
       expect.assertions(3);
 
-      await expect(poketo.getChapter('banana')).rejects.toThrow(
+      await expect(poketo.getChapter('banana:dawg')).rejects.toThrow(
         poketo.UnsupportedSiteError,
       );
       await expect(poketo.getChapter('http://google.com')).rejects.toThrow(
