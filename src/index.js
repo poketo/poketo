@@ -116,10 +116,8 @@ const poketo: any = {
     const seriesData = await site.getSeries(components.seriesSlug);
 
     const series: any = {
+      ...seriesData,
       id: utils.generateId(site.id, seriesData.slug),
-      slug: seriesData.slug,
-      url: seriesData.url,
-      title: seriesData.title,
       site: {
         id: site.id,
         name: site.name,
@@ -175,11 +173,10 @@ const poketo: any = {
 
     invariant(seriesSlug, new ErrorType(input));
 
-    return {
-      id: utils.generateId(site.id, seriesSlug, components.chapterSlug),
-      url: chapterData.url,
-      pages: chapterData.pages,
-    };
+    const id = utils.generateId(site.id, seriesSlug, components.chapterSlug);
+    const { url, pages } = chapterData;
+
+    return { id, url, pages };
   },
 };
 
