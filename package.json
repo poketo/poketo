@@ -42,7 +42,7 @@
     "coveralls": "^3.0.2",
     "flow-bin": "^0.69.0",
     "jest": "^23.1.0",
-    "prettier": "^1.11.1",
+    "prettier": "^1.14.2",
     "yakbak": "^3.0.0"
   },
   "jest": {
