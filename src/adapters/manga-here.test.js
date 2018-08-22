@@ -1,17 +1,8 @@
+import poketo from '../index';
 import site from './manga-here';
 import errors from '../errors';
 
-xdescribe('MangaHereAdapter', () => {
-  const server = new AdapterVcrServer(site);
-
-  beforeAll(async () => {
-    await server.listenAndMock(57157);
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
+describe('MangaHereAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like mangahere.cc or .co', () => {
       expect(site.supportsUrl('http://www.mangahere.cc')).toBe(true);
@@ -60,11 +51,23 @@ xdescribe('MangaHereAdapter', () => {
       }).toThrow(errors.InvalidUrlError);
     });
   });
+});
+
+xdescribe('MangaHere', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57157);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries(
-        'urami_koi_koi_urami_koi',
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'manga-here:urami_koi_koi_urami_koi',
       );
 
       expect(metadata).toMatchSnapshot();
@@ -77,9 +80,11 @@ xdescribe('MangaHereAdapter', () => {
     });
   });
 
-  xdescribe('getChapter', () => {
+  describe('getChapter', () => {
     it('returns a list of pages', async () => {
-      const chapter = await site.getChapter('urami_koi_koi_urami_koi', 'c038');
+      const chapter = await poketo.getChapter(
+        'manga-here:urami_koi_koi_urami_koi:c038',
+      );
 
       expect(chapter.pages).toHaveLength(27);
       expect(chapter.pages[0]).toEqual(

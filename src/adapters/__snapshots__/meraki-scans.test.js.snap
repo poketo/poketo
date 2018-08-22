@@ -1,19 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MerakiScansAdapter getSeries returns a metadata object 1`] = `
+exports[`MerakiScans getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": "http://merakiscans.com/wp-content/manga/cover/tbn/ninja_200x0.jpg",
+  "id": "meraki-scans:ninja-shinobu-san-no-junjou",
+  "site": Object {
+    "id": "meraki-scans",
+    "name": "Meraki Scans",
+  },
   "slug": "ninja-shinobu-san-no-junjou",
+  "supportsReading": true,
   "title": "Ninja Shinobu-san no Junjou",
+  "updatedAt": 1505688771,
   "url": "http://localhost:57165/ninja-shinobu-san-no-junjou",
 }
 `;
 
-exports[`MerakiScansAdapter getSeries returns a metadata object 2`] = `
+exports[`MerakiScans getSeries returns a metadata object 2`] = `
 Array [
   Object {
     "chapterNumber": "21",
     "createdAt": 1504981521,
+    "id": "meraki-scans:ninja-shinobu-san-no-junjou:21",
     "slug": "21",
     "title": "You are just!",
     "url": "http://localhost:57165/ninja-shinobu-san-no-junjou/21",

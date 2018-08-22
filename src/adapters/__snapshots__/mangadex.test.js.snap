@@ -1,31 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MangadexAdapter getSeries returns a metadata object 1`] = `
+exports[`MangaDex getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": "/images/manga/13127.large.jpg?1529770840",
+  "id": "mangadex:13127",
+  "site": Object {
+    "id": "mangadex",
+    "name": "Mangadex",
+  },
   "slug": "13127",
+  "supportsReading": true,
   "title": "Uramikoi, Koi, Uramikoi.",
+  "updatedAt": 1533009356,
   "url": "http://localhost:57163/manga/13127",
 }
 `;
 
-exports[`MangadexAdapter getSeries returns a metadata object 2`] = `
+exports[`MangaDex getSeries returns a metadata object 2`] = `
 Array [
-  Object {
-    "chapterNumber": "2",
-    "createdAt": 1517704912,
-    "slug": "37060",
-    "title": "A Cornered Rat Will Even Bite a Rat",
-    "url": "http://localhost:57163/chapter/37060",
-    "volumeNumber": "1",
-  },
   Object {
     "chapterNumber": "8",
     "createdAt": 1517705219,
+    "id": "mangadex:13127:37089",
     "slug": "37089",
     "title": "Where the Cat Goes, the Dog will Follow",
     "url": "http://localhost:57163/chapter/37089",
     "volumeNumber": "2",
+  },
+  Object {
+    "chapterNumber": "2",
+    "createdAt": 1517704912,
+    "id": "mangadex:13127:37060",
+    "slug": "37060",
+    "title": "A Cornered Rat Will Even Bite a Rat",
+    "url": "http://localhost:57163/chapter/37060",
+    "volumeNumber": "1",
   },
 ]
 `;

@@ -1,29 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SilentSkyScansAdapter getSeries returns a metadata object 1`] = `
+exports[`SilentSkyScans getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": "http://reader.silentsky-scans.net/content/comics/all_rounder_meguru__51c584cb54c37/thumb_v12.jpg",
+  "id": "silent-sky-scans:all_rounder_meguru_",
+  "site": Object {
+    "id": "silent-sky-scans",
+    "name": "Silent Sky Scans",
+  },
   "slug": "all_rounder_meguru_",
+  "supportsReading": true,
   "title": "All Rounder Meguru",
+  "updatedAt": 1526685460,
   "url": "http://localhost:57169/series/all_rounder_meguru_",
 }
 `;
 
-exports[`SilentSkyScansAdapter getSeries returns a metadata object 2`] = `
+exports[`SilentSkyScans getSeries returns a metadata object 2`] = `
 Array [
-  Object {
-    "chapterNumber": "64",
-    "createdAt": 1371899118,
-    "slug": "en/7/64",
-    "url": "http://localhost:57169/read/all_rounder_meguru_/en/7/64/page/1",
-    "volumeNumber": "7",
-  },
   Object {
     "chapterNumber": "81",
     "createdAt": 1394828845,
+    "id": "silent-sky-scans:all_rounder_meguru_:en/9/81",
     "slug": "en/9/81",
     "url": "http://localhost:57169/read/all_rounder_meguru_/en/9/81/page/1",
     "volumeNumber": "9",
+  },
+  Object {
+    "chapterNumber": "64",
+    "createdAt": 1371899118,
+    "id": "silent-sky-scans:all_rounder_meguru_:en/7/64",
+    "slug": "en/7/64",
+    "url": "http://localhost:57169/read/all_rounder_meguru_/en/7/64/page/1",
+    "volumeNumber": "7",
   },
 ]
 `;

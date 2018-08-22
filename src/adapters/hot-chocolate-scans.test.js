@@ -1,17 +1,8 @@
+import poketo from '../index';
 import site from './hot-chocolate-scans';
 import errors from '../errors';
 
 describe('HotChocolateScansAdapter', () => {
-  const server = new AdapterVcrServer(site);
-
-  beforeAll(async () => {
-    await server.listenAndMock(57155);
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
   describe('supportsUrl', () => {
     it('returns true for urls like hotchocolatescans.com', () => {
       expect(site.supportsUrl('http://hotchocolatescans.com')).toBe(true);
@@ -60,11 +51,23 @@ describe('HotChocolateScansAdapter', () => {
       }).toThrow(errors.InvalidUrlError);
     });
   });
+});
+
+describe('HotChocolateScans', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57155);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries(
-        'watashi_no_shounen',
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'hot-chocolate-scans:watashi_no_shounen',
       );
 
       expect(metadata).toMatchSnapshot();
@@ -79,7 +82,9 @@ describe('HotChocolateScansAdapter', () => {
 
   describe('getChapter', () => {
     it('returns a list of pages', async () => {
-      const chapter = await site.getChapter('watashi_no_shounen', 'en/0/4');
+      const chapter = await poketo.getChapter(
+        'hot-chocolate-scans:watashi_no_shounen:en/0/4',
+      );
 
       expect(chapter.pages).toHaveLength(33);
       expect(chapter.pages).toEqual(

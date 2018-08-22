@@ -1,17 +1,8 @@
+import poketo from '../index';
 import site from './manga-stream';
 import errors from '../errors';
 
 describe('MangaStreamAdapter', () => {
-  const server = new AdapterVcrServer(site);
-
-  beforeAll(async () => {
-    await server.listenAndMock(57160);
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(site.parseUrl('https://readms.net/manga/attack_on_titan')).toEqual(
@@ -47,11 +38,23 @@ describe('MangaStreamAdapter', () => {
       );
     });
   });
+});
+
+describe('MangaStream', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57160);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   describe('getSeries', async () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries(
-        'shokugeki_no_souma',
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'manga-stream:shokugeki_no_souma',
       );
 
       expect(metadata).toMatchSnapshot();
@@ -60,7 +63,9 @@ describe('MangaStreamAdapter', () => {
 
   describe('getChapter', async () => {
     it('returns a list of pages', async () => {
-      const chapter = await site.getChapter('a_trail_of_blood', '15/4622');
+      const chapter = await poketo.getChapter(
+        'manga-stream:a_trail_of_blood:15/4622',
+      );
 
       expect(chapter.pages).toMatchSnapshot();
     });

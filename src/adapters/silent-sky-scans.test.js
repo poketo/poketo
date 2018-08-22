@@ -1,7 +1,8 @@
+import poketo from '../index';
 import site from './silent-sky-scans';
 import errors from '../errors';
 
-describe('SilentSkyScansAdapter', () => {
+describe('SilentSkyScans', () => {
   const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
@@ -14,8 +15,8 @@ describe('SilentSkyScansAdapter', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries(
-        'all_rounder_meguru_',
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'silent-sky-scans:all_rounder_meguru_',
       );
 
       expect(metadata).toMatchSnapshot();

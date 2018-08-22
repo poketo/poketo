@@ -1,17 +1,8 @@
+import poketo from '../index';
 import site from './manga-updates';
 import errors from '../errors';
 
 describe('MangaUpdatesAdapter', () => {
-  const server = new AdapterVcrServer(site);
-
-  beforeAll(async () => {
-    await server.listenAndMock(57161);
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
   describe('supportsUrl', () => {
     it('returns true for urls like mangaupdates.com', () => {
       expect(site.supportsUrl('http://mangaupdates.com')).toBe(true);
@@ -37,10 +28,22 @@ describe('MangaUpdatesAdapter', () => {
       }).toThrow(errors.InvalidUrlError);
     });
   });
+});
+
+describe('MangaUpdates', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57161);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const metadata = await site.getSeries('111976');
+      const metadata = await poketo.getSeries('manga-updates:111976');
 
       expect(metadata).toMatchSnapshot({
         updatedAt: expect.any(Number),
@@ -50,9 +53,9 @@ describe('MangaUpdatesAdapter', () => {
 
   describe('getChapter', () => {
     it('throws an error', async () => {
-      await expect(site.getChapter('111976')).rejects.toThrowError(
-        errors.UnsupportedSiteRequest,
-      );
+      await expect(
+        poketo.getChapter('manga-updates:111976'),
+      ).rejects.toThrowError(errors.UnsupportedSiteRequest);
     });
   });
 });

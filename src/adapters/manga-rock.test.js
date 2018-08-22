@@ -1,17 +1,8 @@
+import poketo from '../index';
 import site from './manga-rock';
 import errors from '../errors';
 
 describe('MangaRockAdapter', () => {
-  const server = new AdapterVcrServer(site);
-
-  beforeAll(async () => {
-    await server.listenAndMock(57159);
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(
@@ -49,10 +40,24 @@ describe('MangaRockAdapter', () => {
       );
     });
   });
+});
+
+describe('MangaRock', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57159);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   describe('getSeries', async () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries('153037');
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'manga-rock:153037',
+      );
 
       expect(metadata).toMatchSnapshot();
     });
@@ -60,7 +65,7 @@ describe('MangaRockAdapter', () => {
 
   describe('getChapter', () => {
     it('returns a list of pages', async () => {
-      const chapter = await site.getChapter('100056453', '100259395');
+      const chapter = await poketo.getChapter('manga-rock:100056453:100259395');
 
       expect(chapter.pages).toMatchSnapshot();
     });

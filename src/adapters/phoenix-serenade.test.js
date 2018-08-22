@@ -1,7 +1,7 @@
+import poketo from '../index';
 import site from './phoenix-serenade';
-import errors from '../errors';
 
-describe('PhoenixSerenadeAdapter', () => {
+describe('PhoenixSerenade', () => {
   const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
@@ -14,8 +14,8 @@ describe('PhoenixSerenadeAdapter', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries(
-        'kusuriya-no-hitorigoto',
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'phoenix-serenade:kusuriya-no-hitorigoto',
       );
 
       expect(metadata).toMatchSnapshot();

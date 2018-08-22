@@ -1,17 +1,8 @@
+import poketo from '../index';
 import site from './mangadex';
 import errors from '../errors';
 
 describe('MangadexAdapter', () => {
-  const server = new AdapterVcrServer(site);
-
-  beforeAll(async () => {
-    await server.listenAndMock(57163);
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
   describe('supportsUrl', () => {
     it('returns true for urls like mangadex.org', () => {
       expect(site.supportsUrl('http://mangadex.org')).toBe(true);
@@ -43,10 +34,24 @@ describe('MangadexAdapter', () => {
       }).toThrow(errors.InvalidUrlError);
     });
   });
+});
+
+describe('MangaDex', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57163);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries('13127');
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'mangadex:13127',
+      );
 
       expect(metadata).toMatchSnapshot();
 
@@ -58,14 +63,16 @@ describe('MangadexAdapter', () => {
     });
 
     it('works for series with multiple pages', async () => {
-      const longSeries = await site.getSeries('5411');
+      const longSeries = await poketo.getSeries('mangadex:5411');
 
       expect(longSeries.chapters.length).toBeGreaterThan(100);
     });
 
     it('only returns the most popular instance of each chapter', async () => {
-      const seriesWithMultipleGroups = await site.getSeries('19729');
-      const seriesWithMultipleVolumes = await site.getSeries('13025');
+      const seriesWithMultipleGroups = await poketo.getSeries('mangadex:19729');
+      const seriesWithMultipleVolumes = await poketo.getSeries(
+        'mangadex:13025',
+      );
 
       const getChapterNumbers = series =>
         series.chapters.map(c => c.chapterNumber);
@@ -79,7 +86,7 @@ describe('MangadexAdapter', () => {
     });
 
     it('does not error for series with no readable chapters', async () => {
-      const series = await site.getSeries('12545');
+      const series = await poketo.getSeries('mangadex:12545');
 
       expect(series).toMatchObject({
         chapters: [],
@@ -89,7 +96,7 @@ describe('MangadexAdapter', () => {
 
   describe('getChapter', () => {
     it('returns a chapter', async () => {
-      const chapter = await site.getChapter(null, '385894');
+      const chapter = await poketo.getChapter('mangadex:19915:385894');
 
       expect(chapter.url).toEqual(`${site._getHost()}/chapter/385894`);
       expect(chapter.pages).toHaveLength(1);

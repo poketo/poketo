@@ -1,7 +1,8 @@
+import poketo from '../index';
 import site from './sense-scans';
 import errors from '../errors';
 
-describe('SenseScansAdapter', () => {
+describe('SenseScans', () => {
   const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
@@ -14,7 +15,9 @@ describe('SenseScansAdapter', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries('kingdom');
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'sense-scans:kingdom',
+      );
 
       expect(metadata).toMatchSnapshot();
 

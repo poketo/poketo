@@ -1,3 +1,4 @@
+import poketo from '../index';
 import site from './tuki-scans';
 import errors from '../errors';
 
@@ -14,7 +15,9 @@ describe('TukiScansAdapter', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries('madoromi-chan');
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'tuki-scans:madoromi-chan',
+      );
 
       expect(metadata).toMatchSnapshot();
 

@@ -3,8 +3,15 @@
 exports[`TukiScansAdapter getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": "https://reader.tukimoop.pw/content/comics/madoromi-chan_5a5435fb56565/thumb_thumb.jpg",
+  "id": "tuki-scans:madoromi-chan",
+  "site": Object {
+    "id": "tuki-scans",
+    "name": "Tuki Scans",
+  },
   "slug": "madoromi-chan",
+  "supportsReading": true,
   "title": "Madoromi-chan ga Iku.",
+  "updatedAt": 1529486808,
   "url": "http://localhost:57170/series/madoromi-chan",
 }
 `;
@@ -14,6 +21,7 @@ Array [
   Object {
     "chapterNumber": "17",
     "createdAt": 1526129849,
+    "id": "tuki-scans:madoromi-chan:en/2/17",
     "slug": "en/2/17",
     "url": "http://localhost:57170/read/madoromi-chan/en/2/17/page/1",
     "volumeNumber": "2",

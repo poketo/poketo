@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MangaStreamAdapter getChapter returns a list of pages 1`] = `
+exports[`MangaStream getChapter returns a list of pages 1`] = `
 Array [
   Object {
     "id": "01.png",
@@ -109,10 +109,17 @@ Array [
 ]
 `;
 
-exports[`MangaStreamAdapter getSeries returns a metadata object 1`] = `
+exports[`MangaStream getSeries returns a metadata object 1`] = `
 Object {
+  "id": "manga-stream:shokugeki_no_souma",
+  "site": Object {
+    "id": "manga-stream",
+    "name": "Manga Stream",
+  },
   "slug": "shokugeki_no_souma",
+  "supportsReading": true,
   "title": "Shokugeki no Souma",
+  "updatedAt": 1533254400,
   "url": "http://localhost:57160/manga/shokugeki_no_souma",
 }
 `;

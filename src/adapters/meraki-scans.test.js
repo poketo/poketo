@@ -1,16 +1,7 @@
+import poketo from '../index';
 import site from './meraki-scans';
 
 describe('MerakiScansAdapter', () => {
-  const server = new AdapterVcrServer(site);
-
-  beforeAll(async () => {
-    await server.listenAndMock(57165);
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
   describe('supportsUrl', () => {
     it('returns true for urls at merakiscans.com', () => {
       expect(site.supportsUrl('http://merakiscans.com')).toBe(true);
@@ -38,11 +29,23 @@ describe('MerakiScansAdapter', () => {
       );
     });
   });
+});
+
+describe('MerakiScans', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57165);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries(
-        'ninja-shinobu-san-no-junjou',
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'meraki-scans:ninja-shinobu-san-no-junjou',
       );
 
       expect(metadata).toMatchSnapshot();
@@ -57,9 +60,8 @@ describe('MerakiScansAdapter', () => {
 
   describe('getChapter', () => {
     it('returns a chapter', async () => {
-      const chapter = await site.getChapter(
-        'ninja-shinobu-san-no-junjou',
-        '32',
+      const chapter = await poketo.getChapter(
+        'meraki-scans:ninja-shinobu-san-no-junjou:32',
       );
 
       expect(chapter.url).toEqual(

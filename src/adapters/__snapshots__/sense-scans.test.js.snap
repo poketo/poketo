@@ -1,28 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SenseScansAdapter getSeries returns a metadata object 1`] = `
+exports[`SenseScans getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": "http://sensescans.com/reader/content/comics/kingdom_5736e592da0a7/thumb_kingdom.png",
+  "id": "sense-scans:kingdom",
+  "site": Object {
+    "id": "sense-scans",
+    "name": "Sense Scans",
+  },
   "slug": "kingdom",
+  "supportsReading": true,
   "title": "Kingdom",
+  "updatedAt": 1533701318,
   "url": "http://localhost:57168/reader/series/kingdom",
 }
 `;
 
-exports[`SenseScansAdapter getSeries returns a metadata object 2`] = `
+exports[`SenseScans getSeries returns a metadata object 2`] = `
 Array [
-  Object {
-    "chapterNumber": "566",
-    "createdAt": 1531948698,
-    "slug": "en/52/566",
-    "url": "http://localhost:57168/reader/read/kingdom/en/52/566/page/1",
-    "volumeNumber": "52",
-  },
   Object {
     "chapterNumber": "568",
     "createdAt": 1533701318,
+    "id": "sense-scans:kingdom:en/52/568",
     "slug": "en/52/568",
     "url": "http://localhost:57168/reader/read/kingdom/en/52/568/page/1",
+    "volumeNumber": "52",
+  },
+  Object {
+    "chapterNumber": "566",
+    "createdAt": 1531948698,
+    "id": "sense-scans:kingdom:en/52/566",
+    "slug": "en/52/566",
+    "url": "http://localhost:57168/reader/read/kingdom/en/52/566/page/1",
     "volumeNumber": "52",
   },
 ]

@@ -1,17 +1,8 @@
+import poketo from '../index';
 import site from './helvetica-scans';
 import errors from '../errors';
 
-describe('HelveticaScans', () => {
-  const server = new AdapterVcrServer(site);
-
-  beforeAll(async () => {
-    await server.listenAndMock(57153);
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
+describe('HelveticaScansAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like helveticascans.com', () => {
       expect(site.supportsUrl('http://helveticascans.com')).toBe(true);
@@ -58,10 +49,24 @@ describe('HelveticaScans', () => {
       }).toThrow(errors.InvalidUrlError);
     });
   });
+});
+
+describe('HelveticaScans', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57153);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries('talentless-nana');
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'helvetica-scans:talentless-nana',
+      );
 
       expect(metadata).toMatchSnapshot();
 
@@ -76,7 +81,9 @@ describe('HelveticaScans', () => {
 
   describe('getChapter', () => {
     it('returns a list of pages', async () => {
-      const chapter = await site.getChapter('talentless-nana', 'en/2/11');
+      const chapter = await poketo.getChapter(
+        'helvetica-scans:talentless-nana:en/2/11',
+      );
 
       expect(chapter.pages).toHaveLength(43);
       expect(chapter.pages).toEqual(

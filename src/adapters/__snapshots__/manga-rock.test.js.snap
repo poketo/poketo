@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MangaRockAdapter getChapter returns a list of pages 1`] = `
+exports[`MangaRock getChapter returns a list of pages 1`] = `
 Array [
   Object {
     "id": "T3.3BZTN7p5.mri",
@@ -9,11 +9,18 @@ Array [
 ]
 `;
 
-exports[`MangaRockAdapter getSeries returns a metadata object 1`] = `
+exports[`MangaRock getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": "https://f01.mrcdn.info/file/mrportal/h/9/4/m/cC.btfAGMrS.jpg",
+  "id": "manga-rock:153037",
+  "site": Object {
+    "id": "manga-rock",
+    "name": "Manga Rock",
+  },
   "slug": "153037",
+  "supportsReading": true,
   "title": "Love So Life",
+  "updatedAt": 1472544772,
   "url": "https://mangarock.com/manga/mrs-serie-153037",
 }
 `;

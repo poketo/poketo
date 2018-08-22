@@ -1,7 +1,8 @@
+import poketo from '../index';
 import site from './sen-manga';
 import errors from '../errors';
 
-describe('SenMangaAdapter', () => {
+describe('SenManga', () => {
   const server = new AdapterVcrServer(site);
 
   beforeAll(async () => {
@@ -14,7 +15,9 @@ describe('SenMangaAdapter', () => {
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
-      const { chapters, ...metadata } = await site.getSeries('Yotsubato!');
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'sen-manga:Yotsubato!',
+      );
 
       expect(metadata).toMatchSnapshot();
 
@@ -30,7 +33,7 @@ describe('SenMangaAdapter', () => {
 
   describe('getChapter', () => {
     it('returns a list of pages', async () => {
-      const chapter = await site.getChapter('Yotsubato!', '82');
+      const chapter = await poketo.getChapter('sen-manga:Yotsubato!:82');
 
       expect(chapter.pages).toMatchSnapshot();
     });
@@ -38,9 +41,9 @@ describe('SenMangaAdapter', () => {
     it('throws when not found', async () => {
       expect.assertions(1);
 
-      await expect(site.getChapter('Yotsubato!', '21')).rejects.toThrow(
-        errors.NotFoundError,
-      );
+      await expect(
+        poketo.getChapter('sen-manga:Yotsubato!:21'),
+      ).rejects.toThrow(errors.NotFoundError);
     });
   });
 });

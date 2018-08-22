@@ -1,17 +1,8 @@
+import poketo from '../index';
 import site from './jaiminis-box';
 import errors from '../errors';
 
 describe('JaiminisBoxAdapter', () => {
-  const server = new AdapterVcrServer(site);
-
-  beforeAll(async () => {
-    await server.listenAndMock(57154);
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
   describe('supportsUrl', () => {
     it('returns true for urls like jaiminisbox.com', () => {
       expect(site.supportsUrl('http://jaiminisbox.com')).toBe(true);
@@ -58,10 +49,24 @@ describe('JaiminisBoxAdapter', () => {
       }).toThrow(errors.InvalidUrlError);
     });
   });
+});
+
+describe('JaiminisBox', () => {
+  const server = new AdapterVcrServer(site);
+
+  beforeAll(async () => {
+    await server.listenAndMock(57154);
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   describe('getSeries', () => {
     it('returns series metadata', async () => {
-      const { chapters, ...metadata } = await site.getSeries('itoshi-no-muco');
+      const { chapters, ...metadata } = await poketo.getSeries(
+        'jaiminis-box:itoshi-no-muco',
+      );
 
       expect(metadata).toMatchSnapshot();
 
@@ -75,7 +80,9 @@ describe('JaiminisBoxAdapter', () => {
 
   describe('getChapter', () => {
     it('returns a list of pages', async () => {
-      const chapter = await site.getChapter('itoshi-no-muco', 'en/0/4');
+      const chapter = await poketo.getChapter(
+        'jaiminis-box:itoshi-no-muco:en/0/4',
+      );
 
       expect(chapter.pages).toHaveLength(8);
       expect(chapter.pages).toEqual(

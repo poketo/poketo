@@ -1,28 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PhoenixSerenadeAdapter getSeries returns a metadata object 1`] = `
+exports[`PhoenixSerenade getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": undefined,
+  "id": "phoenix-serenade:kusuriya-no-hitorigoto",
+  "site": Object {
+    "id": "phoenix-serenade",
+    "name": "Phoenix Serenade",
+  },
   "slug": "kusuriya-no-hitorigoto",
+  "supportsReading": true,
   "title": "Kusuriya no Hitorigoto",
+  "updatedAt": 1526538824,
   "url": "http://localhost:57166/series/kusuriya-no-hitorigoto",
 }
 `;
 
-exports[`PhoenixSerenadeAdapter getSeries returns a metadata object 2`] = `
+exports[`PhoenixSerenade getSeries returns a metadata object 2`] = `
 Array [
-  Object {
-    "chapterNumber": "7",
-    "createdAt": 1513954489,
-    "slug": "en/0/7",
-    "url": "http://localhost:57166/read/kusuriya-no-hitorigoto/en/0/7/page/1",
-    "volumeNumber": "0",
-  },
   Object {
     "chapterNumber": "11",
     "createdAt": 1526538824,
+    "id": "phoenix-serenade:kusuriya-no-hitorigoto:en/0/11",
     "slug": "en/0/11",
     "url": "http://localhost:57166/read/kusuriya-no-hitorigoto/en/0/11/page/1",
+    "volumeNumber": "0",
+  },
+  Object {
+    "chapterNumber": "7",
+    "createdAt": 1513954489,
+    "id": "phoenix-serenade:kusuriya-no-hitorigoto:en/0/7",
+    "slug": "en/0/7",
+    "url": "http://localhost:57166/read/kusuriya-no-hitorigoto/en/0/7/page/1",
     "volumeNumber": "0",
   },
 ]

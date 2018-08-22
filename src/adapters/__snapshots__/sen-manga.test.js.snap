@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SenMangaAdapter getChapter returns a list of pages 1`] = `
+exports[`SenManga getChapter returns a list of pages 1`] = `
 Array [
   Object {
     "id": "https://poketo-image-proxy.now.sh?url=https%3A%2F%2Fraw.senmanga.com%2Fviewer%2FYotsubato%21%2F82%2F1%3Ftoken%3D12norzsrobp2l.130zoyfhm87ff&headers=%7B%22Referer%22%3A%22http%3A%2F%2Flocalhost%3A57172%2FYotsubato%21%2F82%22%2C%22Cookie%22%3A%22PHPSESSID%3Dhb1jn72kbom4ketd0igvujdop5%22%7D",
@@ -185,19 +185,27 @@ Array [
 ]
 `;
 
-exports[`SenMangaAdapter getSeries returns a metadata object 1`] = `
+exports[`SenManga getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": "http://localhost:57172/covers/Yotsubato!.jpg",
+  "id": "sen-manga:Yotsubato!",
+  "site": Object {
+    "id": "sen-manga",
+    "name": "Sen Manga",
+  },
   "slug": "Yotsubato!",
+  "supportsReading": true,
   "title": "Yotsubato!",
+  "updatedAt": 1451635200,
   "url": "http://localhost:57172/Yotsubato!",
 }
 `;
 
-exports[`SenMangaAdapter getSeries returns a metadata object 2`] = `
+exports[`SenManga getSeries returns a metadata object 2`] = `
 Object {
   "chapterNumber": "82",
   "createdAt": Any<Number>,
+  "id": "sen-manga:Yotsubato!:82",
   "slug": "82",
   "title": undefined,
   "url": "http://localhost:57172/Yotsubato!/82",

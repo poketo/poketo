@@ -1,19 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`JaiminisBoxAdapter getSeries returns series metadata 1`] = `
+exports[`JaiminisBox getSeries returns series metadata 1`] = `
 Object {
   "coverImageUrl": "https://i1.wp.com/jaiminisbox.com/reader/content/comics/itoshi-no-muco_586c3e495e85d/thumb_mucothumbnailresized.jpg",
+  "id": "jaiminis-box:itoshi-no-muco",
+  "site": Object {
+    "id": "jaiminis-box",
+    "name": "Jaimini’s Box",
+  },
   "slug": "itoshi-no-muco",
+  "supportsReading": true,
   "title": "Itoshi no Muco",
+  "updatedAt": 1502262000,
   "url": "http://localhost:57154/reader/series/itoshi-no-muco",
 }
 `;
 
-exports[`JaiminisBoxAdapter getSeries returns series metadata 2`] = `
+exports[`JaiminisBox getSeries returns series metadata 2`] = `
 Array [
   Object {
     "chapterNumber": "8",
     "createdAt": 1487750400,
+    "id": "jaiminis-box:itoshi-no-muco:en/0/8",
     "slug": "en/0/8",
     "title": "Friend!",
     "url": "https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/8/",
@@ -22,6 +30,7 @@ Array [
   Object {
     "chapterNumber": "4",
     "createdAt": 1483516800,
+    "id": "jaiminis-box:itoshi-no-muco:en/0/4",
     "slug": "en/0/4",
     "title": "Walk!",
     "url": "https://jaiminisbox.com/reader/read/itoshi-no-muco/en/0/4/",

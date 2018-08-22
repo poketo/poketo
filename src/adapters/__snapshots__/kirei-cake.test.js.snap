@@ -1,19 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`KireiCakeAdapter getSeries returns a metadata object 1`] = `
+exports[`KireiCake getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": undefined,
+  "id": "kirei-cake:masamunekuns_revenge",
+  "site": Object {
+    "id": "kirei-cake",
+    "name": "Kirei Cake",
+  },
   "slug": "masamunekuns_revenge",
+  "supportsReading": true,
   "title": "Masamune-kun's Revenge",
+  "updatedAt": 1530651869,
   "url": "http://localhost:57156/series/masamunekuns_revenge",
 }
 `;
 
-exports[`KireiCakeAdapter getSeries returns a metadata object 2`] = `
+exports[`KireiCake getSeries returns a metadata object 2`] = `
 Array [
   Object {
     "chapterNumber": "47",
     "createdAt": 1525765063,
+    "id": "kirei-cake:masamunekuns_revenge:en/0/47",
     "slug": "en/0/47",
     "url": "http://localhost:57156/read/masamunekuns_revenge/en/0/47/page/1",
     "volumeNumber": "0",

@@ -1,20 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MangakakalotAdapter getSeries returns a metadata object 1`] = `
+exports[`Mangakakalot getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": "http://avatar.mkklcdnv2.com/avatar_manga/3566-urami_koi_koi_urami_koi.jpg",
+  "id": "mangakakalot:urami_koi_koi_urami_koi",
+  "site": Object {
+    "id": "mangakakalot",
+    "name": "Mangakakalot",
+  },
   "slug": "urami_koi_koi_urami_koi",
+  "supportsReading": true,
   "title": "Urami Koi, Koi, Urami Koi.",
   "updatedAt": Any<Number>,
   "url": "http://localhost:57171/manga/urami_koi_koi_urami_koi",
 }
 `;
 
-exports[`MangakakalotAdapter getSeries returns a metadata object 2`] = `
+exports[`Mangakakalot getSeries returns a metadata object 2`] = `
 Array [
   Object {
     "chapterNumber": "38",
     "createdAt": 1514196540,
+    "id": "mangakakalot:urami_koi_koi_urami_koi:chapter_38",
     "slug": "chapter_38",
     "title": undefined,
     "url": "http://localhost:57171/chapter/urami_koi_koi_urami_koi/chapter_38",

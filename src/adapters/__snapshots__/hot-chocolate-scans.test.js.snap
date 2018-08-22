@@ -1,28 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HotChocolateScansAdapter getSeries returns a metadata object 1`] = `
+exports[`HotChocolateScans getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": "http://hotchocolatescans.com/fs/content/comics/watashi_no_shounen_5a68c187815a3/thumb_001.jpg",
+  "id": "hot-chocolate-scans:watashi_no_shounen",
+  "site": Object {
+    "id": "hot-chocolate-scans",
+    "name": "Hot Chocolate Scans",
+  },
   "slug": "watashi_no_shounen",
+  "supportsReading": true,
   "title": "Watashi no Shounen",
+  "updatedAt": 1530723537,
   "url": "http://localhost:57155/fs/series/watashi_no_shounen",
 }
 `;
 
-exports[`HotChocolateScansAdapter getSeries returns a metadata object 2`] = `
+exports[`HotChocolateScans getSeries returns a metadata object 2`] = `
 Array [
-  Object {
-    "chapterNumber": "4",
-    "createdAt": 1516818687,
-    "slug": "en/0/4",
-    "url": "http://localhost:57155/fs/read/watashi_no_shounen/en/0/4/page/1",
-    "volumeNumber": "0",
-  },
   Object {
     "chapterNumber": "8",
     "createdAt": 1518828182,
+    "id": "hot-chocolate-scans:watashi_no_shounen:en/0/8",
     "slug": "en/0/8",
     "url": "http://localhost:57155/fs/read/watashi_no_shounen/en/0/8/page/1",
+    "volumeNumber": "0",
+  },
+  Object {
+    "chapterNumber": "4",
+    "createdAt": 1516818687,
+    "id": "hot-chocolate-scans:watashi_no_shounen:en/0/4",
+    "slug": "en/0/4",
+    "url": "http://localhost:57155/fs/read/watashi_no_shounen/en/0/4/page/1",
     "volumeNumber": "0",
   },
 ]
