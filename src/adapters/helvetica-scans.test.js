@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './helvetica-scans';
-import errors from '../errors';
 
 describe('HelveticaScansAdapter', () => {
   describe('supportsUrl', () => {
@@ -42,11 +41,11 @@ describe('HelveticaScansAdapter', () => {
         site.parseUrl(
           'http://helveticascans.com/r/other/mousou-telepathy/en/2/11/page/1',
         );
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
 
       expect(() => {
         site.parseUrl('http://helveticascans.com/r/');
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
     });
   });
 });

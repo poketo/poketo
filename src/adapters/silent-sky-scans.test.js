@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './silent-sky-scans';
-import errors from '../errors';
 
 describe('SilentSkyScans', () => {
   const server = new AdapterVcrServer(site);

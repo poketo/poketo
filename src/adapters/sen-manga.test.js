@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './sen-manga';
-import errors from '../errors';
 
 describe('SenManga', () => {
   const server = new AdapterVcrServer(site);
@@ -43,7 +42,7 @@ describe('SenManga', () => {
 
       await expect(
         poketo.getChapter('sen-manga:Yotsubato!:21'),
-      ).rejects.toThrow(errors.NotFoundError);
+      ).rejects.toThrow(poketo.NotFoundError);
     });
   });
 });

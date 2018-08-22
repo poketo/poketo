@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './jaiminis-box';
-import errors from '../errors';
 
 describe('JaiminisBoxAdapter', () => {
   describe('supportsUrl', () => {
@@ -42,11 +41,11 @@ describe('JaiminisBoxAdapter', () => {
         site.parseUrl(
           'https://jaiminisbox.com/reader/other/mousou-telepathy/en/2/11/page/1',
         );
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
 
       expect(() => {
         site.parseUrl('https://jaiminisbox.com/reader/');
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
     });
   });
 });

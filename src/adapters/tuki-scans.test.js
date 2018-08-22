@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './tuki-scans';
-import errors from '../errors';
 
 describe('TukiScansAdapter', () => {
   const server = new AdapterVcrServer(site);

@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './sense-scans';
-import errors from '../errors';
 
 describe('SenseScans', () => {
   const server = new AdapterVcrServer(site);

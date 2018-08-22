@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './mangakakalot';
-import errors from '../errors';
 
 describe('MangakakalotAdapter', () => {
   describe('parseUrl', () => {
@@ -22,7 +21,7 @@ describe('MangakakalotAdapter', () => {
     it('throws on unparseable urls', () => {
       expect(() => {
         site.parseUrl('https://www.mangaupdates.com/authors.html?id=462621');
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
     });
   });
 });

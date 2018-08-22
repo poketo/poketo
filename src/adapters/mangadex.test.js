@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './mangadex';
-import errors from '../errors';
 
 describe('MangadexAdapter', () => {
   describe('supportsUrl', () => {
@@ -31,7 +30,7 @@ describe('MangadexAdapter', () => {
     it('throws on unparseable urls', () => {
       expect(() => {
         site.parseUrl('https://mangadex.org/about');
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
     });
   });
 });

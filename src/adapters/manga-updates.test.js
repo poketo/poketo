@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './manga-updates';
-import errors from '../errors';
 
 describe('MangaUpdatesAdapter', () => {
   describe('supportsUrl', () => {
@@ -25,7 +24,7 @@ describe('MangaUpdatesAdapter', () => {
     it('throws on unparseable urls', () => {
       expect(() => {
         site.parseUrl('https://www.mangaupdates.com/authors.html?id=462621');
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
     });
   });
 });
@@ -55,7 +54,7 @@ describe('MangaUpdates', () => {
     it('throws an error', async () => {
       await expect(
         poketo.getChapter('manga-updates:111976'),
-      ).rejects.toThrowError(errors.UnsupportedSiteRequest);
+      ).rejects.toThrowError(poketo.UnsupportedSiteRequest);
     });
   });
 });

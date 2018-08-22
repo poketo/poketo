@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './manga-here';
-import errors from '../errors';
 
 describe('MangaHereAdapter', () => {
   describe('supportsUrl', () => {
@@ -44,11 +43,11 @@ describe('MangaHereAdapter', () => {
     it('throws on unparseable paths', () => {
       expect(() => {
         site.parseUrl('http://www.mangahere.cc/banana');
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
 
       expect(() => {
         site.parseUrl('http://www.mangahere.cc/marnga/hello/world');
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
     });
   });
 });

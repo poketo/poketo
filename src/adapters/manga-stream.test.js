@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './manga-stream';
-import errors from '../errors';
 
 describe('MangaStreamAdapter', () => {
   describe('parseUrl', () => {
@@ -23,7 +22,7 @@ describe('MangaStreamAdapter', () => {
     it('throws on unparseable urls', () => {
       expect(() => {
         site.parseUrl('https://readms.net/about');
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
     });
   });
 

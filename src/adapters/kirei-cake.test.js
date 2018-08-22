@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './kirei-cake';
-import errors from '../errors';
 
 describe('KireiCakeAdapter', () => {
   describe('parseUrl', () => {

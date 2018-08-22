@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './manga-rock';
-import errors from '../errors';
 
 describe('MangaRockAdapter', () => {
   describe('parseUrl', () => {
@@ -25,7 +24,7 @@ describe('MangaRockAdapter', () => {
     it('throws on unparseable urls', () => {
       expect(() => {
         site.parseUrl('https://mangarock.com/author');
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
     });
   });
 

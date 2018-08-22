@@ -1,6 +1,5 @@
 import poketo from '../index';
 import site from './hot-chocolate-scans';
-import errors from '../errors';
 
 describe('HotChocolateScansAdapter', () => {
   describe('supportsUrl', () => {
@@ -44,11 +43,11 @@ describe('HotChocolateScansAdapter', () => {
         site.parseUrl(
           'http://hotchocolatescans.com/fs/other/mousou-telepathy/en/2/11/page/1',
         );
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
 
       expect(() => {
         site.parseUrl('http://hotchocolatescans.com/fs/');
-      }).toThrow(errors.InvalidUrlError);
+      }).toThrow(poketo.InvalidUrlError);
     });
   });
 });
