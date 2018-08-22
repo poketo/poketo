@@ -32,7 +32,7 @@ describe('Mangakakalot', () => {
   const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
-    await server.listenAndMock(57171);
+    await server.listenAndMock();
   });
 
   afterAll(() => {

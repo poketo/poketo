@@ -5,7 +5,7 @@ describe('TukiScans', () => {
   const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
-    await server.listenAndMock(57170);
+    await server.listenAndMock();
   });
 
   afterAll(() => {

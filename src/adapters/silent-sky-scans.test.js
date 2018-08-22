@@ -5,7 +5,7 @@ describe('SilentSkyScans', () => {
   const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
-    await server.listenAndMock(57169);
+    await server.listenAndMock();
   });
 
   afterAll(() => {

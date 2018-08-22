@@ -56,7 +56,7 @@ describe('HelveticaScans', () => {
   const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
-    await server.listenAndMock(57153);
+    await server.listenAndMock();
   });
 
   afterAll(() => {

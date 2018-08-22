@@ -43,7 +43,7 @@ describe('MangaStream', () => {
   const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
-    await server.listenAndMock(57160);
+    await server.listenAndMock();
   });
 
   afterAll(() => {

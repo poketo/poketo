@@ -39,7 +39,7 @@ describe('MangaDex', () => {
   const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
-    await server.listenAndMock(57163);
+    await server.listenAndMock();
   });
 
   afterAll(() => {

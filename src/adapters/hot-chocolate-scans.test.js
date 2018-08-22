@@ -58,7 +58,7 @@ describe('HotChocolateScans', () => {
   const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
-    await server.listenAndMock(57155);
+    await server.listenAndMock();
   });
 
   afterAll(() => {

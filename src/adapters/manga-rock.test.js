@@ -45,7 +45,7 @@ describe('MangaRock', () => {
   const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
-    await server.listenAndMock(57159);
+    await server.listenAndMock();
   });
 
   afterAll(() => {

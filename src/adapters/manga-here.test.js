@@ -58,7 +58,7 @@ xdescribe('MangaHere', () => {
   const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
-    await server.listenAndMock(57157);
+    await server.listenAndMock();
   });
 
   afterAll(() => {

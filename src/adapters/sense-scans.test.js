@@ -5,7 +5,7 @@ describe('SenseScans', () => {
   const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
-    await server.listenAndMock(57168);
+    await server.listenAndMock();
   });
 
   afterAll(() => {
