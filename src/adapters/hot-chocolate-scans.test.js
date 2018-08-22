@@ -1,38 +1,40 @@
 import poketo from '../index';
-import site from './hot-chocolate-scans';
+import adapter from './hot-chocolate-scans';
 
 describe('HotChocolateScansAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like hotchocolatescans.com', () => {
-      expect(site.supportsUrl('http://hotchocolatescans.com')).toBe(true);
-      expect(site.supportsUrl('http://hotchocolatescans.com/fs')).toBe(true);
-      expect(site.supportsUrl('http://hotchocolatescans.com/fs/a/b')).toBe(
+      expect(adapter.supportsUrl('http://hotchocolatescans.com')).toBe(true);
+      expect(adapter.supportsUrl('http://hotchocolatescans.com/fs')).toBe(true);
+      expect(adapter.supportsUrl('http://hotchocolatescans.com/fs/a/b')).toBe(
         true,
       );
     });
 
     it('returns false for urls that are not hotchocolatescans.com', () => {
-      expect(site.supportsUrl('http://he.lveticascans.com')).toBe(false);
+      expect(adapter.supportsUrl('http://he.lveticascans.com')).toBe(false);
     });
   });
 
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(
-        site.parseUrl('http://hotchocolatescans.com/fs/series/itoshi-no-muco/'),
+        adapter.parseUrl(
+          'http://hotchocolatescans.com/fs/series/itoshi-no-muco/',
+        ),
       ).toEqual({
         seriesSlug: 'itoshi-no-muco',
         chapterSlug: null,
       });
 
       expect(
-        site.parseUrl(
+        adapter.parseUrl(
           'http://hotchocolatescans.com/fs/read/itoshi-no-muco/en/1/2/page/1',
         ),
       ).toEqual({ seriesSlug: 'itoshi-no-muco', chapterSlug: 'en/1/2' });
 
       expect(
-        site.parseUrl(
+        adapter.parseUrl(
           'http://hotchocolatescans.com/fs/read/mousou-telepathy/en/0/512/5/page/25',
         ),
       ).toEqual({ seriesSlug: 'mousou-telepathy', chapterSlug: 'en/0/512/5' });
@@ -40,20 +42,20 @@ describe('HotChocolateScansAdapter', () => {
 
     it('throws on unparseable paths', () => {
       expect(() => {
-        site.parseUrl(
+        adapter.parseUrl(
           'http://hotchocolatescans.com/fs/other/mousou-telepathy/en/2/11/page/1',
         );
       }).toThrow(poketo.InvalidUrlError);
 
       expect(() => {
-        site.parseUrl('http://hotchocolatescans.com/fs/');
+        adapter.parseUrl('http://hotchocolatescans.com/fs/');
       }).toThrow(poketo.InvalidUrlError);
     });
   });
 });
 
 describe('HotChocolateScans', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57155);

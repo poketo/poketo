@@ -1,18 +1,18 @@
 import poketo from '../index';
-import site from './manga-rock';
+import adapter from './manga-rock';
 
 describe('MangaRockAdapter', () => {
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(
-        site.parseUrl('https://mangarock.com/manga/mrs-serie-100056453'),
+        adapter.parseUrl('https://mangarock.com/manga/mrs-serie-100056453'),
       ).toEqual({
         seriesSlug: '100056453',
         chapterSlug: null,
       });
 
       expect(
-        site.parseUrl(
+        adapter.parseUrl(
           'https://mangarock.com/manga/mrs-serie-100056453/chapter/mrs-chapter-100259395',
         ),
       ).toEqual({
@@ -23,18 +23,18 @@ describe('MangaRockAdapter', () => {
 
     it('throws on unparseable urls', () => {
       expect(() => {
-        site.parseUrl('https://mangarock.com/author');
+        adapter.parseUrl('https://mangarock.com/author');
       }).toThrow(poketo.InvalidUrlError);
     });
   });
 
   describe('constructUrl', () => {
     it('returns a valid url', () => {
-      expect(site.constructUrl('295440')).toEqual(
+      expect(adapter.constructUrl('295440')).toEqual(
         'https://mangarock.com/manga/mrs-serie-295440',
       );
 
-      expect(site.constructUrl('295440', '100197426')).toEqual(
+      expect(adapter.constructUrl('295440', '100197426')).toEqual(
         'https://mangarock.com/manga/mrs-serie-295440/chapter/mrs-chapter-100197426',
       );
     });
@@ -42,7 +42,7 @@ describe('MangaRockAdapter', () => {
 });
 
 describe('MangaRock', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57159);

@@ -1,8 +1,8 @@
 import poketo from '../index';
-import site from './sense-scans';
+import adapter from './sense-scans';
 
 describe('SenseScans', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57168);

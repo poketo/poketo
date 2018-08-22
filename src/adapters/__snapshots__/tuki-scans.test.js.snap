@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TukiScansAdapter getSeries returns a metadata object 1`] = `
+exports[`TukiScans getSeries returns a metadata object 1`] = `
 Object {
   "coverImageUrl": "https://reader.tukimoop.pw/content/comics/madoromi-chan_5a5435fb56565/thumb_thumb.jpg",
   "id": "tuki-scans:madoromi-chan",
@@ -16,7 +16,7 @@ Object {
 }
 `;
 
-exports[`TukiScansAdapter getSeries returns a metadata object 2`] = `
+exports[`TukiScans getSeries returns a metadata object 2`] = `
 Array [
   Object {
     "chapterNumber": "17",

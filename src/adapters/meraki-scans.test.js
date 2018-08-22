@@ -1,38 +1,38 @@
 import poketo from '../index';
-import site from './meraki-scans';
+import adapter from './meraki-scans';
 
 describe('MerakiScansAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls at merakiscans.com', () => {
-      expect(site.supportsUrl('http://merakiscans.com')).toBe(true);
-      expect(site.supportsUrl('http://merakiscans.com/a/path')).toBe(true);
-      expect(site.supportsUrl('https://www.merakiscans.com/another?path')).toBe(
-        true,
-      );
+      expect(adapter.supportsUrl('http://merakiscans.com')).toBe(true);
+      expect(adapter.supportsUrl('http://merakiscans.com/a/path')).toBe(true);
+      expect(
+        adapter.supportsUrl('https://www.merakiscans.com/another?path'),
+      ).toBe(true);
     });
 
     it('returns false for urls not at merakiscans.com', () => {
-      expect(site.supportsUrl('http://merakkiscans.com')).toBe(false);
-      expect(site.supportsUrl('http://mangaupdates.com')).toBe(false);
+      expect(adapter.supportsUrl('http://merakkiscans.com')).toBe(false);
+      expect(adapter.supportsUrl('http://mangaupdates.com')).toBe(false);
     });
   });
 
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
-      expect(site.parseUrl('http://merakiscans.com/senryu-girl/')).toEqual({
+      expect(adapter.parseUrl('http://merakiscans.com/senryu-girl/')).toEqual({
         seriesSlug: 'senryu-girl',
         chapterSlug: null,
       });
 
-      expect(site.parseUrl('http://merakiscans.com/senryu-girl/23/5/')).toEqual(
-        { seriesSlug: 'senryu-girl', chapterSlug: '23' },
-      );
+      expect(
+        adapter.parseUrl('http://merakiscans.com/senryu-girl/23/5/'),
+      ).toEqual({ seriesSlug: 'senryu-girl', chapterSlug: '23' });
     });
   });
 });
 
 describe('MerakiScans', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57165);
@@ -65,7 +65,7 @@ describe('MerakiScans', () => {
       );
 
       expect(chapter.url).toEqual(
-        `${site._getHost()}/ninja-shinobu-san-no-junjou/32`,
+        `${adapter._getHost()}/ninja-shinobu-san-no-junjou/32`,
       );
       expect(chapter.pages).toHaveLength(37);
       expect(chapter.pages[0]).toEqual(

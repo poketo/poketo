@@ -1,8 +1,8 @@
 import poketo from '../index';
-import site from './phoenix-serenade';
+import adapter from './phoenix-serenade';
 
 describe('PhoenixSerenade', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57166);

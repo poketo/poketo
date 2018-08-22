@@ -1,36 +1,36 @@
 import poketo from '../index';
-import site from './manga-updates';
+import adapter from './manga-updates';
 
 describe('MangaUpdatesAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like mangaupdates.com', () => {
-      expect(site.supportsUrl('http://mangaupdates.com')).toBe(true);
-      expect(site.supportsUrl('https://www.mangaupdates.com')).toBe(true);
+      expect(adapter.supportsUrl('http://mangaupdates.com')).toBe(true);
+      expect(adapter.supportsUrl('https://www.mangaupdates.com')).toBe(true);
     });
 
     it('returns false for urls that are not mangaupdates.com', () => {
-      expect(site.supportsUrl('http://www.mangahere.com')).toBe(false);
-      expect(site.supportsUrl('http://ma.ngahere.co')).toBe(false);
+      expect(adapter.supportsUrl('http://www.mangahere.com')).toBe(false);
+      expect(adapter.supportsUrl('http://ma.ngahere.co')).toBe(false);
     });
   });
 
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(
-        site.parseUrl('http://mangaupdates.com/series.html?id=111976'),
+        adapter.parseUrl('http://mangaupdates.com/series.html?id=111976'),
       ).toEqual({ seriesSlug: '111976', chapterSlug: null });
     });
 
     it('throws on unparseable urls', () => {
       expect(() => {
-        site.parseUrl('https://www.mangaupdates.com/authors.html?id=462621');
+        adapter.parseUrl('https://www.mangaupdates.com/authors.html?id=462621');
       }).toThrow(poketo.InvalidUrlError);
     });
   });
 });
 
 describe('MangaUpdates', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57161);

@@ -1,8 +1,8 @@
 import poketo from '../index';
-import site from './tuki-scans';
+import adapter from './tuki-scans';
 
-describe('TukiScansAdapter', () => {
-  const server = new AdapterVcrServer(site);
+describe('TukiScans', () => {
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57170);

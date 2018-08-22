@@ -1,8 +1,8 @@
 import poketo from '../index';
-import site from './sen-manga';
+import adapter from './sen-manga';
 
 describe('SenManga', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57172);

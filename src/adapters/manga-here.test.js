@@ -1,37 +1,39 @@
 import poketo from '../index';
-import site from './manga-here';
+import adapter from './manga-here';
 
 describe('MangaHereAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like mangahere.cc or .co', () => {
-      expect(site.supportsUrl('http://www.mangahere.cc')).toBe(true);
-      expect(site.supportsUrl('http://www.mangahere.co')).toBe(true);
-      expect(site.supportsUrl('https://mangahere.com')).toBe(true);
+      expect(adapter.supportsUrl('http://www.mangahere.cc')).toBe(true);
+      expect(adapter.supportsUrl('http://www.mangahere.co')).toBe(true);
+      expect(adapter.supportsUrl('https://mangahere.com')).toBe(true);
     });
 
     it('returns false for urls that are not mangahere.cc or .co', () => {
-      expect(site.supportsUrl('http://www.mangahere.kc')).toBe(false);
-      expect(site.supportsUrl('http://ma.ngahere.co')).toBe(false);
+      expect(adapter.supportsUrl('http://www.mangahere.kc')).toBe(false);
+      expect(adapter.supportsUrl('http://ma.ngahere.co')).toBe(false);
     });
   });
 
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(
-        site.parseUrl('http://www.mangahere.cc/manga/urami_koi_koi_urami_koi/'),
+        adapter.parseUrl(
+          'http://www.mangahere.cc/manga/urami_koi_koi_urami_koi/',
+        ),
       ).toEqual({
         seriesSlug: 'urami_koi_koi_urami_koi',
         chapterSlug: null,
       });
 
       expect(
-        site.parseUrl(
+        adapter.parseUrl(
           'http://www.mangahere.cc/manga/urami_koi_koi_urami_koi/c038/1.html',
         ),
       ).toEqual({ seriesSlug: 'urami_koi_koi_urami_koi', chapterSlug: 'c038' });
 
       expect(
-        site.parseUrl(
+        adapter.parseUrl(
           'http://www.mangahere.cc/manga/flying_witch_ishizuka_chihiro/c018.5/',
         ),
       ).toEqual({
@@ -42,18 +44,18 @@ describe('MangaHereAdapter', () => {
 
     it('throws on unparseable paths', () => {
       expect(() => {
-        site.parseUrl('http://www.mangahere.cc/banana');
+        adapter.parseUrl('http://www.mangahere.cc/banana');
       }).toThrow(poketo.InvalidUrlError);
 
       expect(() => {
-        site.parseUrl('http://www.mangahere.cc/marnga/hello/world');
+        adapter.parseUrl('http://www.mangahere.cc/marnga/hello/world');
       }).toThrow(poketo.InvalidUrlError);
     });
   });
 });
 
 xdescribe('MangaHere', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57157);

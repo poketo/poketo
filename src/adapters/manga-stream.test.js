@@ -1,18 +1,18 @@
 import poketo from '../index';
-import site from './manga-stream';
+import adapter from './manga-stream';
 
 describe('MangaStreamAdapter', () => {
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
-      expect(site.parseUrl('https://readms.net/manga/attack_on_titan')).toEqual(
-        {
-          seriesSlug: 'attack_on_titan',
-          chapterSlug: null,
-        },
-      );
+      expect(
+        adapter.parseUrl('https://readms.net/manga/attack_on_titan'),
+      ).toEqual({
+        seriesSlug: 'attack_on_titan',
+        chapterSlug: null,
+      });
 
       expect(
-        site.parseUrl('https://readms.net/r/attack_on_titan/103/4949/3'),
+        adapter.parseUrl('https://readms.net/r/attack_on_titan/103/4949/3'),
       ).toEqual({
         seriesSlug: 'attack_on_titan',
         chapterSlug: '103/4949',
@@ -21,26 +21,26 @@ describe('MangaStreamAdapter', () => {
 
     it('throws on unparseable urls', () => {
       expect(() => {
-        site.parseUrl('https://readms.net/about');
+        adapter.parseUrl('https://readms.net/about');
       }).toThrow(poketo.InvalidUrlError);
     });
   });
 
   describe('constructUrl', () => {
     it('returns a valid url', () => {
-      expect(site.constructUrl('attack_on_titan')).toEqual(
-        `${site._getHost()}/manga/attack_on_titan`,
+      expect(adapter.constructUrl('attack_on_titan')).toEqual(
+        `${adapter._getHost()}/manga/attack_on_titan`,
       );
 
-      expect(site.constructUrl('attack_on_titan', '103/4949')).toEqual(
-        `${site._getHost()}/r/attack_on_titan/103/4949`,
+      expect(adapter.constructUrl('attack_on_titan', '103/4949')).toEqual(
+        `${adapter._getHost()}/r/attack_on_titan/103/4949`,
       );
     });
   });
 });
 
 describe('MangaStream', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57160);

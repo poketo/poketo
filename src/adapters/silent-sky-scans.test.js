@@ -1,8 +1,8 @@
 import poketo from '../index';
-import site from './silent-sky-scans';
+import adapter from './silent-sky-scans';
 
 describe('SilentSkyScans', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57169);

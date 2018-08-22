@@ -1,27 +1,27 @@
 import poketo from '../index';
-import site from './mangadex';
+import adapter from './mangadex';
 
 describe('MangadexAdapter', () => {
   describe('supportsUrl', () => {
     it('returns true for urls like mangadex.org', () => {
-      expect(site.supportsUrl('http://mangadex.org')).toBe(true);
-      expect(site.supportsUrl('https://www.mangadex.org')).toBe(true);
+      expect(adapter.supportsUrl('http://mangadex.org')).toBe(true);
+      expect(adapter.supportsUrl('https://www.mangadex.org')).toBe(true);
     });
 
     it('returns false for urls that are not mangadex.org', () => {
-      expect(site.supportsUrl('http://maanna.com')).toBe(false);
-      expect(site.supportsUrl('http://mangadexx.org')).toBe(false);
+      expect(adapter.supportsUrl('http://maanna.com')).toBe(false);
+      expect(adapter.supportsUrl('http://mangadexx.org')).toBe(false);
     });
   });
 
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
-      expect(site.parseUrl('https://mangadex.org/manga/13127')).toEqual({
+      expect(adapter.parseUrl('https://mangadex.org/manga/13127')).toEqual({
         seriesSlug: '13127',
         chapterSlug: null,
       });
 
-      expect(site.parseUrl('https://mangadex.org/chapter/47721')).toEqual({
+      expect(adapter.parseUrl('https://mangadex.org/chapter/47721')).toEqual({
         seriesSlug: null,
         chapterSlug: '47721',
       });
@@ -29,14 +29,14 @@ describe('MangadexAdapter', () => {
 
     it('throws on unparseable urls', () => {
       expect(() => {
-        site.parseUrl('https://mangadex.org/about');
+        adapter.parseUrl('https://mangadex.org/about');
       }).toThrow(poketo.InvalidUrlError);
     });
   });
 });
 
 describe('MangaDex', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57163);
@@ -97,7 +97,7 @@ describe('MangaDex', () => {
     it('returns a chapter', async () => {
       const chapter = await poketo.getChapter('mangadex:19915:385894');
 
-      expect(chapter.url).toEqual(`${site._getHost()}/chapter/385894`);
+      expect(chapter.url).toEqual(`${adapter._getHost()}/chapter/385894`);
       expect(chapter.pages).toHaveLength(1);
       expect(chapter.pages[0]).toEqual(
         expect.objectContaining({

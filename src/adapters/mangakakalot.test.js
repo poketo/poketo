@@ -1,15 +1,17 @@
 import poketo from '../index';
-import site from './mangakakalot';
+import adapter from './mangakakalot';
 
 describe('MangakakalotAdapter', () => {
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
       expect(
-        site.parseUrl('http://mangakakalot.com/manga/urami_koi_koi_urami_koi/'),
+        adapter.parseUrl(
+          'http://mangakakalot.com/manga/urami_koi_koi_urami_koi/',
+        ),
       ).toEqual({ seriesSlug: 'urami_koi_koi_urami_koi', chapterSlug: null });
 
       expect(
-        site.parseUrl(
+        adapter.parseUrl(
           'http://mangakakalot.com/chapter/urami_koi_koi_urami_koi/chapter_15.2',
         ),
       ).toEqual({
@@ -20,14 +22,14 @@ describe('MangakakalotAdapter', () => {
 
     it('throws on unparseable urls', () => {
       expect(() => {
-        site.parseUrl('https://www.mangaupdates.com/authors.html?id=462621');
+        adapter.parseUrl('https://www.mangaupdates.com/authors.html?id=462621');
       }).toThrow(poketo.InvalidUrlError);
     });
   });
 });
 
 describe('Mangakakalot', () => {
-  const server = new AdapterVcrServer(site);
+  const server = new AdapterVcrServer(adapter);
 
   beforeAll(async () => {
     await server.listenAndMock(57171);
