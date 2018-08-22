@@ -2,7 +2,7 @@
 
 exports[`MangaDex getSeries returns a metadata object 1`] = `
 Object {
-  "coverImageUrl": "/images/manga/13127.large.jpg?1529770840",
+  "coverImageUrl": "http://localhost:57163/images/manga/13127.large.jpg?1529770840",
   "id": "mangadex:13127",
   "site": Object {
     "id": "mangadex",

@@ -72,7 +72,8 @@ const MangadexAdapter: SiteAdapter = {
 
     const title = json.manga['title'];
     // We swap out the URL to get a "large" thumbnail-sized version.
-    const coverImageUrl = json.manga['cover_url'].replace('.jpg', '.large.jpg');
+    const coverImageUrl =
+      this._getHost() + json.manga['cover_url'].replace('.jpg', '.large.jpg');
 
     // If the chapter object doesn't exist, the series doesn't have any chapters
     // available to read.
