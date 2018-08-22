@@ -18,7 +18,9 @@ describe('PhoenixSerenade', () => {
         'phoenix-serenade:kusuriya-no-hitorigoto',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
 
       const chapterNumbersToTest = ['7', '11'];
       const chaptersToTest = chapters.filter(chapter =>

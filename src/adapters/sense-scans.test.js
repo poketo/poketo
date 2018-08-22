@@ -18,7 +18,9 @@ describe('SenseScans', () => {
         'sense-scans:kingdom',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
 
       const chapterNumbersToTest = ['566', '568'];
       const chaptersToTest = chapters.filter(chapter =>

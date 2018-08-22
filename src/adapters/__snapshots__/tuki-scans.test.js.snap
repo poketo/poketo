@@ -11,7 +11,7 @@ Object {
   "slug": "madoromi-chan",
   "supportsReading": true,
   "title": "Madoromi-chan ga Iku.",
-  "updatedAt": 1529486808,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57170/series/madoromi-chan",
 }
 `;

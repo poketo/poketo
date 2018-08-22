@@ -11,7 +11,7 @@ Object {
   "slug": "13127",
   "supportsReading": true,
   "title": "Uramikoi, Koi, Uramikoi.",
-  "updatedAt": 1533009356,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57163/manga/13127",
 }
 `;

@@ -56,7 +56,9 @@ describe('MangaStream', () => {
         'manga-stream:shokugeki_no_souma',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
     });
   });
 

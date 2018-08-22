@@ -36,7 +36,9 @@ describe('KireiCake', () => {
         'kirei-cake:masamunekuns_revenge',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
 
       const chapterNumbersToTest = ['47'];
       const chaptersToTest = chapters.filter(chapter =>

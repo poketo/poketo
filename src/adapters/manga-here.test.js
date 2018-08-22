@@ -71,7 +71,9 @@ xdescribe('MangaHere', () => {
         'manga-here:urami_koi_koi_urami_koi',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
 
       const chapterNumbersToTest = ['13'];
       const chaptersToTest = chapters.filter(chapter =>

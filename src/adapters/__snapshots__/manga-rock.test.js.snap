@@ -20,7 +20,7 @@ Object {
   "slug": "153037",
   "supportsReading": true,
   "title": "Love So Life",
-  "updatedAt": 1472544772,
+  "updatedAt": Any<Number>,
   "url": "https://mangarock.com/manga/mrs-serie-153037",
 }
 `;

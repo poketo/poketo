@@ -11,7 +11,7 @@ Object {
   "slug": "kusuriya-no-hitorigoto",
   "supportsReading": true,
   "title": "Kusuriya no Hitorigoto",
-  "updatedAt": 1526538824,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57166/series/kusuriya-no-hitorigoto",
 }
 `;

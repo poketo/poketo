@@ -11,7 +11,7 @@ Object {
   "slug": "ninja-shinobu-san-no-junjou",
   "supportsReading": true,
   "title": "Ninja Shinobu-san no Junjou",
-  "updatedAt": 1505688771,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57165/ninja-shinobu-san-no-junjou",
 }
 `;

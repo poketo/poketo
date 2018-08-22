@@ -18,7 +18,9 @@ describe('SilentSkyScans', () => {
         'silent-sky-scans:all_rounder_meguru_',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
 
       const chapterNumbersToTest = ['64', '81'];
       const chaptersToTest = chapters.filter(chapter =>

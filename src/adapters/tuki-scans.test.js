@@ -18,7 +18,9 @@ describe('TukiScans', () => {
         'tuki-scans:madoromi-chan',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
 
       const chapterNumbersToTest = ['17'];
       const chaptersToTest = chapters.filter(chapter =>

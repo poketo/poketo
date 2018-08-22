@@ -52,7 +52,9 @@ describe('MangaDex', () => {
         'mangadex:13127',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
 
       const chapterNumbersToTest = ['2', '8'];
       const chaptersToTest = chapters.filter(chapter =>

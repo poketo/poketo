@@ -11,7 +11,7 @@ Object {
   "slug": "talentless-nana",
   "supportsReading": true,
   "title": "Talentless Nana",
-  "updatedAt": 1531708814,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57153/r/series/talentless-nana",
 }
 `;

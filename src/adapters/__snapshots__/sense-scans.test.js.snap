@@ -11,7 +11,7 @@ Object {
   "slug": "kingdom",
   "supportsReading": true,
   "title": "Kingdom",
-  "updatedAt": 1533701318,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57168/reader/series/kingdom",
 }
 `;

@@ -11,7 +11,7 @@ Object {
   "slug": "masamunekuns_revenge",
   "supportsReading": true,
   "title": "Masamune-kun's Revenge",
-  "updatedAt": 1530651869,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57156/series/masamunekuns_revenge",
 }
 `;

@@ -48,7 +48,9 @@ describe('MerakiScans', () => {
         'meraki-scans:ninja-shinobu-san-no-junjou',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
 
       const chapterNumbersToTest = ['21'];
       const chaptersToTest = chapters.filter(chapter =>

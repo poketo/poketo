@@ -119,7 +119,7 @@ Object {
   "slug": "shokugeki_no_souma",
   "supportsReading": true,
   "title": "Shokugeki no Souma",
-  "updatedAt": 1533254400,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57160/manga/shokugeki_no_souma",
 }
 `;

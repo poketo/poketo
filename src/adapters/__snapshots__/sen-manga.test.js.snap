@@ -196,7 +196,7 @@ Object {
   "slug": "Yotsubato!",
   "supportsReading": true,
   "title": "Yotsubato!",
-  "updatedAt": 1451635200,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57172/Yotsubato!",
 }
 `;

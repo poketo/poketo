@@ -11,7 +11,7 @@ Object {
   "slug": "watashi_no_shounen",
   "supportsReading": true,
   "title": "Watashi no Shounen",
-  "updatedAt": 1530723537,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57155/fs/series/watashi_no_shounen",
 }
 `;

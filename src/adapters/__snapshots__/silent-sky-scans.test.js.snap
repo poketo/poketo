@@ -11,7 +11,7 @@ Object {
   "slug": "all_rounder_meguru_",
   "supportsReading": true,
   "title": "All Rounder Meguru",
-  "updatedAt": 1526685460,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57169/series/all_rounder_meguru_",
 }
 `;

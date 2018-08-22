@@ -11,7 +11,7 @@ Object {
   "slug": "itoshi-no-muco",
   "supportsReading": true,
   "title": "Itoshi no Muco",
-  "updatedAt": 1502262000,
+  "updatedAt": Any<Number>,
   "url": "http://localhost:57154/reader/series/itoshi-no-muco",
 }
 `;

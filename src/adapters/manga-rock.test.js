@@ -58,7 +58,9 @@ describe('MangaRock', () => {
         'manga-rock:153037',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
     });
   });
 

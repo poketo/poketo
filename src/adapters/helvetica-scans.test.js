@@ -69,7 +69,9 @@ describe('HelveticaScans', () => {
         'helvetica-scans:talentless-nana',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
 
       const chapterNumbersToTest = ['4', '8'];
       const chaptersToTest = chapters.filter(chapter =>

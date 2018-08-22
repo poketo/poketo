@@ -18,7 +18,9 @@ describe('SenManga', () => {
         'sen-manga:Yotsubato!',
       );
 
-      expect(metadata).toMatchSnapshot();
+      expect(metadata).toMatchSnapshot({
+        updatedAt: expect.any(Number),
+      });
 
       const chapterNumbersToTest = ['82'];
       const chaptersToTest = chapters.filter(chapter =>
