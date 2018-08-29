@@ -500,7 +500,7 @@ Object {
   "supportsReading": true,
   "title": "Uramikoi, Koi, Uramikoi.",
   "updatedAt": Any<Number>,
-  "url": "https://mangadex.org/manga/13127",
+  "url": "https://mangadex.org/title/13127",
 }
 `;
 
@@ -516,6 +516,6 @@ Object {
   "supportsReading": true,
   "title": "Uramikoi, Koi, Uramikoi.",
   "updatedAt": Any<Number>,
-  "url": "https://mangadex.org/manga/13127",
+  "url": "https://mangadex.org/title/13127",
 }
 `;

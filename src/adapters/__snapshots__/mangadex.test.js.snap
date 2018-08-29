@@ -12,7 +12,7 @@ Object {
   "supportsReading": true,
   "title": "Uramikoi, Koi, Uramikoi.",
   "updatedAt": Any<Number>,
-  "url": "http://localhost:57163/manga/13127",
+  "url": "http://localhost:57163/title/13127",
 }
 `;
 

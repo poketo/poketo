@@ -16,7 +16,7 @@ describe('MangadexAdapter', () => {
 
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
-      expect(adapter.parseUrl('https://mangadex.org/manga/13127')).toEqual({
+      expect(adapter.parseUrl('https://mangadex.org/title/13127')).toEqual({
         seriesSlug: '13127',
         chapterSlug: null,
       });
@@ -24,6 +24,13 @@ describe('MangadexAdapter', () => {
       expect(adapter.parseUrl('https://mangadex.org/chapter/47721')).toEqual({
         seriesSlug: null,
         chapterSlug: '47721',
+      });
+    });
+
+    it('supports legacy MangaDex urls', () => {
+      expect(adapter.parseUrl('https://mangadex.org/manga/13127')).toEqual({
+        seriesSlug: '13127',
+        chapterSlug: null,
       });
     });
 
