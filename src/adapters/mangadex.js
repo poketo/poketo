@@ -27,13 +27,13 @@ const MangadexAdapter: SiteAdapter = {
   },
 
   parseUrl(url) {
-    // https://mangadex.org/manga/13127
+    // https://mangadex.org/title/13127
     // https://mangadex.org/manga/13127/uramikoi-koi-uramikoi
     // https://mangadex.org/chapter/37149/1
 
     const matches = utils.pathMatch(
       url,
-      '/:type(manga|chapter)/:first/:second?',
+      '/:type(manga|title|chapter)/:first/:second?',
     );
 
     invariant(matches, new errors.InvalidUrlError(url));
@@ -47,7 +47,7 @@ const MangadexAdapter: SiteAdapter = {
   },
 
   constructUrl(seriesSlug, chapterSlug) {
-    const type = chapterSlug ? 'chapter' : 'manga';
+    const type = chapterSlug ? 'chapter' : 'title';
     const slug = type === 'chapter' ? chapterSlug : seriesSlug;
 
     invariant(
