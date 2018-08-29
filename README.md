@@ -79,12 +79,12 @@ To understand what is returned for a `Series` or `Chapter`, check out the exampl
 
 ## Docs
 
-* [Get series information](#get-series-information)
-* [Get pages for a chapter](#get-pages-for-a-chapter)
-* [Validate a URL or ID](#validate-a-url-or-id)
-* [Convert an ID to a URL](#get-a-url-from-a-poketo-id)
-* [Difference between an ID vs. URL](#whats-the-difference-between-an-id-and-a-url)
-* [Error Handling](#error-handling)
+- [Get series information](#get-series-information)
+- [Get pages for a chapter](#get-pages-for-a-chapter)
+- [Validate a URL or ID](#validate-a-url-or-id)
+- [Convert an ID to a URL](#get-a-url-from-a-poketo-id)
+- [Difference between an ID vs. URL](#whats-the-difference-between-an-id-and-a-url)
+- [Error Handling](#error-handling)
 
 ### Get series information
 
@@ -203,15 +203,15 @@ Of course, there are no true guarantees with scraping. Even an ID that works one
 
 Scraping isn't a perfect. When using Poketo you'll inevitably run into an error, so we try to make what happened as clear as possible.
 
-* `RequestError` - unable to make a request to scrape the site
-* `TimeoutError` - tried to make a request, but the source site didn't respond in a reasonable time. Defaults to 5 seconds.
-* `HTTPError` - tried to scrape the source site, but the site returned an error (eg. 404, 500)
-* `UnsupportedSiteError` - the site you're trying to scrape from isn't supported. If you'd like to see it supported, [make an issue!](https://github.com/poketo/node/issues/new)
-* `UnsupportedOperationError` - some sites don't support reading chapters. This error is thrown if you call `poketo.getChapter` for these sites.
+- `RequestError` - unable to make a request to scrape the site
+- `TimeoutError` - tried to make a request, but the source site didn't respond in a reasonable time. Defaults to 5 seconds.
+- `HTTPError` - tried to scrape the source site, but the site returned an error (eg. 404, 500)
+- `UnsupportedSiteError` - the site you're trying to scrape from isn't supported. If you'd like to see it supported, [make an issue!](https://github.com/poketo/node/issues/new)
+- `UnsupportedOperationError` - some sites don't support reading chapters. This error is thrown if you call `poketo.getChapter` for these sites.
 
 ## Contributing
 
-Contributions are welcome! Poketo is meant to be built on, so feel free to propose ideas or changes that would make it work for your situation — whether it's a bug report, site request, or contributed code.
+Contributions are welcome! Poketo is meant to be built on, so feel free to propose ideas or changes that would make it work for your situation — whether it's a bug report, site request, or contributed code. Read more at [CONTRIBUTING.md](https://github.com/poketo/node/blob/master/CONTRIBUTING.md)
 
 ## License
 
