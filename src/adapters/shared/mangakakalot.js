@@ -4,12 +4,7 @@ import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import errors from '../../errors';
 import utils, { invariant } from '../../utils';
-import type {
-  SiteAdapter,
-  ChapterMetadata,
-  Page,
-  PublicationStatus,
-} from '../../types';
+import type { SiteAdapter, ChapterMetadata, Page } from '../../types';
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm';
 const TZ = 'Asia/Hong_Kong';
@@ -53,18 +48,6 @@ const extractChapterNumber = (input: string): ?string => {
   }
 
   return matches.length > 1 ? matches[1] : null;
-};
-
-const parseStatus = (input: string): PublicationStatus => {
-  const normalized = input.toLowerCase();
-
-  if (normalized.indexOf('ongoing') !== -1) {
-    return 'ONGOING';
-  } else if (normalized.indexOf('completed')) {
-    return 'COMPLETED';
-  }
-
-  return 'UNKNOWN';
 };
 
 const parseAuthor = (input: string): ?string => {
@@ -168,7 +151,7 @@ export default function makeMangakakalotAdapter({
 
       const author = parseAuthor($authorInfo.text());
       const artist = null;
-      const publicationStatus = parseStatus($statusInfo.text());
+      const publicationStatus = utils.parseStatus($statusInfo.text());
       const coverImageUrl = dom('img', 'div.manga-info-pic').attr('src');
 
       const updatedAtRawText = $infoSection

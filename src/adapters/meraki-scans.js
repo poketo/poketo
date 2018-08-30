@@ -19,16 +19,6 @@ const parseChapterCreatedAt = (input: string): number => {
   return moment.tz(input, 'MMM DD, YYYY', TZ).unix();
 };
 
-const parseStatus = (input: string): PublicationStatus => {
-  const normalized = input.toLowerCase();
-
-  if (normalized.indexOf('ongoing') !== -1) {
-    return 'ONGOING';
-  }
-
-  return 'UNKNOWN';
-};
-
 // Series URLs
 // http://merakiscans.com/senryu-girl/
 // http://merakiscans.com/ninja-shinobu-san-no-junjou/
@@ -90,7 +80,7 @@ const MerakiScansAdapter: SiteAdapter = {
       .find('a')
       .text();
     const artist = null;
-    const publicationStatus = parseStatus($infoRows.eq(6).text());
+    const publicationStatus = utils.parseStatus($infoRows.eq(6).text());
 
     const coverImageUrl = $infoSection.find('img.cvr').attr('src');
 

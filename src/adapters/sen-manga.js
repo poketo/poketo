@@ -7,7 +7,7 @@ import cookie from 'cookie';
 import get from '../get';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-import type { ChapterMetadata, SiteAdapter, PublicationStatus } from '../types';
+import type { ChapterMetadata, SiteAdapter } from '../types';
 
 const SESSION_ID_KEY = 'PHPSESSID';
 
@@ -30,17 +30,6 @@ const parseCreatedAt = (str: string): number => {
     .unix();
 
   return createdAt;
-};
-const parseStatus = (input: string): PublicationStatus => {
-  const normalized = input.toLowerCase();
-
-  if (normalized.indexOf('ongoing') !== -1) {
-    return 'ONGOING';
-  } else if (normalized.indexOf('complete') !== -1) {
-    return 'COMPLETED';
-  }
-
-  return 'UNKNOWN';
 };
 
 const proxyImageUrl = (url, sessionId, referer) => {
@@ -116,7 +105,7 @@ const SenMangaAdapter: SiteAdapter = {
       .find('a')
       .text()
       .trim();
-    const publicationStatus = parseStatus($seriesInfoRows.eq(7).text());
+    const publicationStatus = utils.parseStatus($seriesInfoRows.eq(7).text());
     const coverImageUrl = `${this._getHost()}/covers/${seriesSlug}.jpg`;
 
     const $chapterList = dom('div.element');
