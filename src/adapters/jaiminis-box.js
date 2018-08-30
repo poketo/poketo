@@ -28,6 +28,28 @@ const getTimestamp = rawText => {
   return moment.tz(text, 'YYYY.MM.DD', TZ).unix();
 };
 
+const slice = (input, startKey, endKey) =>
+  input.substring(
+    input.indexOf(startKey) + startKey.length,
+    input.indexOf(endKey),
+  );
+
+const parseInfo = (
+  input: string,
+): { author: ?string, artist: ?string, description: ?string } => {
+  const AUTHOR_KEY = 'Author: ';
+  const ARTIST_KEY = 'Artist: ';
+  const DESCRIPTION_KEY = 'Synopsis: ';
+
+  const author = slice(input, AUTHOR_KEY, ARTIST_KEY).trim();
+  const artist = slice(input, ARTIST_KEY, DESCRIPTION_KEY).trim();
+  const rawDescription = input.split(DESCRIPTION_KEY).pop();
+  const description =
+    rawDescription.toLowerCase() === 'n/a' ? null : rawDescription;
+
+  return { author, artist, description };
+};
+
 const adapter = makeFoolSlideAdapter({
   id: 'jaiminis-box',
   name: 'Jaimini’s Box',
@@ -48,11 +70,15 @@ const JaiminisBoxAdapter = {
 
     const $content = dom('#content');
     const $comicInfo = dom('.comic.info');
+    const $infoSection = $comicInfo.find('.large.comic > .info');
 
     const title = $comicInfo
       .find('h1.title')
       .text()
       .trim();
+
+    const { author, artist, description } = parseInfo($infoSection.text());
+    const publicationStatus = 'UNKNOWN';
 
     const coverImageUrl = $comicInfo
       .find('.thumbnail img')
@@ -88,7 +114,17 @@ const JaiminisBoxAdapter = {
       return { url, title, slug, chapterNumber, volumeNumber, createdAt };
     });
 
-    return { slug: seriesSlug, coverImageUrl, url, title, chapters };
+    return {
+      slug: seriesSlug,
+      title,
+      description,
+      author,
+      artist,
+      publicationStatus,
+      coverImageUrl,
+      url,
+      chapters,
+    };
   },
 
   async getChapter(seriesSlug, chapterSlug) {

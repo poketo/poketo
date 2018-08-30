@@ -32,6 +32,13 @@ const parseTitle = (
   return { title, chapterNumber, volumeNumber };
 };
 
+const parseAuthors = data => {
+  const author = data.authors.find(author => author.role === 'story').name;
+  const artist = data.authors.find(author => author.role === 'art').name;
+
+  return { author, artist };
+};
+
 const MangaRockAdapter: SiteAdapter = {
   id: 'manga-rock',
   name: 'Manga Rock',
@@ -90,7 +97,11 @@ const MangaRockAdapter: SiteAdapter = {
     invariant(json.code !== 104, new errors.NotFoundError(url)); // Series is licensed
 
     const title = json.data.name;
+    const description = json.data.description;
+    const { author, artist } = parseAuthors(json.data);
+    const publicationStatus = json.data.completed ? 'COMPLETED' : 'ONGOING';
     const coverImageUrl = json.data.thumbnail;
+
     const chapters = json.data.chapters
       .sort((a, b) => b.order - a.order)
       .map(chapterData => {
@@ -104,7 +115,17 @@ const MangaRockAdapter: SiteAdapter = {
         return { slug, title, url, createdAt, chapterNumber, volumeNumber };
       });
 
-    return { slug: seriesSlug, coverImageUrl, url, title, chapters };
+    return {
+      slug: seriesSlug,
+      title,
+      description,
+      author,
+      artist,
+      publicationStatus,
+      coverImageUrl,
+      url,
+      chapters,
+    };
   },
 
   async getChapter(seriesSlug, chapterSlug) {

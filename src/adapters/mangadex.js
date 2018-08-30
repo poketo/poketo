@@ -14,12 +14,17 @@ const LanguageCodes = {
   RUSSIAN: 'ru',
 };
 
+const StatusCodes = {
+  [1]: 'ONGOING',
+  [2]: 'COMPLETED',
+};
+
 const MangadexAdapter: SiteAdapter = {
   id: 'mangadex',
   name: 'Mangadex',
 
   supportsUrl(url) {
-    return utils.compareDomain(url, 'https://mangadex.org');
+    return utils.compareDomain(url, this._getHost());
   },
 
   supportsReading() {
@@ -71,6 +76,10 @@ const MangadexAdapter: SiteAdapter = {
     );
 
     const title = json.manga['title'];
+    const description = json.manga['description'];
+    const artist = json.manga['artist'];
+    const author = json.manga['author'];
+    const publicationStatus = StatusCodes[json.manga['status']] || 'UNKNOWN';
     // We swap out the URL to get a "large" thumbnail-sized version.
     const coverImageUrl =
       this._getHost() + json.manga['cover_url'].replace('.jpg', '.large.jpg');
@@ -98,7 +107,18 @@ const MangadexAdapter: SiteAdapter = {
       .filter(filterDuplicates)
       .map(({ language, ...rest }) => rest);
 
-    return { slug: seriesSlug, coverImageUrl, url, title, chapters };
+    return {
+      slug: seriesSlug,
+      title,
+      description,
+      artist,
+      author,
+      publicationStatus,
+      coverImageUrl,
+      url,
+      title,
+      chapters,
+    };
   },
 
   async getChapter(_, chapterSlug) {

@@ -5,7 +5,19 @@ import moment from 'moment-timezone';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
 
-import type { SiteAdapter } from '../types';
+import type { SiteAdapter, PublicationStatus } from '../types';
+
+const parsePublicationStatus = (input: string): PublicationStatus => {
+  const normalized = input.toLowerCase();
+
+  if (normalized.indexOf('ongoing') !== -1) {
+    return 'ONGOING';
+  } else if (normalized.indexOf('complete') !== -1) {
+    return 'COMPLETED';
+  }
+
+  return 'UNKNOWN';
+};
 
 const MangaUpdatesAdapter: SiteAdapter = {
   id: 'manga-updates',
@@ -55,20 +67,51 @@ const MangaUpdatesAdapter: SiteAdapter = {
     const dom = cheerio.load(html);
 
     const $content = dom('#main_content');
-    const $seriesMetadataColumnA = $content.find('.sContainer[text]');
-    const $seriesMetadataColumnB = $content.find('.sContainer + .sContainer');
+    const $metadataColumnA = $content.find('.sContainer[text] .sContent');
+    const $metadataColumnB = $content.find(
+      '.sContainer + .sContainer .sContent',
+    );
 
     const title = $content.find('.releasestitle.tabletitle').text();
-    const coverImageUrl = $seriesMetadataColumnB
+
+    const description = $metadataColumnA
+      .first()
+      .text()
+      .trim();
+    const author = $metadataColumnB
+      .eq(5)
+      .text()
+      .trim();
+    const artist = $metadataColumnB
+      .eq(6)
+      .text()
+      .trim();
+    const publicationStatus = parsePublicationStatus(
+      $metadataColumnA
+        .eq(6)
+        .text()
+        .trim(),
+    );
+    const coverImageUrl = $metadataColumnB
       .find('center img[width][height]')
       .attr('src');
 
-    const $updatedAt = $seriesMetadataColumnA.find('.sContent').last();
+    const $updatedAt = $metadataColumnA.last();
     const updatedAt = moment
       .tz($updatedAt.text(), 'MMMM Do YYYY, h:mma zz', 'America/Los_Angeles')
       .unix();
 
-    return { slug: seriesSlug, coverImageUrl, url, title, updatedAt };
+    return {
+      slug: seriesSlug,
+      title,
+      description,
+      author,
+      artist,
+      publicationStatus,
+      coverImageUrl,
+      url,
+      updatedAt,
+    };
   },
 
   async getChapter() {

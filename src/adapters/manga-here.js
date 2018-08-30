@@ -6,7 +6,12 @@ import throttle from 'p-throttle';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
 
-import type { SiteAdapter, ChapterMetadata, Page } from '../types';
+import type {
+  SiteAdapter,
+  ChapterMetadata,
+  Page,
+  PublicationStatus,
+} from '../types';
 
 const TZ = 'America/Los_Angeles';
 
@@ -87,6 +92,24 @@ function getChapterNumber(input: string): ?string {
   return matches.length > 1 ? matches[1] : null;
 }
 
+const parseAuthor = (input: string): string => {
+  return input
+    .split(':')
+    .pop()
+    .trim();
+};
+
+const parsePublicationStatus = (input: string): PublicationStatus => {
+  const normalized = input.toLowerCase();
+  if (normalized.indexOf('ongoing') !== -1) {
+    return 'ONGOING';
+  } else if (normalized.indexOf('completed') !== -1) {
+    return 'COMPLETED';
+  }
+
+  return 'UNKNOWN';
+};
+
 const throttledGetPage = throttle(utils.getPage, 1, 600);
 
 const MangaHereAdapter: SiteAdapter = {
@@ -144,12 +167,33 @@ const MangaHereAdapter: SiteAdapter = {
     const title = dom('meta[property="og:title"]')
       .attr('content')
       .trim();
+    const description = dom('#show')
+      .contents()
+      .not('a')
+      .text()
+      .trim();
+
+    const $infoRows = dom('ul.detail_topText > li');
+
+    const author = parseAuthor($infoRows.eq(4).text());
+    const artist = parseAuthor($infoRows.eq(5).text());
+    const publicationStatus = parsePublicationStatus($infoRows.eq(6).text());
     const coverImageUrl = dom('img.img', '.manga_detail_top').attr('src');
 
     const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
     const chapters = extractChapterMetadata(html, getChapterUrl);
 
-    return { slug: seriesSlug, coverImageUrl, url, title, chapters };
+    return {
+      slug: seriesSlug,
+      title,
+      description,
+      author,
+      artist,
+      publicationStatus,
+      coverImageUrl,
+      url,
+      chapters,
+    };
   },
 
   async getChapter(seriesSlug, chapterSlug) {

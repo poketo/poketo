@@ -1,4 +1,7 @@
 // @flow
+
+export type PublicationStatus = 'ONGOING' | 'COMPLETED' | 'UNKNOWN';
+
 export type PageDimensions = {
   width: number,
   height: number,
@@ -59,6 +62,11 @@ export type SiteAdapter = {
     slug: string,
     url: string,
     title: string,
+    description: ?string,
+    // authors: Array<{ name: string, role: 'art' | 'story' | 'unknown' }>,
+    author: ?string,
+    artist: ?string,
+    publicationStatus: PublicationStatus,
     coverImageUrl?: string,
     chapters?: ChapterMetadata[],
     updatedAt?: number,
