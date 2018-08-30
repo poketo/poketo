@@ -41,7 +41,7 @@ const normalizeTimestampFormat = (timestamp: string) => {
  * number from all the chapter formats.
  */
 const extractChapterNumber = (input: string): ?string => {
-  const matches = /chapter\s+([\d\.]+)/i.exec(input);
+  const matches = /chapter\s+([\d.]+)/i.exec(input);
 
   if (matches === null) {
     return null;

@@ -37,17 +37,14 @@ function extractChapterMetadata(
     const href = link.attr('href');
     const titleRaw = extractTextNodes(leftEl).trim();
     const title = titleRaw.length === 0 ? undefined : titleRaw;
-    const slug = utils.extractText(/\/(c[\d|\.]+)\/?$/, href);
+    const slug = utils.extractText(/\/(c[\d.]+)\/?$/, href);
     const url = getChapterUrl(slug);
 
     const chapterNumberText = dom(el)
       .find('.left > a')
       .text()
       .trim();
-    const chapterNumber = utils.extractText(
-      /\s+([\d\.]+)$/i,
-      chapterNumberText,
-    );
+    const chapterNumber = utils.extractText(/\s+([\d.]+)$/i, chapterNumberText);
     // NOTE: MangaHere has no notion of volumes
 
     const createdAt = getTimestamp(rightEl.text().trim());
