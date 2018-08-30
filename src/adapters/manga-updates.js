@@ -4,20 +4,7 @@ import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-
-import type { SiteAdapter, PublicationStatus } from '../types';
-
-const parsePublicationStatus = (input: string): PublicationStatus => {
-  const normalized = input.toLowerCase();
-
-  if (normalized.indexOf('ongoing') !== -1) {
-    return 'ONGOING';
-  } else if (normalized.indexOf('complete') !== -1) {
-    return 'COMPLETED';
-  }
-
-  return 'UNKNOWN';
-};
+import type { SiteAdapter } from '../types';
 
 const MangaUpdatesAdapter: SiteAdapter = {
   id: 'manga-updates',
@@ -86,7 +73,7 @@ const MangaUpdatesAdapter: SiteAdapter = {
       .eq(6)
       .text()
       .trim();
-    const publicationStatus = parsePublicationStatus(
+    const publicationStatus = utils.parseStatus(
       $metadataColumnA
         .eq(6)
         .text()

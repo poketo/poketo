@@ -5,13 +5,7 @@ import moment from 'moment-timezone';
 import throttle from 'p-throttle';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-
-import type {
-  SiteAdapter,
-  ChapterMetadata,
-  Page,
-  PublicationStatus,
-} from '../types';
+import type { SiteAdapter, ChapterMetadata, Page } from '../types';
 
 const TZ = 'America/Los_Angeles';
 
@@ -99,17 +93,6 @@ const parseAuthor = (input: string): string => {
     .trim();
 };
 
-const parsePublicationStatus = (input: string): PublicationStatus => {
-  const normalized = input.toLowerCase();
-  if (normalized.indexOf('ongoing') !== -1) {
-    return 'ONGOING';
-  } else if (normalized.indexOf('completed') !== -1) {
-    return 'COMPLETED';
-  }
-
-  return 'UNKNOWN';
-};
-
 const throttledGetPage = throttle(utils.getPage, 1, 600);
 
 const MangaHereAdapter: SiteAdapter = {
@@ -177,7 +160,7 @@ const MangaHereAdapter: SiteAdapter = {
 
     const author = parseAuthor($infoRows.eq(4).text());
     const artist = parseAuthor($infoRows.eq(5).text());
-    const publicationStatus = parsePublicationStatus($infoRows.eq(6).text());
+    const publicationStatus = utils.parseStatus($infoRows.eq(6).text());
     const coverImageUrl = dom('img.img', '.manga_detail_top').attr('src');
 
     const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);

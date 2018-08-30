@@ -5,7 +5,11 @@ import pathMatch from 'path-match';
 import { URL, type URLSearchParams } from 'url';
 
 import get from './get';
-import type { ChapterMetadata, PageDimensions } from './types';
+import type {
+  ChapterMetadata,
+  PageDimensions,
+  PublicationStatus,
+} from './types';
 
 const timeout = 5 * 1000;
 const match = pathMatch();
@@ -65,6 +69,22 @@ export default {
 
       return chapterB - chapterA;
     });
+  },
+
+  parseStatus(
+    input: string,
+    ongoingKey: string = 'ongoing',
+    completedKey: string = 'complete',
+  ): PublicationStatus {
+    const normalized = input.toLowerCase();
+
+    if (normalized.indexOf(ongoingKey) !== -1) {
+      return 'ONGOING';
+    } else if (normalized.indexOf(completedKey) !== -1) {
+      return 'COMPLETED';
+    }
+
+    return 'UNKNOWN';
   },
 
   extractText(pattern: RegExp, input: string, matchIndex: number = 1): string {
