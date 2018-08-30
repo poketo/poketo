@@ -20,7 +20,7 @@
     "coverage": "cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "format": "prettier --write src/**/*.{js,json,md}",
     "prepublish": "yarn clean && yarn build",
-    "lint": "flow",
+    "lint": "flow && xo",
     "test": "jest"
   },
   "dependencies": {
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^9.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
@@ -43,7 +44,32 @@
     "flow-bin": "^0.69.0",
     "jest": "^23.1.0",
     "prettier": "^1.14.2",
+    "xo": "^0.22.0",
     "yakbak": "^3.0.0"
+  },
+  "xo": {
+    "parser": "babel-eslint",
+    "env": [
+      "node",
+      "jest"
+    ],
+    "ignores": [
+      "src/__snapshots__",
+      "src/adapters/__snapshots__",
+      "src/adapters/__tapes__"
+    ],
+    "extends": [
+      "prettier",
+      "prettier/flowtype"
+    ],
+    "overrides": [
+      {
+        "files": "src/**/*.test.js",
+        "globals": [
+          "AdapterVcrServer"
+        ]
+      }
+    ]
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/src/setup-tests.js"
