@@ -17,11 +17,11 @@ const parseTitle = (
   let volumeNumber;
 
   try {
-    chapterNumber = utils.extractText(/chapter\s+([\d\.]+)/i, parts[0]);
+    chapterNumber = utils.extractText(/chapter\s+([\d.]+)/i, parts[0]);
   } catch (err) {}
 
   try {
-    volumeNumber = utils.extractText(/vol\.\s*([\d\.]+)/i, parts[0]);
+    volumeNumber = utils.extractText(/vol\.\s*([\d.]+)/i, parts[0]);
   } catch (err) {}
 
   if (volumeNumber === 'TBD') {

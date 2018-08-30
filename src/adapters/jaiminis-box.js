@@ -93,7 +93,7 @@ const JaiminisBoxAdapter = {
       .find('.thumbnail img')
       .attr('src')
       // NOTE: we swap the URL to get the thumbnail-sized image
-      .replace(/\/([^\/]+)\.(jpg|png)/, '/thumb_$1.$2');
+      .replace(/\/([^/]+)\.(jpg|png)/, '/thumb_$1.$2');
 
     const chapterNodes = dom('.element', '#content .list .group');
     const chapters: ChapterMetadata[] = chapterNodes.get().map(el => {
@@ -115,7 +115,7 @@ const JaiminisBoxAdapter = {
         .text()
         .trim();
       const createdAtParsedText = utils.extractText(
-        /, ([\d\.]+|\w+)/,
+        /, ([\d.]+|\w+)/,
         createdAtRawText,
       );
       const createdAt = getTimestamp(createdAtParsedText);

@@ -53,7 +53,7 @@ const getPageFromHtml = async html => {
 const getPageFromUrl = url => throttledGet(url).then(getPageFromHtml);
 
 const stripLeadingZeroes = str => str.replace(/^0+/, '');
-const stripEndMarker = str => str.replace(/ [\(\[]?end[\)\]]?$/i, '');
+const stripEndMarker = str => str.replace(/ [([]?end[)]]?$/i, '');
 const trimChapterNumber = str => {
   return stripEndMarker(stripLeadingZeroes(str));
 };
