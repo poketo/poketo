@@ -98,12 +98,13 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
 
       const chapters: ChapterMetadata[] = json.chapters.map(data => {
         const {
-          name: title,
+          name: rawTitle,
           chapter: rawChapterNumber,
           language,
           volume: volumeNumber,
         } = data.chapter;
 
+        const title = rawTitle || undefined;
         const subchapter =
           data.chapter.subchapter === '0' ? null : data.chapter.subchapter;
 
