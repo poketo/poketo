@@ -7,7 +7,7 @@ import cookie from 'cookie';
 import get from '../get';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-import type { ChapterMetadata, SiteAdapter } from '../types';
+import type { ChapterMetadata, SiteAdapter, PublicationStatus } from '../types';
 
 const SESSION_ID_KEY = 'PHPSESSID';
 
@@ -30,6 +30,17 @@ const parseCreatedAt = (str: string): number => {
     .unix();
 
   return createdAt;
+};
+const parseStatus = (input: string): PublicationStatus => {
+  const normalized = input.toLowerCase();
+
+  if (normalized.indexOf('ongoing') !== -1) {
+    return 'ONGOING';
+  } else if (normalized.indexOf('complete') !== -1) {
+    return 'COMPLETED';
+  }
+
+  return 'UNKNOWN';
 };
 
 const proxyImageUrl = (url, sessionId, referer) => {
@@ -86,7 +97,26 @@ const SenMangaAdapter: SiteAdapter = {
     const html = await utils.getPage(url);
     const dom = cheerio.load(html);
 
+    const $seriesInfo = dom('ul.series-info').first();
+    const $seriesInfoRows = $seriesInfo.find('li');
+
     const title = dom('div.panel h1.title').text();
+
+    const description = $seriesInfo
+      .find('span[itemprop="description"]')
+      .text()
+      .trim();
+    const author = $seriesInfoRows
+      .eq(4)
+      .find('a')
+      .text()
+      .trim();
+    const artist = $seriesInfoRows
+      .eq(5)
+      .find('a')
+      .text()
+      .trim();
+    const publicationStatus = parseStatus($seriesInfoRows.eq(7).text());
     const coverImageUrl = `${this._getHost()}/covers/${seriesSlug}.jpg`;
 
     const $chapterList = dom('div.element');
@@ -106,7 +136,17 @@ const SenMangaAdapter: SiteAdapter = {
       return { slug, title, chapterNumber, url, createdAt };
     });
 
-    return { slug: seriesSlug, coverImageUrl, url, title, chapters };
+    return {
+      slug: seriesSlug,
+      title,
+      description,
+      author,
+      artist,
+      publicationStatus,
+      coverImageUrl,
+      url,
+      chapters,
+    };
   },
 
   async getChapter(seriesSlug, chapterSlug) {

@@ -6,9 +6,28 @@ import moment from 'moment-timezone';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
 
-import type { SiteAdapter, ChapterMetadata } from '../types';
+import type { SiteAdapter, ChapterMetadata, PublicationStatus } from '../types';
 
 const TZ = 'UTC';
+
+const parseChapterTitle = (input: string): string => {
+  const parts = input.split(' - ');
+  return parts.pop();
+};
+
+const parseChapterCreatedAt = (input: string): number => {
+  return moment.tz(input, 'MMM DD, YYYY', TZ).unix();
+};
+
+const parseStatus = (input: string): PublicationStatus => {
+  const normalized = input.toLowerCase();
+
+  if (normalized.indexOf('ongoing') !== -1) {
+    return 'ONGOING';
+  }
+
+  return 'UNKNOWN';
+};
 
 // Series URLs
 // http://merakiscans.com/senryu-girl/
@@ -55,51 +74,37 @@ const MerakiScansAdapter: SiteAdapter = {
   async getSeries(seriesSlug) {
     const seriesUrl = this.constructUrl(seriesSlug);
 
-    const rss = await utils.getPage(
-      `${this._getHost()}/manga-rss/${seriesSlug}`,
-    );
-    const xml = cheerio.load(rss, { xmlMode: true });
+    const html = await utils.getPage(seriesUrl);
+    const dom = cheerio.load(html);
 
-    const $rssMetadata = xml('image', 'channel');
-    const $rssTitle = $rssMetadata.find('title');
-    const $rssImage = $rssMetadata.find('url');
-    const $rssChapters = xml('item', 'channel');
+    const $infoSection = dom('.con div.mng_ifo').first();
+    const $infoRows = $infoSection.find('.col-md-8 p');
+    const $chapterRows = dom('ul.lst.mng_chp > li');
 
-    const titleMatches = /^Recent chapters of (.*?) manga$/.exec(
-      $rssTitle.text().trim(),
-    );
-    const title = titleMatches === null ? null : titleMatches[1];
+    const title = dom('h1.ttl')
+      .text()
+      .trim();
+    const description = $infoRows.eq(0).text();
+    const author = $infoRows
+      .eq(2)
+      .find('a')
+      .text();
+    const artist = null;
+    const publicationStatus = parseStatus($infoRows.eq(6).text());
 
-    // NOTE: Meraki returns a 200 status RSS feed for all series, even when the
-    // slug doesn't exist. The missing title block is a clue. If we can't parse
-    // the title, chances are it was a 404.
-    invariant(title, new errors.NotFoundError(seriesUrl));
+    const coverImageUrl = $infoSection.find('img.cvr').attr('src');
 
-    // NOTE: Meraki's RSS returns a 32px wide image by default. We replace the
-    // URL with the 200px wide version shown on series pages.
-    const coverImageUrl = $rssImage.text().replace('32x0', '200x0');
+    const chapters: ChapterMetadata[] = $chapterRows.get().map(el => {
+      const $link = dom(el)
+        .find('a')
+        .first();
 
-    const chapters: Array<ChapterMetadata> = $rssChapters.get().map(el => {
-      // NOTE: Meraki returns RSS titles like this "Senryu Girl - 27 - Nanako and Cooking Class"
-      // so we split on the divider and look for the last element.
-      const title = xml(el)
-        .find('title')
-        .text()
-        .split(' - ')[2];
-      const createdAtText = xml(el)
-        .find('pubDate')
-        .text();
-      const chapterSlugText = xml(el)
-        .find('link')
-        .text()
-        .trim();
-
-      const createdAt = moment
-        .tz(createdAtText, 'dddd, D MMM YYYY, HH:mm:ss', TZ)
-        .unix();
-      const slug = utils.extractText(/\/([\d\.]+)\/\d+\/?$/, chapterSlugText);
+      const title = parseChapterTitle($link.attr('title'));
+      const createdAt = parseChapterCreatedAt($link.find('.dte').text());
+      const slug = this.parseUrl($link.attr('href')).chapterSlug;
       const chapterNumber = slug;
-      // NOTE: no concept of volumes on Meraki
+      // no concept of volume numbers on Meraki
+
       const url = this.constructUrl(seriesSlug, slug);
 
       return { slug, title, chapterNumber, url, createdAt };
@@ -107,9 +112,13 @@ const MerakiScansAdapter: SiteAdapter = {
 
     return {
       slug: seriesSlug,
-      coverImageUrl,
       url: seriesUrl,
+      coverImageUrl,
       title,
+      description,
+      author,
+      artist,
+      publicationStatus,
       chapters,
     };
   },

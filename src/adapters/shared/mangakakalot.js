@@ -4,8 +4,12 @@ import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import errors from '../../errors';
 import utils, { invariant } from '../../utils';
-
-import type { SiteAdapter, ChapterMetadata, Page } from '../../types';
+import type {
+  SiteAdapter,
+  ChapterMetadata,
+  Page,
+  PublicationStatus,
+} from '../../types';
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm';
 const TZ = 'Asia/Hong_Kong';
@@ -49,6 +53,28 @@ const extractChapterNumber = (input: string): ?string => {
   }
 
   return matches.length > 1 ? matches[1] : null;
+};
+
+const parseStatus = (input: string): PublicationStatus => {
+  const normalized = input.toLowerCase();
+
+  if (normalized.indexOf('ongoing') !== -1) {
+    return 'ONGOING';
+  } else if (normalized.indexOf('completed')) {
+    return 'COMPLETED';
+  }
+
+  return 'UNKNOWN';
+};
+
+const parseAuthor = (input: string): ?string => {
+  const parts = input.split(':');
+  const authors = parts[1]
+    .split(',')
+    .map(str => str.trim())
+    .filter(str => str.length > 0);
+
+  return authors.shift() || null;
 };
 
 // http://mangakakalot.com/manga/<series-id>
@@ -131,6 +157,18 @@ export default function makeMangakakalotAdapter({
         .first()
         .text()
         .trim();
+      const description = dom('#noidungm')
+        .contents()
+        .not('h2')
+        .text()
+        .trim();
+
+      const $authorInfo = $infoSection.find('li').eq(1);
+      const $statusInfo = $infoSection.find('li').eq(2);
+
+      const author = parseAuthor($authorInfo.text());
+      const artist = null;
+      const publicationStatus = parseStatus($statusInfo.text());
       const coverImageUrl = dom('img', 'div.manga-info-pic').attr('src');
 
       const updatedAtRawText = $infoSection
@@ -208,9 +246,13 @@ export default function makeMangakakalotAdapter({
 
       return {
         slug: seriesSlug,
+        title,
+        description,
+        author,
+        artist,
+        publicationStatus,
         coverImageUrl,
         url,
-        title,
         chapters,
         updatedAt,
       };

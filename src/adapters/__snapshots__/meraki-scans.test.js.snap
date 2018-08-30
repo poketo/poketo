@@ -2,8 +2,12 @@
 
 exports[`MerakiScans getSeries returns a metadata object 1`] = `
 Object {
+  "artist": null,
+  "author": "Yuzuchiri",
   "coverImageUrl": "http://merakiscans.com/wp-content/manga/cover/tbn/ninja_200x0.jpg",
+  "description": "A slice-of-life series about a girl named Shinobu, who is perfectly normal and not a ninja whatsoever.",
   "id": "meraki-scans:ninja-shinobu-san-no-junjou",
+  "publicationStatus": "ONGOING",
   "site": Object {
     "id": "meraki-scans",
     "name": "Meraki Scans",
@@ -20,7 +24,7 @@ exports[`MerakiScans getSeries returns a metadata object 2`] = `
 Array [
   Object {
     "chapterNumber": "21",
-    "createdAt": 1504981521,
+    "createdAt": 1504915200,
     "id": "meraki-scans:ninja-shinobu-san-no-junjou:21",
     "slug": "21",
     "title": "You are just!",

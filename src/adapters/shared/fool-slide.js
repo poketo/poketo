@@ -82,7 +82,12 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
 
       const jsonUrl = `${this._getBaseUrl()}/api/reader/comic/stub/${seriesSlug}/format/json`;
       const json = await utils.getJSON(jsonUrl);
+
       const title = json.comic.name.trim();
+      const { description, author: rawAuthor, artist: rawArtist } = json.comic;
+      const author = rawAuthor || null;
+      const artist = rawArtist || null;
+      const publicationStatus = 'UNKNOWN';
       const coverImageUrl = json.comic['thumb_url'] || undefined;
 
       const chapters: ChapterMetadata[] = json.chapters.map(data => {
@@ -116,15 +121,28 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
         };
       });
 
-      return { slug: seriesSlug, coverImageUrl, url, title, chapters };
+      return {
+        slug: seriesSlug,
+        title,
+        description,
+        author,
+        artist,
+        publicationStatus,
+        coverImageUrl,
+        url,
+        chapters,
+      };
     },
 
     async getChapter(seriesSlug, chapterSlug) {
       const url = this.constructUrl(seriesSlug, chapterSlug);
       const html = await utils.getPage(url);
-      // Helvetica embeds reader pages with a JSON blob of all the images. We can
+      // FoolSlide embeds reader pages with a JSON blob of all the images. We can
       // parse this blob to get all the URLs.
       const json = utils.extractJSON(/var\s+pages\s+=\s+(.+);/, html);
+      // Eventually we could try using the API like so:
+      // https://reader.kireicake.com/api/reader/chapter/id/405/format/json
+      // where 405 is the unique id for the chapter
 
       const pages: Page[] = json.map(image => ({
         id: image.id,
