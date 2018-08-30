@@ -35,7 +35,7 @@ class InvalidUrlError extends PoketoError {
 
 class HTTPError extends PoketoError {
   statusCode: number;
-  url: string;
+  url: string; // eslint-disable-line lines-between-class-members
 
   constructor(statusCode: number, message: string, url: string) {
     super('HTTP_ERROR', message);
@@ -57,8 +57,11 @@ class NotFoundError extends HTTPError {
 }
 
 class TimeoutError extends PoketoError {
+  url: string;
+
   constructor(message: string, url: string) {
     super('TIMEOUT', message);
+    this.url = url;
   }
 }
 

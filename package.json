@@ -29,6 +29,7 @@
     "got": "^8.3.0",
     "moment": "^2.22.0",
     "moment-timezone": "^0.5.14",
+    "normalize-url": "^3.2.0",
     "p-map": "^1.2.0",
     "p-throttle": "^1.1.0",
     "path-match": "^1.2.4"

@@ -1,4 +1,4 @@
-import poketo from '../index';
+import poketo from '..';
 import adapter from './sen-manga';
 
 describe('SenManga', () => {

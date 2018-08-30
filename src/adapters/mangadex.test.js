@@ -1,4 +1,4 @@
-import poketo from '../index';
+import poketo from '..';
 import adapter from './mangadex';
 
 describe('MangadexAdapter', () => {
@@ -84,7 +84,7 @@ describe('MangaDex', () => {
 
       const getChapterNumbers = series =>
         series.chapters.map(c => c.chapterNumber);
-      const uniq = arr => Array.from(new Set(arr));
+      const uniq = arr => [...new Set(arr)];
 
       const a = getChapterNumbers(seriesWithMultipleGroups);
       const b = getChapterNumbers(seriesWithMultipleVolumes);
