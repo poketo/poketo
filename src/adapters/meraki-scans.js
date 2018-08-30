@@ -75,11 +75,12 @@ const MerakiScansAdapter: SiteAdapter = {
       .text()
       .trim();
     const description = $infoRows.eq(0).text();
-    const author = $infoRows
+    const authorName = $infoRows
       .eq(2)
       .find('a')
-      .text();
-    const artist = null;
+      .text()
+      .trim();
+    const authors = authorName ? [{ name: authorName, role: 'story' }] : [];
     const publicationStatus = utils.parseStatus($infoRows.eq(6).text());
 
     const coverImageUrl = $infoSection.find('img.cvr').attr('src');
@@ -106,8 +107,7 @@ const MerakiScansAdapter: SiteAdapter = {
       coverImageUrl,
       title,
       description,
-      author,
-      artist,
+      authors,
       publicationStatus,
       chapters,
     };

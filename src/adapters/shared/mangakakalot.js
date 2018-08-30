@@ -4,7 +4,7 @@ import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import errors from '../../errors';
 import utils, { invariant } from '../../utils';
-import type { SiteAdapter, ChapterMetadata, Page } from '../../types';
+import type { Author, SiteAdapter, ChapterMetadata, Page } from '../../types';
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm';
 const TZ = 'Asia/Hong_Kong';
@@ -50,14 +50,15 @@ const extractChapterNumber = (input: string): ?string => {
   return matches.length > 1 ? matches[1] : null;
 };
 
-const parseAuthor = (input: string): ?string => {
+const parseAuthors = (input: string): Author[] => {
   const parts = input.split(':');
   const authors = parts[1]
     .split(',')
     .map(str => str.trim())
-    .filter(str => str.length > 0);
+    .filter(str => str.length > 0)
+    .map(str => ({ name: str, role: 'unknown' }));
 
-  return authors.shift() || null;
+  return authors;
 };
 
 // http://mangakakalot.com/manga/<series-id>
@@ -149,8 +150,7 @@ export default function makeMangakakalotAdapter({
       const $authorInfo = $infoSection.find('li').eq(1);
       const $statusInfo = $infoSection.find('li').eq(2);
 
-      const author = parseAuthor($authorInfo.text());
-      const artist = null;
+      const authors = parseAuthors($authorInfo.text());
       const publicationStatus = utils.parseStatus($statusInfo.text());
       const coverImageUrl = dom('img', 'div.manga-info-pic').attr('src');
 
@@ -231,8 +231,7 @@ export default function makeMangakakalotAdapter({
         slug: seriesSlug,
         title,
         description,
-        author,
-        artist,
+        authors,
         publicationStatus,
         coverImageUrl,
         url,

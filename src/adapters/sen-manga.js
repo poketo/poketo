@@ -11,6 +11,7 @@ import type { ChapterMetadata, SiteAdapter } from '../types';
 
 const SESSION_ID_KEY = 'PHPSESSID';
 
+const t = d => d.text().trim();
 const parseTitle = (str: ?string): ?string =>
   str && str.toLowerCase() !== 'raw' ? str : undefined;
 const parseCreatedAt = (str: string): number => {
@@ -89,23 +90,14 @@ const SenMangaAdapter: SiteAdapter = {
     const $seriesInfo = dom('ul.series-info').first();
     const $seriesInfoRows = $seriesInfo.find('li');
 
-    const title = dom('div.panel h1.title').text();
+    const title = t(dom('div.panel h1.title'));
 
-    const description = $seriesInfo
-      .find('span[itemprop="description"]')
-      .text()
-      .trim();
-    const author = $seriesInfoRows
-      .eq(4)
-      .find('a')
-      .text()
-      .trim();
-    const artist = $seriesInfoRows
-      .eq(5)
-      .find('a')
-      .text()
-      .trim();
-    const publicationStatus = utils.parseStatus($seriesInfoRows.eq(7).text());
+    const description = t($seriesInfo.find('span[itemprop="description"]'));
+    const authors = [
+      { name: t($seriesInfoRows.eq(4).find('a')), role: 'story' },
+      { name: t($seriesInfoRows.eq(5).find('a')), role: 'art' },
+    ];
+    const publicationStatus = utils.parseStatus(t($seriesInfoRows.eq(7)));
     const coverImageUrl = `${this._getHost()}/covers/${seriesSlug}.jpg`;
 
     const $chapterList = dom('div.element');
@@ -117,7 +109,7 @@ const SenMangaAdapter: SiteAdapter = {
       const linkParts = $link.attr('title').split(' - ');
 
       const title = parseTitle(linkParts[1]);
-      const createdAt = parseCreatedAt($meta.text());
+      const createdAt = parseCreatedAt(t($meta));
       const slug = this.parseUrl(href).chapterSlug;
       const chapterNumber = slug;
       const url = this.constructUrl(seriesSlug, slug);
@@ -129,8 +121,7 @@ const SenMangaAdapter: SiteAdapter = {
       slug: seriesSlug,
       title,
       description,
-      author,
-      artist,
+      authors,
       publicationStatus,
       coverImageUrl,
       url,
