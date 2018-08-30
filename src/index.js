@@ -3,14 +3,7 @@
 import adapters from './adapters';
 import errors from './errors';
 import utils, { invariant } from './utils';
-
-import type {
-  Chapter,
-  ChapterMetadata,
-  IdComponents,
-  SiteAdapter,
-  Series,
-} from './types';
+import type { Chapter, IdComponents, SiteAdapter, Series } from './types';
 
 function isUrl(input: string) {
   return /^https?/.test(input);
@@ -45,11 +38,13 @@ function getComponentsFromIdOrUrl(idOrUrl: string): IdComponents {
   if (isUrl(idOrUrl)) {
     const site = getAdapterByUrl(idOrUrl);
     return { siteId: site.id, ...site.parseUrl(idOrUrl) };
-  } else if (isPoketoId(idOrUrl)) {
+  }
+
+  if (isPoketoId(idOrUrl)) {
     return parseId(idOrUrl);
   }
 
-  throw new poketo.InvalidIdError(idOrUrl);
+  throw new errors.InvalidIdError(idOrUrl);
 }
 
 function getAdapterByUrl(url: string): SiteAdapter {
@@ -65,7 +60,7 @@ function getAdapterBySiteId(siteId: string): SiteAdapter {
 }
 
 const poketo: any = {
-  /**
+  /*
    * Returns the URL for a given chapter or series based on the components
    * passed in. This URL is not guaranteed to be live or reachable.
    *
@@ -94,7 +89,7 @@ const poketo: any = {
     return isChapter(components) ? 'chapter' : 'series';
   },
 
-  /**
+  /*
    * Returns a `Series` object with details about a manga series at the given
    * URL. If the URL is not supported, an error will be thrown.
    */
@@ -143,7 +138,7 @@ const poketo: any = {
     return series;
   },
 
-  /**
+  /*
    * Returns a `Chapter` object with details about a single chapter of a manga
    * series from a given URL. If the URL is not supported, an error will be thrown.
    */
@@ -182,4 +177,4 @@ const poketo: any = {
 
 Object.assign(poketo, errors);
 
-module.exports = poketo;
+export default poketo;

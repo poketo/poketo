@@ -80,7 +80,7 @@ const MangaStreamAdapter: SiteAdapter = {
 
     invariant(parts.length > 1, new errors.InvalidUrlError(url));
 
-    let seriesSlug = parts[1];
+    const seriesSlug = parts[1];
     let chapterSlug = null;
 
     if (isChapter) {
@@ -122,7 +122,7 @@ const MangaStreamAdapter: SiteAdapter = {
     invariant(title !== 'Page Not Found', new errors.NotFoundError(url));
 
     const chapters = dom('.main-body h1 + table.table tr')
-      .slice(1) // skip the header row
+      .slice(1) // Skip the header row
       .get()
       .map(el => {
         const row = dom(el);

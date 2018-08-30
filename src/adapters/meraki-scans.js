@@ -1,11 +1,10 @@
 // @flow
 
-import { HTTPError } from 'got/errors';
 import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-import type { SiteAdapter, ChapterMetadata, PublicationStatus } from '../types';
+import type { SiteAdapter, ChapterMetadata } from '../types';
 
 const TZ = 'UTC';
 
@@ -88,7 +87,7 @@ const MerakiScansAdapter: SiteAdapter = {
       const createdAt = parseChapterCreatedAt($link.find('.dte').text());
       const slug = this.parseUrl($link.attr('href')).chapterSlug;
       const chapterNumber = slug;
-      // no concept of volume numbers on Meraki
+      // No concept of volume numbers on Meraki
 
       const url = this.constructUrl(seriesSlug, slug);
 

@@ -43,7 +43,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
       invariant(matches, new errors.InvalidUrlError(url));
       invariant(matches.seriesSlug, new errors.InvalidUrlError(url));
 
-      const seriesSlug = matches.seriesSlug;
+      const { seriesSlug } = matches;
       const chapterSlug =
         matches.type === 'read'
           ? matches.chapterSlug.split('/page/').shift()
@@ -83,42 +83,48 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
       const jsonUrl = `${this._getBaseUrl()}/api/reader/comic/stub/${seriesSlug}/format/json`;
       const json = await utils.getJSON(jsonUrl);
 
-      const title = json.comic.name.trim();
-      const description = json.comic.description;
-      const author = utils.formatAuthors([
-        json.comic.author,
-        json.comic.artist,
-      ]);
+      const {
+        name,
+        description,
+        author: rawAuthor,
+        artist: rawArtist,
+        thumb_url: thumbUrl,
+      } = json.comic;
+
+      const title = name.trim();
+      const author = utils.formatAuthors([rawAuthor, rawArtist]);
       const publicationStatus = 'UNKNOWN';
-      const coverImageUrl = json.comic['thumb_url'] || undefined;
+      const coverImageUrl = thumbUrl || undefined;
 
       const chapters: ChapterMetadata[] = json.chapters.map(data => {
+        const {
+          name: title,
+          chapter: rawChapterNumber,
+          language,
+          volume: volumeNumber,
+        } = data.chapter;
+
         const subchapter =
           data.chapter.subchapter === '0' ? null : data.chapter.subchapter;
 
-        const title = data.chapter.name;
-        const slug = [
-          data.chapter.language,
-          data.chapter.volume,
-          data.chapter.chapter,
-          subchapter,
-        ]
+        const slug = [language, volumeNumber, rawChapterNumber, subchapter]
           .filter(Boolean)
           .join('/');
-
-        const url = this.constructUrl(seriesSlug, slug);
-        const number = [data.chapter.chapter, subchapter]
+        const chapterNumber = [rawChapterNumber, subchapter]
           .filter(Boolean)
           .join('.');
+
+        const url = this.constructUrl(seriesSlug, slug);
         const createdAt = moment
-          .tz(data.chapter.created, options.timeZone)
+          .tz(data.chapter.created, normalizedTimeZone)
           .unix();
 
         return {
           url,
+          title,
           slug,
-          chapterNumber: data.chapter.chapter,
-          volumeNumber: data.chapter.volume,
+          chapterNumber,
+          volumeNumber,
           createdAt,
         };
       });

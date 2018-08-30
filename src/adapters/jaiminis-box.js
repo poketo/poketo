@@ -2,10 +2,9 @@
 
 import cheerio from 'cheerio';
 import moment from 'moment-timezone';
-import errors from '../errors';
-import utils, { invariant } from '../utils';
+import utils from '../utils';
+import type { ChapterMetadata, Page } from '../types';
 import makeFoolSlideAdapter from './shared/fool-slide';
-import type { ChapterMetadata, Page, SiteAdapter } from '../types';
 
 const TZ = 'America/Los_Angeles';
 
@@ -17,7 +16,9 @@ const getTimestamp = rawText => {
       .tz(TZ)
       .endOf('day')
       .unix();
-  } else if (text === 'yesterday') {
+  }
+
+  if (text === 'yesterday') {
     return moment
       .tz(TZ)
       .subtract(1, 'day')
@@ -77,7 +78,6 @@ const JaiminisBoxAdapter = {
     const html = await utils.getPage(url);
     const dom = cheerio.load(html);
 
-    const $content = dom('#content');
     const $comicInfo = dom('.comic.info');
     const $infoSection = $comicInfo.find('.large.comic > .info');
 
@@ -143,7 +143,7 @@ const JaiminisBoxAdapter = {
       /var\s+pages\s+=\s+JSON\.parse\(atob\((.+)\)\);/,
       html,
     );
-    const decodedBlob = new Buffer(encodedBlob, 'base64');
+    const decodedBlob = Buffer.from(encodedBlob, 'base64');
     const json = JSON.parse(decodedBlob.toString());
 
     const pages: Page[] = json.map(image => ({

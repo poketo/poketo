@@ -9,7 +9,7 @@ import type { SiteAdapter, ChapterMetadata, Page } from '../types';
 
 const TZ = 'America/Los_Angeles';
 
-/**
+/*
  * An old jQuery trick to extract the content of text nodes (ie. text that isn't
  * wrapped in an HTML tag) of an element;
  */
@@ -65,7 +65,9 @@ function getTimestamp(rawText) {
       .tz(TZ)
       .endOf('day')
       .unix();
-  } else if (text === 'yesterday') {
+  }
+
+  if (text === 'yesterday') {
     return moment
       .tz(TZ)
       .subtract(1, 'day')
@@ -74,16 +76,6 @@ function getTimestamp(rawText) {
   }
 
   return moment.tz(text, 'MMM D, YYYY', 'America/Los_Angeles').unix();
-}
-
-function getChapterNumber(input: string): ?string {
-  const matches = /\s+([\d\.]+)$/i.exec(input);
-
-  if (matches === null) {
-    return null;
-  }
-
-  return matches.length > 1 ? matches[1] : null;
 }
 
 const parseAuthor = (input: string): string | null => {
@@ -209,7 +201,7 @@ const MangaHereAdapter: SiteAdapter = {
             const width = d.attr('width');
             const height = d.attr('height');
             const url = d.attr('src');
-            const pathname = utils.parseUrl(url).pathname;
+            const { pathname } = utils.parseUrl(url);
             const id = pathname.split('/').pop();
 
             return { id, url, width, height };

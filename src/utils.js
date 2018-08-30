@@ -1,15 +1,11 @@
 // @flow
 
+import { URL } from 'url';
 import normalize from 'normalize-url';
 import pathMatch from 'path-match';
-import { URL, type URLSearchParams } from 'url';
 
 import get from './get';
-import type {
-  ChapterMetadata,
-  PageDimensions,
-  PublicationStatus,
-} from './types';
+import type { ChapterMetadata, PublicationStatus } from './types';
 
 const timeout = 5 * 1000;
 const match = pathMatch();
@@ -56,14 +52,18 @@ export default {
       if (this.isNumber(volumeA) && this.isNumber(volumeB)) {
         if (volumeA < volumeB) {
           return 1;
-        } else if (volumeA > volumeB) {
+        }
+
+        if (volumeA > volumeB) {
           return -1;
         }
       }
 
       if (!this.isNumber(chapterB)) {
         return -1;
-      } else if (!this.isNumber(chapterA)) {
+      }
+
+      if (!this.isNumber(chapterA)) {
         return 1;
       }
 
@@ -80,7 +80,9 @@ export default {
 
     if (normalized.indexOf(ongoingKey) !== -1) {
       return 'ONGOING';
-    } else if (normalized.indexOf(completedKey) !== -1) {
+    }
+
+    if (normalized.indexOf(completedKey) !== -1) {
       return 'COMPLETED';
     }
 
@@ -117,8 +119,8 @@ export default {
 
   normalizeJson(input: string): string {
     return input
-      .replace(/'/g, '"') // replace single quotes with double quotes
-      .replace(/,]$/, ']'); // remove trailing slashes
+      .replace(/'/g, '"') // Replace single quotes with double quotes
+      .replace(/,]$/, ']'); // Remove trailing slashes
   },
 
   extractJSON(pattern: RegExp, input: string): any {
@@ -163,7 +165,7 @@ export default {
   },
 };
 
-/**
+/*
  * We're rolling our own version of 'assert' since Node's keeps throwing
  * 'AssertionErrors' rather than our custom error types. Grrrr.
  */

@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import throttle from 'p-throttle';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-import type { Chapter, ChapterMetadata, SiteAdapter } from '../types';
+import type { ChapterMetadata, SiteAdapter } from '../types';
 
 const throttledGet = throttle(utils.getJSON, 5, 500);
 
@@ -15,8 +15,44 @@ const LanguageCodes = {
 };
 
 const StatusCodes = {
-  [1]: 'ONGOING',
-  [2]: 'COMPLETED',
+  '1': 'ONGOING',
+  '2': 'COMPLETED',
+};
+
+/*
+ * Since Poketo has no notion of languages or multiple versions of a chapter,
+ * we'll just return the English version. Sorry, international peeps :(
+ */
+const filterLanguage = (chapter): boolean => {
+  return chapter.language === LanguageCodes.ENGLISH;
+};
+
+/*
+ * Mangadex has "pre-release chapters", showing information before the actual
+ * publication. If the timestamp is in the future, we ignore it.
+ */
+const filterPreReleases = (chapter): boolean => {
+  const now = moment().unix();
+  return chapter.createdAt <= now;
+};
+
+/*
+ * Mangadex supports multiple scanlators uploading versions of the same chapter.
+ * We take the most recently uploaded version to filter out speed-scanlators.
+ */
+const filterDuplicates = (chapter, _, arr): boolean => {
+  const duplicateChapters = arr.filter(
+    d =>
+      d.volumeNumber === chapter.volumeNumber &&
+      d.chapterNumber === chapter.chapterNumber &&
+      d.slug !== chapter.slug,
+  );
+
+  if (duplicateChapters.length === 0) {
+    return true;
+  }
+
+  return duplicateChapters.every(d => chapter.createdAt > d.createdAt);
 };
 
 const MangadexAdapter: SiteAdapter = {
@@ -75,13 +111,12 @@ const MangadexAdapter: SiteAdapter = {
       `${this._getHost()}/api/manga/${seriesSlug}`,
     );
 
-    const title = json.manga['title'];
-    const description = json.manga['description'];
+    const { title, description, cover_url: coverUrl } = json.manga;
     const author = utils.formatAuthors([json.manga.author, json.manga.artist]);
-    const publicationStatus = StatusCodes[json.manga['status']] || 'UNKNOWN';
+    const publicationStatus = StatusCodes[json.manga.status] || 'UNKNOWN';
     // We swap out the URL to get a "large" thumbnail-sized version.
     const coverImageUrl =
-      this._getHost() + json.manga['cover_url'].replace('.jpg', '.large.jpg');
+      this._getHost() + coverUrl.replace('.jpg', '.large.jpg');
 
     // If the chapter object doesn't exist, the series doesn't have any chapters
     // available to read.
@@ -114,7 +149,6 @@ const MangadexAdapter: SiteAdapter = {
       publicationStatus,
       coverImageUrl,
       url,
-      title,
       chapters,
     };
   },
@@ -140,42 +174,6 @@ const MangadexAdapter: SiteAdapter = {
 
     return { slug: chapterSlug, url, seriesSlug, pages };
   },
-};
-
-/**
- * Since Poketo has no notion of languages or multiple versions of a chapter,
- * we'll just return the English version. Sorry, international peeps :(
- */
-const filterLanguage = (chapter): boolean => {
-  return chapter.language === LanguageCodes.ENGLISH;
-};
-
-/**
- * Mangadex has "pre-release chapters", showing information before the actual
- * publication. If the timestamp is in the future, we ignore it.
- */
-const filterPreReleases = (chapter): boolean => {
-  const now = moment().unix();
-  return chapter.createdAt <= now;
-};
-
-/**
- * Mangadex supports multiple scanlators uploading versions of the same chapter.
- * We take the most recently uploaded version to filter out speed-scanlators.
- */
-const filterDuplicates = (chapter, _, arr): boolean => {
-  const duplicateChapters = arr.filter(
-    d =>
-      d.volumeNumber === chapter.volumeNumber &&
-      d.chapterNumber === chapter.chapterNumber &&
-      d.slug !== chapter.slug,
-  );
-
-  if (duplicateChapters.length === 0) {
-    return true;
-  }
-
-  return duplicateChapters.every(d => chapter.createdAt > d.createdAt);
 };
 
 export default MangadexAdapter;

@@ -34,6 +34,20 @@ const parseTitle = (
 const parseAuthors = (data: { authors: { name: string }[] }): Array<?string> =>
   data.authors.length > 0 ? data.authors.map(author => author.name) : [null];
 
+/*
+ * MangaRock is a special snowflake; they encode their images as base64'd WebP
+ * files with a few header bits taken out. I wrote a micro-service to decode
+ * these files into .webp files, which can be passed directly to a browser.
+ */
+const getPage = async (url: string) => {
+  const decodedUrl = `https://mri-image-decoder.now.sh/?url=${url}`;
+
+  return {
+    id: url.split('/').pop(),
+    url: decodedUrl,
+  };
+};
+
 const MangaRockAdapter: SiteAdapter = {
   id: 'manga-rock',
   name: 'Manga Rock',
@@ -91,11 +105,15 @@ const MangaRockAdapter: SiteAdapter = {
     invariant(json.code !== 103, new errors.NotFoundError(url)); // Not found
     invariant(json.code !== 104, new errors.NotFoundError(url)); // Series is licensed
 
-    const title = json.data.name;
-    const description = json.data.description;
+    const {
+      name: title,
+      description,
+      completed,
+      thumbnail: coverImageUrl,
+    } = json.data;
+
     const author = utils.formatAuthors(parseAuthors(json.data));
-    const publicationStatus = json.data.completed ? 'COMPLETED' : 'ONGOING';
-    const coverImageUrl = json.data.thumbnail;
+    const publicationStatus = completed ? 'COMPLETED' : 'ONGOING';
 
     const chapters = json.data.chapters
       .sort((a, b) => b.order - a.order)
@@ -132,20 +150,6 @@ const MangaRockAdapter: SiteAdapter = {
 
     return { slug: chapterSlug, url, pages };
   },
-};
-
-/**
- * MangaRock is a special snowflake; they encode their images as base64'd WebP
- * files with a few header bits taken out. I wrote a micro-service to decode
- * these files into .webp files, which can be passed directly to a browser.
- */
-const getPage = async (url: string) => {
-  const decodedUrl = `https://mri-image-decoder.now.sh/?url=${url}`;
-
-  return {
-    id: url.split('/').pop(),
-    url: decodedUrl,
-  };
 };
 
 export default MangaRockAdapter;

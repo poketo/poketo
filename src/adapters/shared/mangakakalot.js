@@ -12,13 +12,13 @@ const TZ = 'Asia/Hong_Kong';
 const getFirstWord = (string: string) => string.split(' ').shift();
 const getNumber = (string: string) => parseInt(string, 10);
 
-/**
+/*
  * Takes a year and a MM-DD HH:mm timestamp and returns a full unix timestamp.
  */
 const getUnixFromTimestamp = (year: number, date: string) =>
   moment.tz(`${year}-${date}`, DATE_FORMAT, TZ).unix();
 
-/**
+/*
  * Mangakakalot shows dates in two formats: "19 hour ago" and "12-25 18:09".
  * This function normalizes them to both follow the "MM-DD HH:mm" format.
  */
@@ -35,7 +35,7 @@ const normalizeTimestampFormat = (timestamp: string) => {
   return timestamp;
 };
 
-/**
+/*
  * Mangakakalot shows chapter numbers in a bunch of formats, but the two most
  * common are "Vol.2 Chapter 5" and "Chapter 19". This function extracts the
  * number from all the chapter formats.
@@ -92,7 +92,7 @@ export default function makeMangakakalotAdapter({
       invariant(matches, new errors.InvalidUrlError(url));
       invariant(matches.seriesSlug, new errors.InvalidUrlError(url));
 
-      const seriesSlug = matches.seriesSlug;
+      const { seriesSlug } = matches;
       const chapterSlug =
         matches.type === 'chapter' ? matches.chapterSlug : null;
 
@@ -176,7 +176,7 @@ export default function makeMangakakalotAdapter({
         const slug = href.split('/').pop();
         const url = this.constructUrl(seriesSlug, slug);
 
-        let createdAtText = normalizeTimestampFormat(
+        const createdAtText = normalizeTimestampFormat(
           dom('span', el)
             .eq(2)
             .text()
