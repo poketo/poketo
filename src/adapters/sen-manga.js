@@ -93,10 +93,10 @@ const SenMangaAdapter: SiteAdapter = {
     const title = t(dom('div.panel h1.title'));
 
     const description = t($seriesInfo.find('span[itemprop="description"]'));
-    const authors = [
-      { name: t($seriesInfoRows.eq(4).find('a')), role: 'story' },
-      { name: t($seriesInfoRows.eq(5).find('a')), role: 'art' },
-    ];
+    const author = utils.formatAuthors([
+      t($seriesInfoRows.eq(4).find('a')),
+      t($seriesInfoRows.eq(5).find('a')),
+    ]);
     const publicationStatus = utils.parseStatus(t($seriesInfoRows.eq(7)));
     const coverImageUrl = `${this._getHost()}/covers/${seriesSlug}.jpg`;
 
@@ -121,7 +121,7 @@ const SenMangaAdapter: SiteAdapter = {
       slug: seriesSlug,
       title,
       description,
-      authors,
+      author,
       publicationStatus,
       coverImageUrl,
       url,

@@ -65,16 +65,10 @@ const MangaUpdatesAdapter: SiteAdapter = {
     const title = $content.find('.releasestitle.tabletitle').text();
 
     const description = t($metadataColumnA.first());
-    const authors = [
-      {
-        name: t($metadataColumnB.eq(5)),
-        role: 'story',
-      },
-      {
-        name: t($metadataColumnB.eq(6)),
-        role: 'art',
-      },
-    ];
+    const author = utils.formatAuthors([
+      t($metadataColumnB.eq(5)), // author
+      t($metadataColumnB.eq(6)), // artist
+    ]);
     const publicationStatus = utils.parseStatus(t($metadataColumnA.eq(6)));
     const coverImageUrl = $metadataColumnB
       .find('center img[width][height]')
@@ -89,7 +83,7 @@ const MangaUpdatesAdapter: SiteAdapter = {
       slug: seriesSlug,
       title,
       description,
-      authors,
+      author,
       publicationStatus,
       coverImageUrl,
       url,

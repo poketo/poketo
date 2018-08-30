@@ -5,10 +5,11 @@ import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-
 import type { SiteAdapter, ChapterMetadata, PublicationStatus } from '../types';
 
 const TZ = 'UTC';
+
+const t = d => d.text().trim();
 
 const parseChapterTitle = (input: string): string => {
   const parts = input.split(' - ');
@@ -71,16 +72,9 @@ const MerakiScansAdapter: SiteAdapter = {
     const $infoRows = $infoSection.find('.col-md-8 p');
     const $chapterRows = dom('ul.lst.mng_chp > li');
 
-    const title = dom('h1.ttl')
-      .text()
-      .trim();
-    const description = $infoRows.eq(0).text();
-    const authorName = $infoRows
-      .eq(2)
-      .find('a')
-      .text()
-      .trim();
-    const authors = authorName ? [{ name: authorName, role: 'story' }] : [];
+    const title = t(dom('h1.ttl'));
+    const description = t($infoRows.eq(0));
+    const author = utils.formatAuthors([t($infoRows.eq(2).find('a'))]);
     const publicationStatus = utils.parseStatus($infoRows.eq(6).text());
 
     const coverImageUrl = $infoSection.find('img.cvr').attr('src');
@@ -107,7 +101,7 @@ const MerakiScansAdapter: SiteAdapter = {
       coverImageUrl,
       title,
       description,
-      authors,
+      author,
       publicationStatus,
       chapters,
     };

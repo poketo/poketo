@@ -85,10 +85,10 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
 
       const title = json.comic.name.trim();
       const description = json.comic.description;
-      const authors = [
-        json.comic.author ? { name: json.comic.author, role: 'story' } : null,
-        json.comic.artist ? { name: json.comic.artist, role: 'art' } : null,
-      ];
+      const author = utils.formatAuthors([
+        json.comic.author,
+        json.comic.artist,
+      ]);
       const publicationStatus = 'UNKNOWN';
       const coverImageUrl = json.comic['thumb_url'] || undefined;
 
@@ -127,7 +127,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
         slug: seriesSlug,
         title,
         description,
-        authors,
+        author,
         publicationStatus,
         coverImageUrl,
         url,

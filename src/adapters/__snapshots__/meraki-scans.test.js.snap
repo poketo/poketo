@@ -2,7 +2,6 @@
 
 exports[`MerakiScans getSeries returns a metadata object 1`] = `
 Object {
-  "artist": null,
   "author": "Yuzuchiri",
   "coverImageUrl": "http://merakiscans.com/wp-content/manga/cover/tbn/ninja_200x0.jpg",
   "description": "A slice-of-life series about a girl named Shinobu, who is perfectly normal and not a ninja whatsoever.",

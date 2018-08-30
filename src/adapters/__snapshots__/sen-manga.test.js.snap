@@ -187,7 +187,6 @@ Array [
 
 exports[`SenManga getSeries returns a metadata object 1`] = `
 Object {
-  "artist": "Azuma Kiyohiko",
   "author": "Azuma Kiyohiko",
   "coverImageUrl": "http://localhost:57172/covers/Yotsubato!.jpg",
   "description": "Yotsuba is a strange little girl with a big personality! Even in the most trivial, unremarkable encounters, Yotsuba’s curiosity and enthusiasm quickly turn the everyday into the extraordinary! Join Yotsuba’s adventures as she expores the wonders of the world around her

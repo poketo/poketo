@@ -4,7 +4,7 @@ import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import errors from '../../errors';
 import utils, { invariant } from '../../utils';
-import type { Author, SiteAdapter, ChapterMetadata, Page } from '../../types';
+import type { SiteAdapter, ChapterMetadata, Page } from '../../types';
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm';
 const TZ = 'Asia/Hong_Kong';
@@ -50,13 +50,9 @@ const extractChapterNumber = (input: string): ?string => {
   return matches.length > 1 ? matches[1] : null;
 };
 
-const parseAuthors = (input: string): Author[] => {
+const parseAuthors = (input: string): string[] => {
   const parts = input.split(':');
-  const authors = parts[1]
-    .split(',')
-    .map(str => str.trim())
-    .filter(str => str.length > 0)
-    .map(str => ({ name: str, role: 'unknown' }));
+  const authors = parts[1].split(',');
 
   return authors;
 };
@@ -151,6 +147,8 @@ export default function makeMangakakalotAdapter({
       const $statusInfo = $infoSection.find('li').eq(2);
 
       const authors = parseAuthors($authorInfo.text());
+      // $FlowFixMe: Flow doesn't recognize that Array<string> is compatible with Array<?string>
+      const author = utils.formatAuthors(authors);
       const publicationStatus = utils.parseStatus($statusInfo.text());
       const coverImageUrl = dom('img', 'div.manga-info-pic').attr('src');
 
@@ -231,7 +229,7 @@ export default function makeMangakakalotAdapter({
         slug: seriesSlug,
         title,
         description,
-        authors,
+        author,
         publicationStatus,
         coverImageUrl,
         url,

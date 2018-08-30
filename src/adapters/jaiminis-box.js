@@ -5,7 +5,7 @@ import moment from 'moment-timezone';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
 import makeFoolSlideAdapter from './shared/fool-slide';
-import type { Author, ChapterMetadata, Page, SiteAdapter } from '../types';
+import type { ChapterMetadata, Page, SiteAdapter } from '../types';
 
 const TZ = 'America/Los_Angeles';
 
@@ -34,22 +34,20 @@ const slice = (input, startKey, endKey) =>
     input.indexOf(endKey),
   );
 
-const getAuthor = (input, role, startKey, endKey) =>
-  input.indexOf(startKey)
-    ? { name: slice(input, startKey, endKey).trim(), role }
-    : null;
+const getAuthor = (input, startKey, endKey) =>
+  input.indexOf(startKey) ? slice(input, startKey, endKey).trim() : null;
 
 const parseInfo = (
   input: string,
-): { authors: Object[], description: ?string } => {
+): { author: ?string, description: ?string } => {
   const AUTHOR_KEY = 'Author: ';
   const ARTIST_KEY = 'Artist: ';
   const DESCRIPTION_KEY = 'Synopsis: ';
 
-  const authors = [
-    getAuthor(input, 'story', AUTHOR_KEY, ARTIST_KEY),
-    getAuthor(input, 'art', ARTIST_KEY, DESCRIPTION_KEY),
-  ].filter(a => Boolean(a));
+  const author = utils.formatAuthors([
+    getAuthor(input, AUTHOR_KEY, ARTIST_KEY),
+    getAuthor(input, ARTIST_KEY, DESCRIPTION_KEY),
+  ]);
 
   const rawDescription = input.split(DESCRIPTION_KEY).pop();
   const description =
@@ -58,7 +56,7 @@ const parseInfo = (
       : rawDescription;
 
   // $FlowFixMe: Flow doesn't recognize our `filter` call above.
-  return { authors, description };
+  return { author, description };
 };
 
 const adapter = makeFoolSlideAdapter({
@@ -88,7 +86,7 @@ const JaiminisBoxAdapter = {
       .text()
       .trim();
 
-    const { authors, description } = parseInfo($infoSection.text());
+    const { author, description } = parseInfo($infoSection.text());
     const publicationStatus = 'UNKNOWN';
 
     const coverImageUrl = $comicInfo
@@ -129,7 +127,7 @@ const JaiminisBoxAdapter = {
       slug: seriesSlug,
       title,
       description,
-      authors,
+      author,
       publicationStatus,
       coverImageUrl,
       url,

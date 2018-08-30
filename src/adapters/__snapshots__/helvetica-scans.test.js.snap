@@ -2,8 +2,7 @@
 
 exports[`HelveticaScans getSeries returns a metadata object 1`] = `
 Object {
-  "artist": "Iori Furuya",
-  "author": "Looseboy",
+  "author": "Looseboy, Iori Furuya",
   "coverImageUrl": "https://helveticascans.com/r/content/comics/talentless-nana_5935ea4001c59/thumb_0001.png",
   "description": "It is the year 20XX. Earth was assaulted by monsters that would come to be known as 'the Enemy of Humanity'. In order to deal with this threat, special schools comprised of teenagers with extraordinary abilities were formed. These people, who came to be known as 'the Talented', had abilities that could defy the rules of reality.
 

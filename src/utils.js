@@ -87,6 +87,18 @@ export default {
     return 'UNKNOWN';
   },
 
+  formatAuthors(authors: Array<?string>): string | null {
+    const filteredAuthors = authors
+      .map(author => author && author.trim())
+      .filter(Boolean);
+
+    const uniqueAuthors = filteredAuthors.filter(
+      (author, index, arr) => arr.indexOf(author) === index,
+    );
+
+    return uniqueAuthors.length > 0 ? uniqueAuthors.join(', ') : null;
+  },
+
   extractText(pattern: RegExp, input: string, matchIndex: number = 1): string {
     const matches = pattern.exec(input);
 
