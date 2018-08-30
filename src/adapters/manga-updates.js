@@ -6,6 +6,9 @@ import errors from '../errors';
 import utils, { invariant } from '../utils';
 import type { SiteAdapter } from '../types';
 
+// Helper function to get trimmed text, since we use it throughout the adapter.
+const t = d => d.text().trim();
+
 const MangaUpdatesAdapter: SiteAdapter = {
   id: 'manga-updates',
   name: 'MangaUpdates',
@@ -61,39 +64,32 @@ const MangaUpdatesAdapter: SiteAdapter = {
 
     const title = $content.find('.releasestitle.tabletitle').text();
 
-    const description = $metadataColumnA
-      .first()
-      .text()
-      .trim();
-    const author = $metadataColumnB
-      .eq(5)
-      .text()
-      .trim();
-    const artist = $metadataColumnB
-      .eq(6)
-      .text()
-      .trim();
-    const publicationStatus = utils.parseStatus(
-      $metadataColumnA
-        .eq(6)
-        .text()
-        .trim(),
-    );
+    const description = t($metadataColumnA.first());
+    const authors = [
+      {
+        name: t($metadataColumnB.eq(5)),
+        role: 'story',
+      },
+      {
+        name: t($metadataColumnB.eq(6)),
+        role: 'art',
+      },
+    ];
+    const publicationStatus = utils.parseStatus(t($metadataColumnA.eq(6)));
     const coverImageUrl = $metadataColumnB
       .find('center img[width][height]')
       .attr('src');
 
     const $updatedAt = $metadataColumnA.last();
     const updatedAt = moment
-      .tz($updatedAt.text(), 'MMMM Do YYYY, h:mma zz', 'America/Los_Angeles')
+      .tz(t($updatedAt), 'MMMM Do YYYY, h:mma zz', 'America/Los_Angeles')
       .unix();
 
     return {
       slug: seriesSlug,
       title,
       description,
-      author,
-      artist,
+      authors,
       publicationStatus,
       coverImageUrl,
       url,

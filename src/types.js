@@ -48,6 +48,9 @@ export type Series = {
   updatedAt: number,
 };
 
+export type Author = { name: string, role: AuthorRole };
+export type AuthorRole = 'art' | 'story' | 'unknown';
+
 export type SiteAdapter = {
   id: string,
   name: string,
@@ -63,9 +66,7 @@ export type SiteAdapter = {
     url: string,
     title: string,
     description: ?string,
-    // authors: Array<{ name: string, role: 'art' | 'story' | 'unknown' }>,
-    author: ?string,
-    artist: ?string,
+    authors: Author[],
     publicationStatus: PublicationStatus,
     coverImageUrl?: string,
     chapters?: ChapterMetadata[],

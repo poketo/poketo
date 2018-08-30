@@ -3,8 +3,7 @@
 import throttle from 'p-throttle';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-
-import type { SiteAdapter } from '../types';
+import type { Author, SiteAdapter } from '../types';
 
 const throttledGetJSON = throttle(utils.getJSON, 1, 600);
 const getIdFromOid = oid => oid.split('-').pop();
@@ -32,12 +31,16 @@ const parseTitle = (
   return { title, chapterNumber, volumeNumber };
 };
 
-const parseAuthors = data => {
-  const author = data.authors.find(author => author.role === 'story').name;
-  const artist = data.authors.find(author => author.role === 'art').name;
-
-  return { author, artist };
+const Roles = {
+  story: 'story',
+  art: 'art',
 };
+
+const parseAuthors = (data: Object): Author[] =>
+  data.authors.map(author => ({
+    name: author.name,
+    role: Roles[author.role] || 'unknown',
+  }));
 
 const MangaRockAdapter: SiteAdapter = {
   id: 'manga-rock',
@@ -98,7 +101,7 @@ const MangaRockAdapter: SiteAdapter = {
 
     const title = json.data.name;
     const description = json.data.description;
-    const { author, artist } = parseAuthors(json.data);
+    const authors = parseAuthors(json.data);
     const publicationStatus = json.data.completed ? 'COMPLETED' : 'ONGOING';
     const coverImageUrl = json.data.thumbnail;
 
@@ -119,8 +122,7 @@ const MangaRockAdapter: SiteAdapter = {
       slug: seriesSlug,
       title,
       description,
-      author,
-      artist,
+      authors,
       publicationStatus,
       coverImageUrl,
       url,

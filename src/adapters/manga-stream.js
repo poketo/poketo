@@ -114,8 +114,7 @@ const MangaStreamAdapter: SiteAdapter = {
 
     // MangaStream surfaces limited information beyond the series title.
     const description = null;
-    const author = null;
-    const artist = null;
+    const authors = [];
     const publicationStatus = 'UNKNOWN';
 
     // MangaStream returns a 200 status for all pages, even when the
@@ -146,8 +145,7 @@ const MangaStreamAdapter: SiteAdapter = {
       slug: seriesSlug,
       title,
       description,
-      author,
-      artist,
+      authors,
       publicationStatus,
       url,
       chapters,
