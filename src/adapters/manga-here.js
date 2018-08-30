@@ -5,13 +5,7 @@ import moment from 'moment-timezone';
 import throttle from 'p-throttle';
 import errors from '../errors';
 import utils, { invariant } from '../utils';
-import type {
-  Author,
-  AuthorRole,
-  SiteAdapter,
-  ChapterMetadata,
-  Page,
-} from '../types';
+import type { SiteAdapter, ChapterMetadata, Page } from '../types';
 
 const TZ = 'America/Los_Angeles';
 
@@ -92,13 +86,8 @@ function getChapterNumber(input: string): ?string {
   return matches.length > 1 ? matches[1] : null;
 }
 
-const parseAuthor = (input: string, role: AuthorRole): ?Author => {
-  const result = input
-    .split(':')
-    .pop()
-    .trim();
-
-  return result.length > 0 ? { name: result, role } : null;
+const parseAuthor = (input: string): string | null => {
+  return input.split(':').pop() || null;
 };
 
 const throttledGetPage = throttle(utils.getPage, 1, 600);
@@ -166,10 +155,10 @@ const MangaHereAdapter: SiteAdapter = {
 
     const $infoRows = dom('ul.detail_topText > li');
 
-    const authors = [
-      parseAuthor($infoRows.eq(4).text(), 'story'),
-      parseAuthor($infoRows.eq(5).text(), 'art'),
-    ].filter(a => Boolean(a));
+    const author = utils.formatAuthors([
+      parseAuthor($infoRows.eq(4).text()),
+      parseAuthor($infoRows.eq(5).text()),
+    ]);
     const publicationStatus = utils.parseStatus($infoRows.eq(6).text());
     const coverImageUrl = dom('img.img', '.manga_detail_top').attr('src');
 
@@ -180,7 +169,7 @@ const MangaHereAdapter: SiteAdapter = {
       slug: seriesSlug,
       title,
       description,
-      authors,
+      author,
       publicationStatus,
       coverImageUrl,
       url,

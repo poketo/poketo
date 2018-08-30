@@ -2,8 +2,7 @@
 
 exports[`PhoenixSerenade getSeries returns a metadata object 1`] = `
 Object {
-  "artist": "Nekokurage",
-  "author": "HYUUGA Natsu, NANAO Ikki",
+  "author": "HYUUGA Natsu, NANAO Ikki, Nekokurage",
   "coverImageUrl": undefined,
   "description": "In the imperial court, a young woman is put into servitude, Maomao. The tale is just beginning for the woman doctor/pharmacist from the red-light district, as rumors circulate about the emperor's children's lives being short-lived. Her curious nature and thirst for knowledge pushes her to action. To satisfy her curiosity, this young doctor/pharmacist will investigate the origin! What is shifting in the imperial court..!?
 

@@ -11,7 +11,6 @@ Array [
 
 exports[`MangaRock getSeries returns a metadata object 1`] = `
 Object {
-  "artist": "Kaede Kouchi",
   "author": "Kaede Kouchi",
   "coverImageUrl": "https://f01.mrcdn.info/file/mrportal/h/9/4/m/cC.btfAGMrS.jpg",
   "description": "Shiharu is a high school student who loves kids, lives in an orphanage, and works at a daycare... Until the handsome uncle of two-year-old twins offers her a raise if she'll be their babysitter. Often relying on memories of her mother's actions for guidance, Shiharu quickly finds herself falling in love with her new makeshift family.",

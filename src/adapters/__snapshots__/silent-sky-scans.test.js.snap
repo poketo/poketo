@@ -2,7 +2,6 @@
 
 exports[`SilentSkyScans getSeries returns a metadata object 1`] = `
 Object {
-  "artist": null,
   "author": null,
   "coverImageUrl": "http://reader.silentsky-scans.net/content/comics/all_rounder_meguru__51c584cb54c37/thumb_v12.jpg",
   "description": "Meguru joins a mixed martial arts gym hoping to become stronger. 

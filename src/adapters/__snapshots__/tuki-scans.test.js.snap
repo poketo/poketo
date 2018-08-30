@@ -2,7 +2,6 @@
 
 exports[`TukiScans getSeries returns a metadata object 1`] = `
 Object {
-  "artist": "namo.",
   "author": "namo.",
   "coverImageUrl": "https://reader.tukimoop.pw/content/comics/madoromi-chan_5a5435fb56565/thumb_thumb.jpg",
   "description": "A wonderful slice of life comedy about the daily life of an innocent horned girl named Madoromi and her caretaker human Taichii and their adventures and exploits in life.
