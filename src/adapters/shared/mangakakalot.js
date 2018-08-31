@@ -149,7 +149,7 @@ export default function makeMangakakalotAdapter({
       const authors = parseAuthors($authorInfo.text());
       // $FlowFixMe: Flow doesn't recognize that Array<string> is compatible with Array<?string>
       const author = utils.formatAuthors(authors);
-      const publicationStatus = utils.parseStatus($statusInfo.text());
+      const status = utils.parseStatus($statusInfo.text());
       const coverImageUrl = dom('img', 'div.manga-info-pic').attr('src');
 
       const updatedAtRawText = $infoSection
@@ -230,7 +230,7 @@ export default function makeMangakakalotAdapter({
         title,
         description,
         author,
-        publicationStatus,
+        status,
         coverImageUrl,
         url,
         chapters,

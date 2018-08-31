@@ -9,12 +9,12 @@ Object {
 
 Among these people with supernatural powers was an outlier, an individual who was sent to one of these schools despite having no innate special abilities whatsoever. This is the story of our protagonist, who attempts to defeat the Enemies of Humanity through the use of intelligence and manipulation alone.",
   "id": "helvetica-scans:talentless-nana",
-  "publicationStatus": "UNKNOWN",
   "site": Object {
     "id": "helvetica-scans",
     "name": "Helvetica Scans",
   },
   "slug": "talentless-nana",
+  "status": "UNKNOWN",
   "supportsReading": true,
   "title": "Talentless Nana",
   "updatedAt": Any<Number>,

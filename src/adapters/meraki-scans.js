@@ -74,7 +74,7 @@ const MerakiScansAdapter: SiteAdapter = {
     const title = t(dom('h1.ttl'));
     const description = t($infoRows.eq(0));
     const author = utils.formatAuthors([t($infoRows.eq(2).find('a'))]);
-    const publicationStatus = utils.parseStatus($infoRows.eq(6).text());
+    const status = utils.parseStatus($infoRows.eq(6).text());
 
     const coverImageUrl = $infoSection.find('img.cvr').attr('src');
 
@@ -101,7 +101,7 @@ const MerakiScansAdapter: SiteAdapter = {
       title,
       description,
       author,
-      publicationStatus,
+      status,
       chapters,
     };
   },

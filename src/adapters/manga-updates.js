@@ -69,7 +69,7 @@ const MangaUpdatesAdapter: SiteAdapter = {
       t($metadataColumnB.eq(5)), // Author
       t($metadataColumnB.eq(6)), // Artist
     ]);
-    const publicationStatus = utils.parseStatus(t($metadataColumnA.eq(6)));
+    const status = utils.parseStatus(t($metadataColumnA.eq(6)));
     const coverImageUrl = $metadataColumnB
       .find('center img[width][height]')
       .attr('src');
@@ -84,7 +84,7 @@ const MangaUpdatesAdapter: SiteAdapter = {
       title,
       description,
       author,
-      publicationStatus,
+      status,
       coverImageUrl,
       url,
       updatedAt,

@@ -115,7 +115,7 @@ const MangaStreamAdapter: SiteAdapter = {
     // MangaStream surfaces limited information beyond the series title.
     const description = null;
     const author = null;
-    const publicationStatus = 'UNKNOWN';
+    const status = 'UNKNOWN';
 
     // MangaStream returns a 200 status for all pages, even when the
     // slug doesn't exist. The "Page Not Found" h1 tag is our clue it's a 404.
@@ -146,7 +146,7 @@ const MangaStreamAdapter: SiteAdapter = {
       title,
       description,
       author,
-      publicationStatus,
+      status,
       url,
       chapters,
     };

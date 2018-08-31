@@ -7,12 +7,12 @@ Object {
   "description": "Meguru joins a mixed martial arts gym hoping to become stronger. 
 He meets an old childhood friend who is practicing the same kind of shooto martial arts, and who harbors a dark secret related to their past.",
   "id": "silent-sky-scans:all_rounder_meguru_",
-  "publicationStatus": "UNKNOWN",
   "site": Object {
     "id": "silent-sky-scans",
     "name": "Silent Sky Scans",
   },
   "slug": "all_rounder_meguru_",
+  "status": "UNKNOWN",
   "supportsReading": true,
   "title": "All Rounder Meguru",
   "updatedAt": Any<Number>,

@@ -113,7 +113,7 @@ const MangaRockAdapter: SiteAdapter = {
     } = json.data;
 
     const author = utils.formatAuthors(parseAuthors(json.data));
-    const publicationStatus = completed ? 'COMPLETED' : 'ONGOING';
+    const status = completed ? 'COMPLETED' : 'ONGOING';
 
     const chapters = json.data.chapters
       .sort((a, b) => b.order - a.order)
@@ -133,7 +133,7 @@ const MangaRockAdapter: SiteAdapter = {
       title,
       description,
       author,
-      publicationStatus,
+      status,
       coverImageUrl,
       url,
       chapters,

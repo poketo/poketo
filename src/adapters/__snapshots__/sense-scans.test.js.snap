@@ -8,12 +8,12 @@ Object {
 
 Won the 17th Tezuka Osamu Cultural Award Grand Prize.",
   "id": "sense-scans:kingdom",
-  "publicationStatus": "UNKNOWN",
   "site": Object {
     "id": "sense-scans",
     "name": "Sense Scans",
   },
   "slug": "kingdom",
+  "status": "UNKNOWN",
   "supportsReading": true,
   "title": "Kingdom",
   "updatedAt": Any<Number>,

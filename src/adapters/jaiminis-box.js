@@ -87,7 +87,7 @@ const JaiminisBoxAdapter = {
       .trim();
 
     const { author, description } = parseInfo($infoSection.text());
-    const publicationStatus = 'UNKNOWN';
+    const status = 'UNKNOWN';
 
     const coverImageUrl = $comicInfo
       .find('.thumbnail img')
@@ -128,7 +128,7 @@ const JaiminisBoxAdapter = {
       title,
       description,
       author,
-      publicationStatus,
+      status,
       coverImageUrl,
       url,
       chapters,

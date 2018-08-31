@@ -6,12 +6,12 @@ Object {
   "coverImageUrl": "http://localhost:57163/images/manga/13127.large.jpg?1529770840",
   "description": "The Twelve City, a land governed by the leaders of the families who bear in their names the Chinese zodiac. In a city where youkai and humans coexist, the cat youkai who holds a grudge against the Rat Family appears in front of Nekuni Kyouichi, the head of the Rat Family. It's a malice-covered Hateful cat who is aiming for his life. But that youkai is Nekogasaki Natsuho, who's also extremely anxious around other people... Just like the saying \\"Curiosity killed the cat\\" goes, will these feelings also kill the cat?",
   "id": "mangadex:13127",
-  "publicationStatus": "ONGOING",
   "site": Object {
     "id": "mangadex",
     "name": "Mangadex",
   },
   "slug": "13127",
+  "status": "ONGOING",
   "supportsReading": true,
   "title": "Uramikoi, Koi, Uramikoi.",
   "updatedAt": Any<Number>,

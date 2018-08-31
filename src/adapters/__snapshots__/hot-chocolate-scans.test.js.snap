@@ -6,12 +6,12 @@ Object {
   "coverImageUrl": "http://hotchocolatescans.com/fs/content/comics/watashi_no_shounen_5a68c187815a3/thumb_001.jpg",
   "description": "Satoko Tawada is an office worker. She's almost 30 years old, but she still hasn't been able to find happiness in her life. Fate brings her with Mashuu Hayami, a beautiful 12-year-old boy whom she finds practicing soccer all by himself in the park. Out of a whim, she decides to help Mashuu with his practice, with her knowledge of soccer at her disposal. As they practice together on an everyday routine, the two eventually develop an emotional bond. When Satoko's ex-boyfriend deceives her, Mashuu gladly comforts her. And when Satoko learns of Mashuu's mostly absent parents, she starts to concern herself with his personal life. The two lonely souls find common ground and develop an emotional bond that transcends their age difference and circumstances. With this newfound bond, new feelings start to sprout within Satoko. Are these feelings that of maternity? Or is it something else?",
   "id": "hot-chocolate-scans:watashi_no_shounen",
-  "publicationStatus": "UNKNOWN",
   "site": Object {
     "id": "hot-chocolate-scans",
     "name": "Hot Chocolate Scans",
   },
   "slug": "watashi_no_shounen",
+  "status": "UNKNOWN",
   "supportsReading": true,
   "title": "Watashi no Shounen",
   "updatedAt": Any<Number>,
