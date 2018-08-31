@@ -113,6 +113,7 @@ const MangaStreamAdapter: SiteAdapter = {
       .trim();
 
     // MangaStream surfaces limited information beyond the series title.
+    const coverImageUrl = null;
     const description = null;
     const author = null;
     const status = 'UNKNOWN';
@@ -145,6 +146,7 @@ const MangaStreamAdapter: SiteAdapter = {
       slug: seriesSlug,
       title,
       description,
+      coverImageUrl,
       author,
       status,
       url,

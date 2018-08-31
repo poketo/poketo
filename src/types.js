@@ -38,15 +38,17 @@ export type Chapter = {
   pages: Array<Page>,
 };
 
-export type Series = {
+export type Series = {|
   id: string,
   slug: string,
   url: string,
   title: string,
-  coverImageUrl?: string,
+  description: ?string,
+  author: ?string,
+  coverImageUrl: ?string,
   chapters?: ChapterMetadata[],
   updatedAt: number,
-};
+|};
 
 export type SiteAdapter = {
   id: string,
@@ -65,7 +67,7 @@ export type SiteAdapter = {
     description: ?string,
     author: ?string,
     status: PublicationStatus,
-    coverImageUrl?: string,
+    coverImageUrl: ?string,
     chapters?: ChapterMetadata[],
     updatedAt?: number,
   }>,
