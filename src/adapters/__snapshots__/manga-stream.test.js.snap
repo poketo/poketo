@@ -112,6 +112,7 @@ Array [
 exports[`MangaStream getSeries returns a metadata object 1`] = `
 Object {
   "author": null,
+  "coverImageUrl": null,
   "description": null,
   "id": "manga-stream:shokugeki_no_souma",
   "site": Object {
