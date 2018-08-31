@@ -1,7 +1,7 @@
 # poketo-node
 
-[![Build Status](https://badgen.net/travis/poketo/node)](https://travis-ci.org/poketo/node)
-[![Coverage](https://badgen.net/coveralls/c/github/poketo/node)](https://coveralls.io/github/poketo/node)
+[![Build Status](https://badgen.net/travis/poketo/poketo)](https://travis-ci.com/poketo/poketo)
+[![Coverage](https://badgen.net/coveralls/c/github/poketo/poketo)](https://coveralls.io/github/poketo/poketo)
 [![npm](https://badgen.now.sh/npm/v/poketo)](https://www.npmjs.com/package/poketo)
 
 Node library for scraping manga sites.
@@ -62,7 +62,7 @@ Full documentation of the [API can be found below](#api).
 | [Silent Sky Scans](http://www.silentsky-scans.net)  | ✓           | ✓              |
 | [Tuki Scans](https://tukimoop.pw)                   | ✓           | ✓              |
 
-If there's a site or group you'd like to see supported, [make an issue!](https://github.com/poketo/node/issues/new)
+If there's a site or group you'd like to see supported, [make an issue!](https://github.com/poketo/poketo/issues/new)
 
 ## API
 
@@ -206,13 +206,13 @@ Scraping isn't a perfect. When using Poketo you'll inevitably run into an error,
 - `RequestError` - unable to make a request to scrape the site
 - `TimeoutError` - tried to make a request, but the source site didn't respond in a reasonable time. Defaults to 5 seconds.
 - `HTTPError` - tried to scrape the source site, but the site returned an error (eg. 404, 500)
-- `UnsupportedSiteError` - the site you're trying to scrape from isn't supported. If you'd like to see it supported, [make an issue!](https://github.com/poketo/node/issues/new)
+- `UnsupportedSiteError` - the site you're trying to scrape from isn't supported. If you'd like to see it supported, [make an issue!](https://github.com/poketo/poketo/issues/new)
 - `UnsupportedOperationError` - some sites don't support reading chapters. This error is thrown if you call `poketo.getChapter` for these sites.
 
 ## Contributing
 
-Contributions are welcome! Poketo is meant to be built on, so feel free to propose ideas or changes that would make it work for your situation — whether it's a bug report, site request, or contributed code. Read more at [CONTRIBUTING.md](https://github.com/poketo/node/blob/master/CONTRIBUTING.md)
+Contributions are welcome! Poketo is meant to be built on, so feel free to propose ideas or changes that would make it work for your situation — whether it's a bug report, site request, or contributed code. Read more at [CONTRIBUTING.md](https://github.com/poketo/poketo/blob/master/CONTRIBUTING.md)
 
 ## License
 
-[MIT](https://github.com/poketo/node/blob/master/LICENSE.md)
+[MIT](https://github.com/poketo/poketo/blob/master/LICENSE.md)

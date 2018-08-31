@@ -6,7 +6,7 @@ Every kind of contribution is welcome, whether that's feature ideas, bug reports
 
 ## Code Contributions
 
-1. Fork and clone the repository: `git clone https://github.com/poketo/node.git`
+1. Fork and clone the repository: `git clone https://github.com/poketo/poketo.git`
 2. Create a branch with a meaningful name: `git checkout -b fix-something`
 3. Make your changes and commit: `git add` and `git commit`
 4. Make sure the tests still pass: `npm test` and `npm lint` (typechecking)
