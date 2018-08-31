@@ -1,5 +1,6 @@
 // @flow
 
+import he from 'he';
 import moment from 'moment-timezone';
 import throttle from 'p-throttle';
 import errors from '../errors';
@@ -111,12 +112,18 @@ const MangadexAdapter: SiteAdapter = {
       `${this._getHost()}/api/manga/${seriesSlug}`,
     );
 
-    const { title, description, cover_url: coverUrl } = json.manga;
+    const {
+      title,
+      description: rawDescription,
+      cover_url: rawCoverImageUrl,
+    } = json.manga;
+
+    const description = he.decode(rawDescription);
     const author = utils.formatAuthors([json.manga.author, json.manga.artist]);
     const publicationStatus = StatusCodes[json.manga.status] || 'UNKNOWN';
     // We swap out the URL to get a "large" thumbnail-sized version.
     const coverImageUrl =
-      this._getHost() + coverUrl.replace('.jpg', '.large.jpg');
+      this._getHost() + rawCoverImageUrl.replace('.jpg', '.large.jpg');
 
     // If the chapter object doesn't exist, the series doesn't have any chapters
     // available to read.
@@ -161,11 +168,10 @@ const MangadexAdapter: SiteAdapter = {
 
     // We get seriesSlug here since we don't have it from the URL, but
     // it's still needed to generate chapter IDs.
-    const seriesSlug = json.manga_id;
+    const { manga_id: seriesSlug, page_array: pagePaths, server, hash } = json;
     const basename = json.server.startsWith('/data')
-      ? `${this._getHost()}${json.server}${json.hash}`
-      : `${json.server}${json.hash}`;
-    const pagePaths = json.page_array;
+      ? `${this._getHost()}${server}${hash}`
+      : `${server}${hash}`;
 
     const pages = pagePaths.map(path => {
       const url = `${basename}/${path}`;
