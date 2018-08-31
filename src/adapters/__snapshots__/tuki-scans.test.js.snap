@@ -8,12 +8,12 @@ Object {
 
 - Taken from the MAL listing of Madoromi-chan ga Iku.",
   "id": "tuki-scans:madoromi-chan",
-  "publicationStatus": "UNKNOWN",
   "site": Object {
     "id": "tuki-scans",
     "name": "Tuki Scans",
   },
   "slug": "madoromi-chan",
+  "status": "UNKNOWN",
   "supportsReading": true,
   "title": "Madoromi-chan ga Iku.",
   "updatedAt": Any<Number>,

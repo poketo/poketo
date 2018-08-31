@@ -93,7 +93,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
 
       const title = name.trim();
       const author = utils.formatAuthors([rawAuthor, rawArtist]);
-      const publicationStatus = 'UNKNOWN';
+      const status = 'UNKNOWN';
       const coverImageUrl = thumbUrl || undefined;
 
       const chapters: ChapterMetadata[] = json.chapters.map(data => {
@@ -135,7 +135,7 @@ export default function makeFoolSlideAdapter(options: Options): SiteAdapter {
         title,
         description,
         author,
-        publicationStatus,
+        status,
         coverImageUrl,
         url,
         chapters,

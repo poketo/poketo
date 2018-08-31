@@ -6,12 +6,12 @@ Object {
   "coverImageUrl": "http://merakiscans.com/wp-content/manga/cover/tbn/ninja_200x0.jpg",
   "description": "A slice-of-life series about a girl named Shinobu, who is perfectly normal and not a ninja whatsoever.",
   "id": "meraki-scans:ninja-shinobu-san-no-junjou",
-  "publicationStatus": "ONGOING",
   "site": Object {
     "id": "meraki-scans",
     "name": "Meraki Scans",
   },
   "slug": "ninja-shinobu-san-no-junjou",
+  "status": "ONGOING",
   "supportsReading": true,
   "title": "Ninja Shinobu-san no Junjou",
   "updatedAt": Any<Number>,

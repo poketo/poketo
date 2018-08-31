@@ -7,12 +7,12 @@ Object {
   "description": "The happy daily life of Muco, a not-too-bright Akita dog, and his owner Komatsu-san the glass-blower. Based on a real dog of the same name. (Mangaupdates)
 ",
   "id": "jaiminis-box:itoshi-no-muco",
-  "publicationStatus": "UNKNOWN",
   "site": Object {
     "id": "jaiminis-box",
     "name": "Jaimini’s Box",
   },
   "slug": "itoshi-no-muco",
+  "status": "UNKNOWN",
   "supportsReading": true,
   "title": "Itoshi no Muco",
   "updatedAt": Any<Number>,

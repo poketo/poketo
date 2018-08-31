@@ -114,12 +114,12 @@ Object {
   "author": null,
   "description": null,
   "id": "manga-stream:shokugeki_no_souma",
-  "publicationStatus": "UNKNOWN",
   "site": Object {
     "id": "manga-stream",
     "name": "Manga Stream",
   },
   "slug": "shokugeki_no_souma",
+  "status": "UNKNOWN",
   "supportsReading": true,
   "title": "Shokugeki no Souma",
   "updatedAt": Any<Number>,

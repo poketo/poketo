@@ -64,7 +64,7 @@ export type SiteAdapter = {
     title: string,
     description: ?string,
     author: ?string,
-    publicationStatus: PublicationStatus,
+    status: PublicationStatus,
     coverImageUrl?: string,
     chapters?: ChapterMetadata[],
     updatedAt?: number,

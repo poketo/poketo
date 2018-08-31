@@ -120,7 +120,7 @@ const MangadexAdapter: SiteAdapter = {
 
     const description = he.decode(rawDescription);
     const author = utils.formatAuthors([json.manga.author, json.manga.artist]);
-    const publicationStatus = StatusCodes[json.manga.status] || 'UNKNOWN';
+    const status = StatusCodes[json.manga.status] || 'UNKNOWN';
     // We swap out the URL to get a "large" thumbnail-sized version.
     const coverImageUrl =
       this._getHost() + rawCoverImageUrl.replace('.jpg', '.large.jpg');
@@ -153,7 +153,7 @@ const MangadexAdapter: SiteAdapter = {
       title,
       description,
       author,
-      publicationStatus,
+      status,
       coverImageUrl,
       url,
       chapters,

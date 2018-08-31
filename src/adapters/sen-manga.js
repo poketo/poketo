@@ -97,7 +97,7 @@ const SenMangaAdapter: SiteAdapter = {
       t($seriesInfoRows.eq(4).find('a')),
       t($seriesInfoRows.eq(5).find('a')),
     ]);
-    const publicationStatus = utils.parseStatus(t($seriesInfoRows.eq(7)));
+    const status = utils.parseStatus(t($seriesInfoRows.eq(7)));
     const coverImageUrl = `${this._getHost()}/covers/${seriesSlug}.jpg`;
 
     const $chapterList = dom('div.element');
@@ -122,7 +122,7 @@ const SenMangaAdapter: SiteAdapter = {
       title,
       description,
       author,
-      publicationStatus,
+      status,
       coverImageUrl,
       url,
       chapters,

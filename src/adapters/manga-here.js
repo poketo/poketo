@@ -148,7 +148,7 @@ const MangaHereAdapter: SiteAdapter = {
       parseAuthor($infoRows.eq(4).text()),
       parseAuthor($infoRows.eq(5).text()),
     ]);
-    const publicationStatus = utils.parseStatus($infoRows.eq(6).text());
+    const status = utils.parseStatus($infoRows.eq(6).text());
     const coverImageUrl = dom('img.img', '.manga_detail_top').attr('src');
 
     const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
@@ -159,7 +159,7 @@ const MangaHereAdapter: SiteAdapter = {
       title,
       description,
       author,
-      publicationStatus,
+      status,
       coverImageUrl,
       url,
       chapters,

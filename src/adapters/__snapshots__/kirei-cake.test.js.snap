@@ -6,12 +6,12 @@ Object {
   "coverImageUrl": undefined,
   "description": "Makabe Masamune has changed himself greatly for a single reason: he wants revenge. Contrary to his past, he has worked hard to become good-looking in order to carry out this goal. Faster than anticipated, he even meets the target of his revenge the first day after transferring in.. Adagaki Aki! He wastes no time beginning his plan, but revenge doesn't come easily.",
   "id": "kirei-cake:masamunekuns_revenge",
-  "publicationStatus": "UNKNOWN",
   "site": Object {
     "id": "kirei-cake",
     "name": "Kirei Cake",
   },
   "slug": "masamunekuns_revenge",
+  "status": "UNKNOWN",
   "supportsReading": true,
   "title": "Masamune-kun's Revenge",
   "updatedAt": Any<Number>,

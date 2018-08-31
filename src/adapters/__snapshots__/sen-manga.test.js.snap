@@ -193,12 +193,12 @@ Object {
 
 Yotsuba&! received an Excellence Award for Manga at the 2006 Japan Media Arts Festival. In 2008 Yotsuba&! was nominated for the 12th Osamu Tezuka Culture Award and the Eisner Award \\"Best Publication for Kids\\" category, but did not win either, and was runner-up for the first annual Manga Taish? award.",
   "id": "sen-manga:Yotsubato!",
-  "publicationStatus": "ONGOING",
   "site": Object {
     "id": "sen-manga",
     "name": "Sen Manga",
   },
   "slug": "Yotsubato!",
+  "status": "ONGOING",
   "supportsReading": true,
   "title": "Yotsubato!",
   "updatedAt": Any<Number>,
