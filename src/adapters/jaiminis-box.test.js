@@ -79,6 +79,18 @@ describe('JaiminisBox', () => {
       );
       expect(chaptersToTest).toMatchSnapshot();
     });
+
+    it('returns sub-chapter metadata', async () => {
+      const { chapters } = await poketo.getSeries(
+        'jaiminis-box:kaguya-wants-to-be-confessed-to',
+      );
+
+      const chapterNumbersToTest = ['101', '101.1'];
+      const chaptersToTest = chapters.filter(chapter =>
+        chapterNumbersToTest.includes(chapter.chapterNumber),
+      );
+      expect(chaptersToTest).toMatchSnapshot();
+    });
   });
 
   describe('getChapter', () => {

@@ -106,9 +106,15 @@ const JaiminisBoxAdapter = {
 
       const slug = this.parseUrl(url).chapterSlug.replace(/\/$/, '');
 
-      const slugParts = slug.split('/');
-      const volumeNumber = slugParts[1];
-      const chapterNumber = slugParts[2];
+      const [
+        ,
+        volumeNumber,
+        rawChapterNumber,
+        rawSubChapterNumber,
+      ] = slug.split('/');
+      const chapterNumber = [rawChapterNumber, rawSubChapterNumber]
+        .filter(Boolean)
+        .join('.');
 
       const createdAtRawText = node
         .find('.meta_r')
