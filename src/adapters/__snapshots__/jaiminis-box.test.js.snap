@@ -3,7 +3,7 @@
 exports[`JaiminisBox getSeries returns series metadata 1`] = `
 Object {
   "author": "MIZUSHINA Takayuki",
-  "coverImageUrl": "https://i1.wp.com/jaiminisbox.com/reader/content/comics/itoshi-no-muco_586c3e495e85d/thumb_mucothumbnailresized.jpg",
+  "coverImageUrl": "https://i2.wp.com/jaiminisbox.com/reader/content/comics/itoshi-no-muco_586c3e495e85d/thumb_mucothumbnailresized.jpg",
   "description": "The happy daily life of Muco, a not-too-bright Akita dog, and his owner Komatsu-san the glass-blower. Based on a real dog of the same name. (Mangaupdates)
 ",
   "id": "jaiminis-box:itoshi-no-muco",

@@ -1,0 +1,35 @@
+var path = require("path");
+
+/**
+ * GET /reader/api/reader/comic/stub/kingdom/format/json
+ *
+ * user-agent: poketo/test (https://github.com/poketo/poketo)
+ * accept-encoding: gzip,deflate
+ * accept: application/json
+ * host: sensescans.com
+ * connection: close
+ */
+
+module.exports = function (req, res) {
+  res.statusCode = 200;
+
+  res.setHeader("date", "Mon, 03 Sep 2018 01:49:32 GMT");
+  res.setHeader("content-type", "application/json");
+  res.setHeader("transfer-encoding", "chunked");
+  res.setHeader("connection", "close");
+  res.setHeader("set-cookie", ["__cfduid=d92cb3a988c97755df99bb30d6d1e49321535939371; expires=Tue, 03-Sep-19 01:49:31 GMT; path=/; domain=.sensescans.com; HttpOnly","ci_session=UGdZblc%2BWjhTLwcgVWwGNA5sWzoDc1ovBGYEJVJxADwKbA46AQFbbwY0WXZWMFhzBDlcO1BhADlRIV8zDmRSMVBgUjZfaVVhWDBaNl0wDDVQZFkxVztaN1NiB2ZVYgYyDmRbMANjWj0EMwQ1UmQAMQpgDm0Bals0BmZZdlYwWHMEOVw5UGMAOVEhX20OLFILUDZSZF9rVXJYNFpzXXEMc1A9WSdXMFozU2AHaVV0BjQOa1syA39aagQ7BHhSMwBhCjAOegFsWzYGZll2VjBYcwQ5XDlQYwA5USFfcQ4vUjFQJVJfX25VZ1g0Wm5ddgxzUD1ZJ1cwWjZTYgdpVXQGdQ4zW2sDNFooBGwEeVJ2ADAKcA4gAX5bLgY4WSBWf1hwBHBcMlB8ACxRZF9tDihSPFAiUmJfIVVjWD5abV0tDCFQaVk%2FV29adlM7B3xVJgZqDjdbZQMlWjMEKgR0UjkAJgo5DmUBbVs8BnJZOFZqWHMEd1xXUDIAYFF3X20OKlI9UCNSeV8tVTtYOFo6XTMMZFA1WWFXM1oxU20HZFVnBjYOZ1t9; expires=Mon, 03-Sep-2018 03:55:13 GMT; Max-Age=7200; path=/","ci_session=AzRabVE4WDoCfgIlADkENg9tXTxVJQRxUTMMLQAjVWkJbwA0CwsANFFjWnUEYgEqBDlQN1JjCTBWJl0xAWtVNl9vA2dSZFBkCGAPY1o3XWQDN1oyUT1YNQIzAmMANwQwD2VdNlU1BGNRZgw9ADZVZAljAGMLYABvUTFadQRiASoEOVA1UmEJMFYmXW8BI1UMXzkDNVJmUHcIZA8mWnZdIgNuWiRRNlgxAjECbAAhBDYPal00VSkENFFuDHAAYVU0CTMAdAtmAG1RMVp1BGIBKgQ5UDVSYQkwViZdcwEgVTZfKgMOUmNQYghkDztacV0iA25aJFE2WDQCMwJsACEEdw8yXW1VYgR2UTkMcQAkVWUJcwAuC3QAdVFvWiMELQEpBHBQPlJ%2BCSVWY11vASdVO18tAzNSLFBmCG4POFoqXXADOlo8UWlYdAJqAnkAcwRoDzZdY1VzBG1Rfwx8AGtVcwk6AGsLZwBnUSVaOwQ4ASoEd1BbUjAJaVZwXW8BJVU6XywDKFIgUD4IaA9vWjRdNQNmWmJRNVgzAjwCYQAyBDQPZl17; expires=Mon, 03-Sep-2018 03:55:13 GMT; Max-Age=7200; path=/"]);
+  res.setHeader("x-powered-by", "PHP/5.5.38-1~dotdeb+7.1");
+  res.setHeader("last-modified", "Mon, 03 Sep 2018 01:55:13 GMT");
+  res.setHeader("content-encoding", "gzip");
+  res.setHeader("expect-ct", "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"");
+  res.setHeader("server", "cloudflare");
+  res.setHeader("cf-ray", "45448f729c846be6-SJC");
+
+  res.setHeader("x-yakbak-tape", path.basename(__filename, ".js"));
+
+  res.write(new Buffer("H4sIAAAAAAAAA+2dWY/iSBKA/0qKl3mpI09fb72912hmNaup3m2tlpGV2EnhabBZ2zTb0+r/vpE24IOCKYzrYVG0ympMBOHMyHDER9pOvk6ibJVEk+DrJIkngZB3k1SvzCSY/JCkz3G2mtxNinIzgzc+Hd7YpMl/rPZEucIxyuexptoFwSKJY5OCgMKO3pSLLIedv777+R35ly42i6TQVpCXSVG+IIhNEeXJukwya+NvyXIJrwqSzckXo/OCLPRnQ9a6KExMiiSNDCkXsCUrUyktzbNJ4+KObBcmrUTbLF/GlWylU6LTmDxnsL81uSFFCfYrrQI6/EC+rz5S7O0lJdnqopJDs5LcHMyUC12SVfYZGnE4Bny8JEmtbnJtVe1LRWnVdDCVB+SD1dZ5Dn6Eo+sSTK5NnmTw6Z2z9yaKMsu/WCOafMk2oD7LvhA7LjF5WiQpdDAjz7nZkiQtM1CC19Am6D0ce1n1U+/6VuaJXhbVW7NlBp1fVM0G7aXRMVkkK6uWm4dpOk0/ZrXbmFsuyAfz2+aTJj+Bdzbk/WZZbqztd9CBmPwltwb/nie/mQcYt3KxWc1SnSybKHlYp88giTbQlVW00OvS2FCAt+ZZvtLlPkZiMLx7HdlOGBtWnDLnnqp7Jgn1AqkC6oB8qYuyMHV4wb/76o9QGlR/NizXcceAd88lYX6gaCD9/QGqiFSwZ+Kk3mHuvgvhJrddWJTlOpg+Th8LkxYQkjotHuAsmT7C52OTTx+jLC1NWtoXcO4U08ddp8PO+TB9rI12PTLfLJcF+C0O3+SQ3YMtcjN/jfUCwtA0RqePk2/grnrUiknw76+YJTBLYJbALHEyS+xTAxMevauzRVid/EJavxm9qnc57P2aQUDWu9WIHsZdcjuCxWbWvGXH4HO23FTJRvjVAKfPG/1s92GUD4non9nygQif/LTSn0yTjsBkqEKwEAo/zHayJjP5RvAZ55z6ivczUzfP9AK4H4nuPaP3TBHqB4IHzLs4ElsGJA0Y70RiFXzdUHztoNn/W0Nm0umj8KeP4Jfpo4IhhG4l5XLvQXDg+9r3BDQeVED6fo2zbbrMdBy+tgH7D5xrxLc6ROpSY0eGH8b1yZq9f7J2m1FtjmXdWJ0b2+32oduEOotsVucamaSx+e/DerEG5SSPduO8TcomEenIzLLs085KUZmxB9sLakON4cqne2Ed89Sjkvk+dxil4iiJsXsKg88Jh2GXkMcGhA4V95RXsecEQnRDpx05/ILAsQPS69e3X77dIQogCiAKIAq8CgXYcBQQ1smnUUDSyXkUkPQIBYS7QwFJT6GAEzM6E7N+ZhqMAqJOx5dFYg8FnE4kjosCksIm3JdQABx4QAHhHlCg5dexUKDTCEQBRAFEAUQBRIHbQgE+HAWk/TZ9BgXY5HdQgB2hgPT2KMBOocBM0rkbO/3MNBgFIJ/LiyOxiwL8EOpvgQIMNum9iAKsQQHpNSjAxkeBdiMQBRAFEAUQBRAFbgsFxHAUUHYAzqAAn/wOCvAjFFD+HgX4KRSI5tA/n/Uz02AUUAFjF0diDwXedFaAw6b8F1GANyig/AYF+Pgo0G4EogCiAKIAogCiwG2hgByOAq7dP4MC9bz7GRQQRyjg0j0KiBMoEAlvRuPqi/w4KOAE6vJI7KJAUzDeAgUEbC59EQVEgwIubVBAjI8C7UYgCiAKIAogCiAK3BYKqOEo4NnEdQYF6nn3Myggj1DAY3sUkKdQwPU8yNOin5kGo4BXB9plkdhDgTedFZCweexFFJANCnisQQE5Pgq0G4EogCiAKIAogChwSygg3eEooI4=", "base64"));
+  res.write(new Buffer("LxBYhQMKqDMXCH5Onhcl+QhN+64gP21KaEKLCMBySMPc6oRb0CnC7KDS5KkZlTz2lNG+vO7OAc/GJefEpnZ3yE2ELQOKB8rrxCWfDMzuL2CB4rDZefpJlwlUc6UAxAE54d6xwKBpBlIBUgFSAVIBUsFtUYE/nAocuz+MCmzEQ8F6WkMSbrIRWAQaKEBWhMVO1KaA2HWlryPKr7tSUBdxnzBli7i8/KaBtgEoB91sPjoFOPQsBTg0ID13jlr9q8Nj9cfqj9Ufqz9W/5uq/p57RfU/ujzw6ur//QoKVVmfUhC3T9DGpSFPdgJg0oIBBjCQVKphNg+talhUqmGxU23BAWd0HglnFs9pP21dCgfOPROEcZurmX9xmLYMSBHQ7pIDnTBVF4znSThg5+GABeS8t8dlBYasgKyArICsgKxwa6zgD1+BSDlWPIwV/mhbSd5nKzj5oLWTFh9w4IPYisOoJW4zgRaxcmbzSPN+erqcCTgljAWSBYxeHI4HAyLgLFBnwvGSpH6SCfh5JuABOfbquBzAkQOQA5ADkAOQA26OA4avOaAcm8aGccCPGUTc7oT6kCczc0d+0KXOk0mLCAQQwRIU6/kCE5ZWMfy012uhgZARlb7vU33dA4h1ZfcsGlA+8I6CgwG3vxbB+NMF4jwaiICcc/S4kCAQEhASEBIQEhASbg4Shj+CqByrPAwSnjaprTiTFhJIe0fB4e02AcRiNnOUw9h1Dxt4NolTSeCLPXeHrFHcNuAFQnXCb/y7CeR5ApABabw4br2XWO+x3mO9x3qP9f7m6r13Rb23Lh9W7/+xhrC0586fc3AC+TFJTat2gGUo/hvQqSYD5lYnXO50WiQgZRwz6c7kPO4nqstJgFHCHDvLv1tL+ZLAbBlQMhCsE5jjk8DxE4cdElABOeHfcbEAnzlELEAsQCxALLg1LFB0+KKEyjn61aJXY8EHnW71dwXUsizpPl/gABCUVlqE0V7YJoG5Nv6MUhXrfm4aQAKe/UrPvMFzArUBLoEmTsfiKFcFnPMk4EAm6rt0XAZwkAGQAZABkAGQAW6OAa5Yd8CxTh7IANkqy/Nsax+L23SuCLiWAXbSwl4b6OSmmXIV4zz2vYj2c9PlDGBDyQmYG4iBDFAb4DxQb31dwD3PAC5kor5Lx2UAFxkAGQAZABkAGeDWGIBdMw9w9DtFr2cAiMinMs/SZ1OU5KM9gbLOEwSeRYGFCYu9Urg9KLWQwNFOFDnKc6Krbxa0f4TKAKJzGBLsDXDWX6J4/GkB7zwSeHViesnD45KBh2SAZIBkgGSAZHBrZMCveapw+KqEf9C/JpldMU+Xi0kLCOxqhDMrK8KsFrUwwI1dZYTjiejqVQi9/SqEtL7h77I4bBtwg+rnmd4SA86vQuj4Aem5c9zqj6sPYvXH6o/VH6v/7VX/K+YFjn+pqFv960fxTs4LwHkyN1FJ/pRGcD5YAw0GuHQ3L7BTCk1LqQUEnuNErvEi6Y4BBL7NzxBZSl4cmnsDTATS6a85NOqlAgGb+8KChM2vFoG4TkwveXg0Mji0A8ng/4UMfvn2Pw+7yO0XlQAA", "base64"));
+  res.end();
+
+  return __filename;
+};
