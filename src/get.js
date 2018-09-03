@@ -1,6 +1,7 @@
 // @flow
 
 import got from 'got';
+import pkg from '../package';
 import errors from './errors';
 
 type RequestOptions = {
@@ -9,9 +10,25 @@ type RequestOptions = {
   timeout?: number,
 };
 
+const version = process.env.NODE_ENV === 'test' ? 'test' : pkg.version;
+
+const defaultHeaders = {
+  'User-Agent': `${pkg.name}/${version} (${pkg.repository})`,
+};
+
+const getOptions = (opts: RequestOptions = {}) => {
+  return {
+    ...opts,
+    headers: {
+      ...defaultHeaders,
+      ...opts.headers,
+    },
+  };
+};
+
 async function get(url: string, opts?: RequestOptions) {
   try {
-    return await got(url, opts);
+    return await got(url, getOptions(opts));
   } catch (err) {
     if (err instanceof got.HTTPError) {
       if (err.statusCode === 404) {

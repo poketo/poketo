@@ -3,7 +3,7 @@
   "version": "0.4.1",
   "description": "Library for fetching and reading manga sites",
   "main": "lib/index.js",
-  "repository": "https://github.com/poketo/lib",
+  "repository": "https://github.com/poketo/poketo",
   "files": [
     "lib",
     "supports.js"
