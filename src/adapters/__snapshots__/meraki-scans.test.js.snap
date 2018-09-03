@@ -25,6 +25,7 @@ Array [
     "chapterNumber": "21",
     "createdAt": 1504915200,
     "id": "meraki-scans:ninja-shinobu-san-no-junjou:21",
+    "order": 20,
     "slug": "21",
     "title": "You are just!",
     "url": "http://localhost:57165/ninja-shinobu-san-no-junjou/21",

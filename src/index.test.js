@@ -102,6 +102,27 @@ describe('poketo', () => {
       expect(metadataFromId).toMatchSnapshot(updatedWhenever);
     });
 
+    it('returns chapters in the correct order', async () => {
+      const { chapters } = await poketo.getSeries('mangadex:13108');
+
+      const sortedChapters = chapters
+        .reverse()
+        .slice(0, 80)
+        .reverse();
+      const chapterNumbers = sortedChapters.map(c =>
+        parseFloat(c.chapterNumber),
+      );
+      const volumeNumbers = sortedChapters.map(c => parseFloat(c.volumeNumber));
+
+      // Chapter numbers should appear in descending order
+      const sortDescending = arr => arr.sort((b, a) => b - a);
+      const sortedChapterNumbers = sortDescending(chapterNumbers);
+      const sortedVolumeNumbers = sortDescending(volumeNumbers);
+
+      expect(chapterNumbers).toEqual(sortedChapterNumbers);
+      expect(volumeNumbers).toEqual(sortedVolumeNumbers);
+    });
+
     it('throws for invalid urls', async () => {
       expect.assertions(1);
 

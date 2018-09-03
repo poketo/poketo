@@ -127,12 +127,12 @@ const poketo: any = {
     };
 
     if (seriesData.chapters) {
-      series.chapters = utils.sortChapters(
-        seriesData.chapters.map(chapterData => ({
-          ...chapterData,
-          id: utils.generateId(site.id, seriesData.slug, chapterData.slug),
-        })),
-      );
+      series.chapters = utils.sortChapters(seriesData.chapters);
+      series.chapters = series.chapters.map((chapterData, index) => ({
+        ...chapterData,
+        id: utils.generateId(site.id, seriesData.slug, chapterData.slug),
+        order: series.chapters.length - index - 1,
+      }));
     }
 
     return series;
