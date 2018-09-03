@@ -211,6 +211,7 @@ Object {
   "chapterNumber": "82",
   "createdAt": Any<Number>,
   "id": "sen-manga:Yotsubato!:82",
+  "order": 0,
   "slug": "82",
   "title": undefined,
   "url": "http://localhost:57172/Yotsubato!/82",
