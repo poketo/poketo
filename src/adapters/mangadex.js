@@ -118,7 +118,7 @@ const MangadexAdapter: SiteAdapter = {
       cover_url: rawCoverImageUrl,
     } = json.manga;
 
-    const description = he.decode(rawDescription);
+    const description = utils.stripBBCode(he.decode(rawDescription));
     const author = utils.formatAuthors([json.manga.author, json.manga.artist]);
     const status = StatusCodes[json.manga.status] || 'UNKNOWN';
     // We swap out the URL to get a "large" thumbnail-sized version.

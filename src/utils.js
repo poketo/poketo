@@ -123,6 +123,10 @@ export default {
       .replace(/,]$/, ']'); // Remove trailing slashes
   },
 
+  stripBBCode(input: string): string {
+    return input.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2');
+  },
+
   extractJSON(pattern: RegExp, input: string): any {
     const match = this.extractText(pattern, input);
 
