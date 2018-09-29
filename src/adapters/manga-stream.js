@@ -17,6 +17,7 @@ const getChapterTimestamp = str => {
     case 'today':
       date = moment.tz(TZ);
       break;
+    case '1 day ago':
     case 'yesterday':
       date = moment.tz(TZ).subtract(1, 'day');
       break;
