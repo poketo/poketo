@@ -92,14 +92,6 @@ describe('MangaDex', () => {
       expect(a).toEqual(uniq(a));
       expect(b).not.toEqual(uniq(b));
     });
-
-    it('does not error for series with no readable chapters', async () => {
-      const series = await poketo.getSeries('mangadex:12545');
-
-      expect(series).toMatchObject({
-        chapters: [],
-      });
-    });
   });
 
   describe('getChapter', () => {
