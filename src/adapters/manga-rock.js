@@ -99,11 +99,19 @@ const MangaRockAdapter: SiteAdapter = {
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
     const json = await throttledGetJSON(
-      `${this._getHost()}/query/web400/info?oid=mrs-serie-${seriesSlug}`,
+      `${this._getHost()}/query/web401/info?oid=mrs-serie-${seriesSlug}`,
     );
 
     invariant(json.code !== 103, new errors.NotFoundError(url)); // Not found
     invariant(json.code !== 104, new errors.NotFoundError(url)); // Series is licensed
+    invariant(
+      json.code !== 109,
+      new errors.HTTPError(400, 'Unknown query version', url),
+    );
+    invariant(
+      json.code !== 110,
+      new errors.HTTPError(400, 'Invalid request', url),
+    );
 
     const {
       name: title,
@@ -143,7 +151,7 @@ const MangaRockAdapter: SiteAdapter = {
   async getChapter(seriesSlug, chapterSlug) {
     const url = this.constructUrl(seriesSlug, chapterSlug);
     const pagesJSON = await throttledGetJSON(
-      `${this._getHost()}/query/web400/pages?oid=mrs-chapter-${chapterSlug}`,
+      `${this._getHost()}/query/web401/pages?oid=mrs-chapter-${chapterSlug}`,
     );
 
     const pages = await Promise.all(pagesJSON.data.map(url => getPage(url)));
