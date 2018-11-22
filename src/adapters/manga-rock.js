@@ -34,6 +34,22 @@ const parseTitle = (
 const parseAuthors = (data: { authors: { name: string }[] }): Array<?string> =>
   data.authors.length > 0 ? data.authors.map(author => author.name) : [null];
 
+const validateStatusCode = (code: number, url: string) => {
+  switch (code) {
+    case 0:
+      return;
+    case 103:
+    case 106:
+      throw new errors.NotFoundError(url);
+    case 104:
+      throw new errors.HTTPError(403, 'Series is licensed', url);
+    case 109:
+      throw new errors.HTTPError(400, 'Unknown query version', url);
+    case 110:
+      throw new errors.HTTPError(400, 'Invalid request', url);
+  }
+};
+
 /*
  * MangaRock is a special snowflake; they encode their images as base64'd WebP
  * files with a few header bits taken out. I wrote a micro-service to decode
@@ -102,16 +118,7 @@ const MangaRockAdapter: SiteAdapter = {
       `${this._getHost()}/query/web401/info?oid=mrs-serie-${seriesSlug}`,
     );
 
-    invariant(json.code !== 103, new errors.NotFoundError(url)); // Not found
-    invariant(json.code !== 104, new errors.NotFoundError(url)); // Series is licensed
-    invariant(
-      json.code !== 109,
-      new errors.HTTPError(400, 'Unknown query version', url),
-    );
-    invariant(
-      json.code !== 110,
-      new errors.HTTPError(400, 'Invalid request', url),
-    );
+    validateStatusCode(json.code, url);
 
     const {
       name: title,
@@ -153,6 +160,8 @@ const MangaRockAdapter: SiteAdapter = {
     const pagesJSON = await throttledGetJSON(
       `${this._getHost()}/query/web401/pages?oid=mrs-chapter-${chapterSlug}`,
     );
+
+    validateStatusCode(pagesJSON.code, url);
 
     const pages = await Promise.all(pagesJSON.data.map(url => getPage(url)));
 
