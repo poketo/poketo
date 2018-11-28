@@ -6,11 +6,11 @@
 
 Node library for scraping manga sites.
 
-People should be able to read content on the web in the way that works for them. Manga sites are often a special brand of bad. Each page is a new page load, ads everywhere, yuck!
+Provides a consistent API for scraping metadata and chapter images from 16+ manga sites. Makes it easy to build manga readers, downloaders, archival tools, and more.
 
-This library wraps scraping logic for 16+ sites, providing open access to their content, and an easy way to build readers, downloaders, and more.
+For working examples, check out the [Poketo manga reader](https://poketo.app), or the [Poketo CLI](https://github.com/poketo/poketo-cli)!
 
-For a working example, check out the [Poketo manga reader](https://poketo.app)!
+People should be able to read content on the web in the way that works for them. Manga sites are often a special brand of bad. Each manga page loads a new web page, ads everywhere, yuck! Poketo opens up access to that content to make better tools on top.
 
 > :construction: This project is still `v0.x.x` and the API may change as more sites are added.
 
@@ -195,7 +195,7 @@ poketo.getChapter('mangadex:13127:311433');
 
 Poketo IDs have stronger guarantees they won't change.
 
-It's not uncommon for a site to change their domain name or URL structure. If that happens, the URL might break, but Poketo will know to do the right thing with an ID. This makes IDs a better way to store information about a series.
+It's not uncommon for a site to change their domain name or URL structure. For example, MangaDex once changed URLs for manga series from `https://mangadex.org/manga/1234` to `https://mangadex.org/title/1234`. If that happens, your URL might break. But by using an ID, Poketo will know to do the right thing. This makes IDs a more robust way to store information about a series.
 
 Of course, there are no true guarantees with scraping. Even an ID that works one day might break the next — but it's a _slightly_ better guarantee.
 
@@ -211,8 +211,4 @@ Scraping isn't a perfect. When using Poketo you'll inevitably run into an error,
 
 ## Contributing
 
-Contributions are welcome! Poketo is meant to be built on, so feel free to propose ideas or changes that would make it work for your situation — whether it's a bug report, site request, or contributed code. Read more at [CONTRIBUTING.md](https://github.com/poketo/poketo/blob/master/CONTRIBUTING.md)
-
-## License
-
-[MIT](https://github.com/poketo/poketo/blob/master/LICENSE.md)
+Contributions are welcome! Poketo is meant to be built on top of. Feel free to propose ideas or changes that would make it work for your situation — whether it's a bug report, site request, or contributed code. Read more at [CONTRIBUTING.md](https://github.com/poketo/poketo/blob/master/CONTRIBUTING.md)
