@@ -24,4 +24,17 @@ describe('utils', () => {
       expect(utils.sortChapters(chapters)).toEqual([d, b, c, a]);
     });
   });
+
+  describe('stripBBCode', () => {
+    it('removes nested BBCode from strings', () => {
+      // Taken from https://mangadex.org/api/manga/22955/
+      const input =
+        '[b][u]English[/u][/b]\r\nA line to separate other content.\r\n\r\n[b][u]Portuguese / Portugu&ecirc;s[/u][/b]\r\nMore lines to separate content';
+
+      const expected =
+        'English\r\nA line to separate other content.\r\n\r\nPortuguese / Portugu&ecirc;s\r\nMore lines to separate content';
+
+      expect(utils.stripBBCode(input)).toEqual(expected);
+    });
+  });
 });

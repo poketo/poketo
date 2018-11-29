@@ -124,7 +124,10 @@ export default {
   },
 
   stripBBCode(input: string): string {
-    return input.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2');
+    return input.replace(
+      /\[\/?(?:b|i|u|url|quote|code|img|color|size)*?.*?\]/gim,
+      '',
+    );
   },
 
   extractJSON(pattern: RegExp, input: string): any {
