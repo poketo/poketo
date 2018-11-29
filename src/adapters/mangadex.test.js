@@ -76,6 +76,13 @@ describe('MangaDex', () => {
       expect(longSeries.chapters.length).toBeGreaterThan(100);
     });
 
+    it('converts html-encoded results', async () => {
+      const seriesWithEntities = await poketo.getSeries('mangadex:21117');
+
+      expect(seriesWithEntities.title).toEqual('Robot × Laserbeam');
+      expect(seriesWithEntities.description).not.toMatch(/&mdash;/);
+    });
+
     it('only returns the most popular instance of each chapter', async () => {
       const seriesWithMultipleGroups = await poketo.getSeries('mangadex:19729');
       const seriesWithMultipleVolumes = await poketo.getSeries(

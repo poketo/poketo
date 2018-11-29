@@ -113,11 +113,12 @@ const MangadexAdapter: SiteAdapter = {
     );
 
     const {
-      title,
+      title: rawTitle,
       description: rawDescription,
       cover_url: rawCoverImageUrl,
     } = json.manga;
 
+    const title = he.decode(rawTitle);
     const description = utils.stripBBCode(he.decode(rawDescription));
     const author = utils.formatAuthors([json.manga.author, json.manga.artist]);
     const status = StatusCodes[json.manga.status] || 'UNKNOWN';
