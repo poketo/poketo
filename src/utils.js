@@ -140,6 +140,37 @@ export default {
     }
   },
 
+  /**
+   * MangaFox uses these DM5 codes to encrypt strings needed to load their
+   * images. DM5 codes are an encoded string and a legend, describing how to
+   * decrypt the string. Sadly, DM5 uses `eval` and since we don't want to run
+   * arbitrary `eval`'d code on people's computers, this function was written
+   * to statically parse these strings.
+   */
+  decodeDM5String(encryptedString: string, keyString: string): string {
+    const keyArray = keyString.split('|');
+    const keyLength = keyArray.length;
+
+    const getChar = code => {
+      const a = code < keyLength ? '' : getChar(parseInt(code / keyLength));
+      const looped = code % keyLength;
+
+      const b =
+        looped > 35 ? String.fromCharCode(looped + 29) : looped.toString(36);
+
+      return a + b;
+    };
+
+    let decodingKey = {};
+    let i = keyLength;
+
+    while (i--) {
+      decodingKey[getChar(i)] = keyArray[i] || getChar(i);
+    }
+
+    return encryptedString.replace(/\b\w+\b/g, e => decodingKey[e]);
+  },
+
   pathMatch(url: string, pattern: string): ?Object {
     const { pathname } = this.parseUrl(url);
     // NOTE: we normalize urls to always have a trailing slash here. This makes
