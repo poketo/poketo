@@ -196,7 +196,13 @@ const MangaFoxAdapter: SiteAdapter = {
 
   async getChapter(seriesSlug, chapterSlug) {
     const url = this.constructUrl(seriesSlug, chapterSlug);
-    const html = await utils.getPage(url);
+    const html = await utils.getPage(url, {
+      headers: {
+        // Prevents a prompt which blocks common series like Shingeki no Kyojin
+        // and Re: Monster.
+        cookie: 'isAdult=1',
+      },
+    });
 
     const chapterId = utils.extractText(/var\s*chapterid\s*=\s*(\d+);/i, html);
     const chapterKey = extractChapterKey(html);
