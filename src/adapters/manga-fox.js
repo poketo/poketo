@@ -169,7 +169,7 @@ const MangaFoxAdapter: SiteAdapter = {
       const url = $link.text();
       const { chapterSlug: slug } = this.parseUrl(url);
 
-      const chapterNumber = slug.replace(/^c/, '');
+      const chapterNumber = slug.replace(/^c/, '').replace(/^0+/, '');
       const title = $description.text().trim() || undefined;
       const createdAt = parseChapterDate($date.text().trim());
 
