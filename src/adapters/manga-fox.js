@@ -161,7 +161,7 @@ const MangaFoxAdapter: SiteAdapter = {
     const $chapterList = rss('item').get();
 
     const chapters = $chapterList.map(el => {
-      const $item = dom(el);
+      const $item = rss(el);
       const $description = $item.find('description');
       const $link = $item.find('link');
       const $date = $item.find('pubDate');
