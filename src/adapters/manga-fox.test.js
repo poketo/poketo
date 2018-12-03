@@ -40,7 +40,7 @@ describe('MangaFoxAdapter', () => {
   describe('constructUrl', () => {
     it('returns a valid url', () => {
       expect(adapter.constructUrl('tomo_chan_wa_onnanoko')).toEqual(
-        'https://fanfox.net/manga/tomo_chan_wa_onnanoko',
+        'https://fanfox.net/manga/tomo_chan_wa_onnanoko/',
       );
 
       expect(adapter.constructUrl('tomo_chan_wa_onnanoko', 'c863')).toEqual(
@@ -65,7 +65,7 @@ describe('MangaFox', () => {
     server.close();
   });
 
-  xdescribe('getSeries', () => {
+  describe('getSeries', () => {
     it('returns a metadata object', async () => {
       const { chapters, ...metadata } = await poketo.getSeries(
         'manga-fox:komi_san_wa_komyushou_desu',
@@ -75,7 +75,7 @@ describe('MangaFox', () => {
         updatedAt: expect.any(Number),
       });
 
-      const chapterNumbersToTest = ['c13'];
+      const chapterNumbersToTest = ['c171'];
       const chaptersToTest = chapters.filter(chapter =>
         chapterNumbersToTest.includes(chapter.chapterNumber),
       );
@@ -85,17 +85,15 @@ describe('MangaFox', () => {
 
   describe('getChapter', () => {
     it('returns a list of pages', async () => {
-      const chapter = await poketo.getChapter(
-        'manga-fox:komi_san_wa_komyushou_desu:c172',
-      );
+      const chapter = await poketo.getChapter('manga-fox:hanebado:c026');
 
-      expect(chapter.pages).toHaveLength(2);
+      expect(chapter.pages).toHaveLength(39);
       expect(chapter.pages[0]).toEqual(
         expect.objectContaining({
           id: expect.any(String),
           url: expect.stringContaining('http'),
         }),
       );
-    }, 5000);
+    });
   });
 });

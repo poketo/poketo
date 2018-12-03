@@ -26,8 +26,12 @@ export default {
     return hostnameA === hostnameB;
   },
 
-  flatten(arr: Array<any>) {
+  flatten(arr: Array<mixed>) {
     return [].concat(...arr);
+  },
+
+  uniq(arr: Array<mixed>) {
+    return [...new Set(arr)];
   },
 
   range(low: number, high: number): number[] {

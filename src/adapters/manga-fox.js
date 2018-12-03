@@ -9,11 +9,21 @@ import type { PublicationStatus, SiteAdapter } from '../types';
 
 const throttledGetPage = throttle(utils.getPage, 1, 600);
 
-function parsePublicationStatus(): PublicationStatus {
+function parsePublicationStatus(input: string): PublicationStatus {
+  const status = input.toLowerCase();
+
+  if (status === 'ongoing') {
+    return 'ONGOING';
+  } else if (status === 'completed') {
+    return 'COMPLETED';
+  }
+
   return 'UNKNOWN';
 }
 
-function parseChapterDate() {}
+function parseChapterDate(input: string): number {
+  return moment.tz(input, 'ddd, DD MMM YYYY HH:mm:ss Z', 'GMT').unix();
+}
 
 function extractArgs(str) {
   // NOTE: This is a brittle approach, relying on the fact this variable is
@@ -50,8 +60,8 @@ function extractChapterKey(html) {
 
 function extractPageIndex(code: string) {
   const args = extractArgs(code);
-  const dm5String = args[0] + ',' + args[1];
-  const key = extractKeyFromCode(args[4]);
+  const dm5String = args.length > 6 ? args[0] + ',' + args[1] : args[0];
+  const key = extractKeyFromCode(args.length > 6 ? args[4] : args[3]);
 
   const decoded = utils.decodeDM5String(dm5String, key);
 
@@ -64,7 +74,7 @@ function extractPageIndex(code: string) {
 
   const normalizedMatches = matches.map(str => str.replace(/"/g, ''));
 
-  const host = normalizedMatches[0];
+  const host = normalizedMatches[0].replace('http:', 'https:');
   const imagePaths = normalizedMatches.slice(1, -1);
 
   const imageUrls = imagePaths.map(path => host + path);
@@ -116,10 +126,10 @@ const MangaFoxAdapter: SiteAdapter = {
       this._getHost(),
       'manga',
       seriesSlug,
-      chapterSlug ? `${chapterSlug}/` : null,
+      chapterSlug ? chapterSlug : null,
     ].filter(Boolean);
 
-    return parts.join('/');
+    return parts.join('/') + '/';
   },
 
   _getHost() {
@@ -128,17 +138,49 @@ const MangaFoxAdapter: SiteAdapter = {
 
   async getSeries(seriesSlug) {
     const url = this.constructUrl(seriesSlug);
+
     const html = await utils.getPage(url);
+    const dom = cheerio.load(html);
 
-    // http://fanfox.net/rss/tomo_chan_wa_onnanoko.xml
+    const $intro = dom('p.detail-info-right-title').first();
+    const $status = $intro.find('.detail-info-right-title-tip');
+    const $author = dom('.detail-info-right-say > a');
+    const $description = dom('.fullcontent').first();
+    const $coverImage = dom('.detail-info-cover-img').first();
 
-    const title = '';
-    const description = '';
-    const author = '';
-    const status = parsePublicationStatus();
-    const coverImageUrl = '';
+    const title = $coverImage.attr('alt');
+    const description = $description.text().trim();
+    const author = $author.attr('title').trim();
+    const status = parsePublicationStatus($status.text().trim());
+    const coverImageUrl = $coverImage.attr('src');
 
-    const chapters = [];
+    const chapterListingUrl = `${this._getHost()}/rss/${seriesSlug}.xml`;
+    const xml = await utils.getPage(chapterListingUrl);
+    const rss = cheerio.load(xml, { xmlMode: true });
+
+    const $chapterList = rss('item').get();
+
+    const chapters = $chapterList.map(el => {
+      const $item = dom(el);
+      const $description = $item.find('description');
+      const $link = $item.find('link');
+      const $date = $item.find('pubDate');
+
+      const url = $link.text();
+      const { chapterSlug: slug } = this.parseUrl(url);
+
+      const chapterNumber = slug.replace(/^c/, '');
+      const title = $description.text().trim() || undefined;
+      const createdAt = parseChapterDate($date.text().trim());
+
+      return {
+        slug,
+        url,
+        title,
+        chapterNumber,
+        createdAt,
+      };
+    });
 
     return {
       slug: seriesSlug,
@@ -159,13 +201,36 @@ const MangaFoxAdapter: SiteAdapter = {
     const chapterId = utils.extractText(/var\s*chapterid\s*=\s*(\d+);/i, html);
     const chapterKey = extractChapterKey(html);
 
-    const pageIndexUrl =
-      `${url}chapterfun.ashx` + `?cid=${chapterId}&page=1&key=${chapterKey}`;
-    const pageIndex = await utils.getPage(pageIndexUrl, {
-      headers: { Referer: url },
-    });
+    const pageLinks = html.match(/data-page="(\d+)"/g) || [];
 
-    const imageUrls = extractPageIndex(pageIndex);
+    const pageCount = pageLinks
+      .map(match => match.replace(/\D+/g, ''))
+      .map(number => parseInt(number, 10))
+      .reduce((a, b) => Math.max(a, b), 1);
+
+    let imageSet = new Set();
+    let count = 1;
+
+    while (imageSet.size < pageCount) {
+      const pageIndexUrl =
+        url +
+        'chapterfun.ashx' +
+        `?cid=${chapterId}&page=${count}&key=${chapterKey}`;
+
+      const pageIndex = await utils.getPage(pageIndexUrl, {
+        headers: { Referer: url },
+      });
+
+      const newUrls = extractPageIndex(pageIndex);
+      count = Math.min(count + newUrls.length, pageCount);
+
+      newUrls.forEach(url => {
+        imageSet.add(url);
+      });
+    }
+
+    const imageUrls = [...imageSet];
+
     const pages = imageUrls.map((url, i) => {
       const id = `${chapterId}:${i}`;
       return { id, url };

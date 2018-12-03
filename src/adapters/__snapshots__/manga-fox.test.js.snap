@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MangaFox getSeries returns a metadata object 1`] = `
+Object {
+  "author": "ODA Tomohito",
+  "coverImageUrl": "https://s.fanfox.net/store/manga/17189/cover.jpg",
+  "description": "Komi-san is the beautiful and admirable girl that no-one can take their eyes off her. Almost the whole school sees her as the cold beauty out of their league, but Tadano Shigeo knows the truth: she’s just really bad at communicating with others.
+Komi-san, who wishes to fix this bad habit of hers, tries to improve it with the help of Tadano-kun.",
+  "id": "manga-fox:komi_san_wa_komyushou_desu",
+  "site": Object {
+    "id": "manga-fox",
+    "name": "MangaFox",
+  },
+  "slug": "komi_san_wa_komyushou_desu",
+  "status": "ONGOING",
+  "supportsReading": true,
+  "title": "Komi-san wa Komyushou Desu",
+  "updatedAt": Any<Number>,
+  "url": "http://localhost:57171/manga/komi_san_wa_komyushou_desu/",
+}
+`;
+
+exports[`MangaFox getSeries returns a metadata object 2`] = `Array []`;
