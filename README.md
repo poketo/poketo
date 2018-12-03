@@ -51,6 +51,7 @@ Full documentation of the [API can be found below](#api).
 | [MangaHere](http://www.mangahere.cc)                | ✓           | ✓ (slow)       |
 | [MangaUpdates](http://mangaupdates.com)             | ✓           |                |
 | [Mangadex](https://mangadex.org)                    | ✓           | ✓              |
+| [MangaFox](https://fanfox.net)                      | ✓           | ✓              |
 | [Mangakakalot](http://mangakakalot.com)             | ✓           | ✓              |
 | [Manganelo](http://manganelo.com)                   | ✓           | ✓              |
 | [MangaRock](https://mangarock.com)                  | ✓           | ✓              |

@@ -8,6 +8,7 @@ const siteToPort = {
   'kirei-cake': 57156,
   'manga-here': 57157,
   'manga-rock': 57159,
+  'manga-fox': 57171,
   'manga-stream': 57160,
   'manga-updates': 57161,
   mangadex: 57163,
@@ -27,11 +28,10 @@ class AdapterVcrServer {
     this.port = siteToPort[adapter.id];
 
     if (!this.port) {
-      throw new Error(
-        `Missing test server port for ${
-          adapter.id
-        }. Please add it in setup-tests.js!`,
-      );
+      const message = `Missing '${adapter.id}' test server port.
+Add an entry for '${adapter.id}' to ./src/setup-tests.js`;
+
+      throw new Error(message);
     }
 
     this.server = http.createServer(
