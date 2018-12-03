@@ -1,9 +1,10 @@
 // @flow
 
 const supportedDomains = [
-  'helveticascans.com/r',
-  'hotchocolatescans.com/fs',
-  'jaiminisbox.com/reader',
+  'helveticascans.com',
+  'hotchocolatescans.com',
+  'fanfox.net',
+  'jaiminisbox.com',
   'reader.kireicake.com',
   'mangahere.co',
   'mangahere.cc',
@@ -12,12 +13,12 @@ const supportedDomains = [
   'mangadex.org',
   'mangakakalot.com',
   'manganelo.com',
-  'mangarock.com/manga',
+  'mangarock.com',
   'readms.net',
   'merakiscans.com',
   'reader.serenade.moe',
   'raw.senmanga.com',
-  'sensescans.com/reader',
+  'sensescans.com',
   'reader.silentsky-scans.net',
   'reader.tukimoop.pw',
 ];
