@@ -95,8 +95,14 @@ const MangaStreamAdapter: SiteAdapter = {
   constructUrl(seriesSlug, chapterSlug) {
     const initial = chapterSlug ? 'r' : 'manga';
     const slug = [initial, seriesSlug, chapterSlug].filter(Boolean).join('/');
+    const normalizedSlug = utils.normalizeUrl(`${this._getHost()}/${slug}`)
+      // For some reason, utils.normalizeUrl has issues with the '[]' characters
+      // that sometimes appear in MangaStream URLs, like this one:
+      // https://readms.net/r/robotxlaserbeam/62%20%5BEND%5D/5180/1
+      .replace(/\[/g, '%5B')
+      .replace(/\]/g, '%5D');
 
-    return utils.normalizeUrl(`${this._getHost()}/${slug}`);
+    return normalizedSlug;
   },
 
   _getHost() {
