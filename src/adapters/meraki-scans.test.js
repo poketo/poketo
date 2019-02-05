@@ -19,7 +19,9 @@ describe('MerakiScansAdapter', () => {
 
   describe('parseUrl', () => {
     it('returns the components of a url', () => {
-      expect(adapter.parseUrl('http://merakiscans.com/senryu-girl/')).toEqual({
+      expect(
+        adapter.parseUrl('http://merakiscans.com/details/senryu-girl/'),
+      ).toEqual({
         seriesSlug: 'senryu-girl',
         chapterSlug: null,
       });
@@ -27,6 +29,24 @@ describe('MerakiScansAdapter', () => {
       expect(
         adapter.parseUrl('http://merakiscans.com/senryu-girl/23/5/'),
       ).toEqual({ seriesSlug: 'senryu-girl', chapterSlug: '23' });
+    });
+
+    it('throws on invalid urls', () => {
+      expect(() => {
+        adapter.parseUrl('https://merakiscans.com/manga/');
+      }).toThrow();
+    });
+  });
+
+  describe('constructUrl', () => {
+    it('returns a valid url', () => {
+      expect(adapter.constructUrl('senryu-girl')).toEqual(
+        `${adapter._getHost()}/details/senryu-girl`,
+      );
+
+      expect(adapter.constructUrl('senryu-girl', '43')).toEqual(
+        `${adapter._getHost()}/senryu-girl/43`,
+      );
     });
   });
 });
