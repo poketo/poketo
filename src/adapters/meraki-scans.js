@@ -10,12 +10,30 @@ const TZ = 'UTC';
 
 const t = d => d.text().trim();
 
-const parseChapterTitle = (input: string): string => {
+const parseChapterTableString = (
+  input: string,
+): {
+  volumeNumber?: string,
+  chapterNumber?: string,
+  title?: string,
+} => {
   const parts = input.split(' - ');
-  return parts.pop();
+  const title = parts.pop();
+  const rest = parts.shift();
+
+  const volumeMatch = rest.match(/Vol\. (\d+)/);
+  const volumeNumber = volumeMatch ? volumeMatch[1] : undefined;
+  const chapterMatch = rest.match(/Ch\. (\d+)/);
+  const chapterNumber = chapterMatch ? chapterMatch[1] : undefined;
+
+  return {
+    title,
+    volumeNumber,
+    chapterNumber,
+  };
 };
 
-const parseChapterCreatedAt = (input: string): number => {
+const parseChapterTableDate = (input: string): number => {
   return moment.tz(input, 'MMM DD, YYYY', TZ).unix();
 };
 
@@ -31,7 +49,7 @@ const MerakiScansAdapter: SiteAdapter = {
   name: 'Meraki Scans',
 
   supportsUrl(url) {
-    return utils.compareDomain(url, 'http://merakiscans.com/');
+    return utils.compareDomain(url, 'https://merakiscans.com/');
   },
 
   supportsReading() {
@@ -39,18 +57,31 @@ const MerakiScansAdapter: SiteAdapter = {
   },
 
   parseUrl(url) {
-    const matches = utils.pathMatch(url, '/:seriesSlug/:chapterSlug?(/.+)?');
+    const u = utils.parseUrl(url);
+    const parts = u.pathname.split('/').filter(Boolean);
 
-    invariant(matches, new errors.InvalidUrlError(url));
-    invariant(matches.seriesSlug, new errors.InvalidUrlError(url));
+    let seriesSlug;
+    let chapterSlug = null;
 
-    const { seriesSlug, chapterSlug = null } = matches;
+    invariant(parts.length > 1, new errors.InvalidUrlError(url));
+
+    if (parts[0] === 'details') {
+      seriesSlug = parts[1];
+    } else {
+      seriesSlug = parts[0];
+      chapterSlug = parts[1];
+    }
 
     return { seriesSlug, chapterSlug };
   },
 
   constructUrl(seriesSlug, chapterSlug) {
-    const url = [this._getHost(), seriesSlug, chapterSlug]
+    const urlParts = chapterSlug
+      ? [seriesSlug, chapterSlug]
+      : ['details', seriesSlug];
+
+    const url = [this._getHost()]
+      .concat(urlParts)
       .filter(Boolean)
       .join('/');
 
@@ -58,7 +89,7 @@ const MerakiScansAdapter: SiteAdapter = {
   },
 
   _getHost() {
-    return 'http://merakiscans.com';
+    return 'https://merakiscans.com';
   },
 
   async getSeries(seriesSlug) {
@@ -67,31 +98,35 @@ const MerakiScansAdapter: SiteAdapter = {
     const html = await utils.getPage(seriesUrl);
     const dom = cheerio.load(html);
 
-    const $infoSection = dom('.con div.mng_ifo').first();
-    const $infoRows = $infoSection.find('.col-md-8 p');
-    const $chapterRows = dom('ul.lst.mng_chp > li');
+    const $infoSection = dom('#detail_list');
+    const $infoSectionRows = $infoSection.find('li');
+    const $chapterRows = dom('#chapter_table > tbody > tr');
 
-    const title = t(dom('h1.ttl'));
-    const description = t($infoRows.eq(0));
-    const author = utils.formatAuthors([t($infoRows.eq(2).find('a'))]);
-    const status = utils.parseStatus($infoRows.eq(6).text());
+    const title = t(dom('#manga_name'));
+    const description = t($infoSection.find('span:last-child'));
+    const rawAuthor = t($infoSectionRows.eq(2));
+    const rawArtist = t($infoSectionRows.eq(3));
+    const authors = [rawAuthor, rawArtist].map(str => str.split(': ').pop());
 
-    const coverImageUrl = $infoSection.find('img.cvr').attr('src');
+    const author = utils.formatAuthors(authors);
+    const status = utils.parseStatus(t($infoSectionRows.eq(4)));
+
+    const coverImageUrl = this._getHost() + dom('#cover_img').attr('src');
 
     const chapters: ChapterMetadata[] = $chapterRows.get().map(el => {
-      const $link = dom(el)
-        .find('a')
-        .first();
+      const $link = dom(el);
+      const $chapterDetails = $link.find('td').eq(0);
+      const $chapterDate = $link.find('td').eq(1);
 
-      const title = parseChapterTitle($link.attr('title'));
-      const createdAt = parseChapterCreatedAt($link.find('.dte').text());
-      const slug = this.parseUrl($link.attr('href')).chapterSlug;
-      const chapterNumber = slug;
-      // No concept of volume numbers on Meraki
-
+      const { title, volumeNumber, chapterNumber } = parseChapterTableString(
+        t($chapterDetails),
+      );
+      const createdAt = parseChapterTableDate(t($chapterDate));
+      const slug = this.parseUrl(this._getHost() + $link.attr('data-href'))
+        .chapterSlug;
       const url = this.constructUrl(seriesSlug, slug);
 
-      return { slug, title, chapterNumber, url, createdAt };
+      return { slug, title, chapterNumber, volumeNumber, url, createdAt };
     });
 
     return {

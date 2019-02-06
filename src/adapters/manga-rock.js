@@ -42,7 +42,7 @@ const validateStatusCode = (code: number, url: string) => {
     case 106:
       throw new errors.NotFoundError(url);
     case 104:
-      throw new errors.HTTPError(403, 'Series is licensed', url);
+      throw new errors.LicenseError();
     case 109:
       throw new errors.HTTPError(400, 'Unknown query version', url);
     case 110:
