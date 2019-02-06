@@ -217,6 +217,10 @@ const MangaHereAdapter: SiteAdapter = {
       },
     });
 
+    if (html.includes('According to the requirement of the Copyright Party')) {
+      throw new errors.LicenseError();
+    }
+
     const chapterId = utils.extractText(/var\s*chapterid\s*=\s*(\d+);/i, html);
     const chapterKey = extractChapterKey(html);
 
@@ -236,7 +240,6 @@ const MangaHereAdapter: SiteAdapter = {
         '/chapterfun.ashx' +
         `?cid=${chapterId}&page=${count}&key=${chapterKey}`;
 
-      console.log(pageIndexUrl);
       const pageIndex = await utils.getPage(pageIndexUrl, {
         headers: { Referer: url },
       });

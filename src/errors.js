@@ -5,6 +5,7 @@ type ErrorCode =
   | 'HTTP_ERROR'
   | 'INVALID_ID'
   | 'INVALID_URL'
+  | 'LICENSE_ERROR'
   | 'REQUEST_ERROR'
   | 'UNSUPPORTED_SITE'
   | 'UNSUPPORTED_OPERATION'
@@ -50,6 +51,15 @@ class RequestError extends PoketoError {
   }
 }
 
+class LicenseError extends PoketoError {
+  constructor() {
+    super(
+      'LICENSE_ERROR',
+      'Series or chapter is not available due to licensing restrictions',
+    );
+  }
+}
+
 class NotFoundError extends HTTPError {
   constructor(url: string) {
     super(404, 'Not Found', url);
@@ -86,6 +96,7 @@ export default {
   InvalidIdError,
   InvalidUrlError,
   NotFoundError,
+  LicenseError,
   RequestError,
   TimeoutError,
   UnsupportedSiteError,
