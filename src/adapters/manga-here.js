@@ -9,45 +9,92 @@ import type { SiteAdapter, ChapterMetadata, Page } from '../types';
 
 const TZ = 'America/Los_Angeles';
 
-/*
- * An old jQuery trick to extract the content of text nodes (ie. text that isn't
- * wrapped in an HTML tag) of an element;
- */
-const extractTextNodes = (cheerioElement: any) =>
-  cheerioElement
-    .clone()
-    .children()
-    .remove()
-    .end()
-    .text();
+const t = $el => $el.text().trim();
+const throttledGetPage = throttle(utils.getPage, 1, 600);
+const trimLeadingZeroes = str => str.replace(/^0+(\d)/g, '$1');
+
+function extractArgs(str) {
+  // NOTE: This is a brittle approach, relying on the fact this variable is
+  // named 'p'. That said, it's surprisingly easy and works.
+  const startArgs = `return p;}('`;
+  const argsStartIndex = str.indexOf(startArgs) + startArgs.length - 1;
+  const argsEndIndex = str.indexOf('))', argsStartIndex);
+
+  return str.substring(argsStartIndex, argsEndIndex).split(',');
+}
+
+function extractKeyFromCode(str) {
+  // Removes the non-<key> part of the string: '<key>'.split('|')
+  return str.replace(/\.split\('\|'\)$/, '').replace(/^'|'$/g, '');
+}
+
+function extractChapterKey(html) {
+  const args = extractArgs(html);
+
+  const dm5String = args[0];
+  const rawKeyString = extractKeyFromCode(args[3]);
+  const decodedChapterKey = utils.decodeDM5String(dm5String, rawKeyString);
+
+  const firstEqualsIndex = decodedChapterKey.indexOf('=');
+  const firstSemicolonIndex = decodedChapterKey.indexOf(';');
+  const assignment = decodedChapterKey.substring(
+    firstEqualsIndex + 1,
+    firstSemicolonIndex,
+  );
+  const cleanedChapterKey = assignment.replace(/[^0-9a-fA-F]/g, '');
+
+  return cleanedChapterKey;
+}
+
+function extractPageIndex(code: string) {
+  const args = extractArgs(code);
+  const dm5String = args.length > 6 ? args[0] + ',' + args[1] : args[0];
+  const key = extractKeyFromCode(args.length > 6 ? args[4] : args[3]);
+
+  const decoded = utils.decodeDM5String(dm5String, key);
+
+  const betweenQuotes = /"([^"]+)"/g;
+  const matches = decoded.match(betweenQuotes);
+
+  if (!Array.isArray(matches)) {
+    throw new Error('Could not find image URLs');
+  }
+
+  const normalizedMatches = matches.map(str => str.replace(/"/g, ''));
+
+  const host = normalizedMatches[0].replace('http:', 'https:');
+  const imagePaths = normalizedMatches.slice(1, -1);
+
+  const imageUrls = imagePaths.map(path => host + path);
+
+  return imageUrls;
+}
 
 function extractChapterMetadata(
   html: string,
   getChapterUrl: (slug: string) => string,
 ): ChapterMetadata[] {
   const dom = cheerio.load(html);
-  const chapterDom = dom('.manga_detail > .detail_list');
-  const chapterListElements = chapterDom.find('div + ul > li').get();
+  const chapterDom = dom('.detail-main-list');
+  const chapterListElements = chapterDom.find('li');
 
-  const chapterMetadata = chapterListElements.map(el => {
-    const leftEl = dom(el).find('.left');
-    const rightEl = dom(el).find('.right');
-    const link = leftEl.find('a:first-child');
+  const chapterMetadata = chapterListElements.get().map(el => {
+    const $row = dom(el);
+    const $link = $row.find('a');
+    const $title = $row.find('.title3');
+    const $date = $row.find('.title2');
 
-    const href = link.attr('href');
-    const titleRaw = extractTextNodes(leftEl).trim();
-    const title = titleRaw.length === 0 ? undefined : titleRaw;
-    const slug = utils.extractText(/\/(c[\d.]+)\/?$/, href);
+    const href = $link.attr('href');
+    const slug = utils.extractText(/\/(c[\d.]+)\/?/, href);
     const url = getChapterUrl(slug);
 
-    const chapterNumberText = dom(el)
-      .find('.left > a')
-      .text()
-      .trim();
-    const chapterNumber = utils.extractText(/\s+([\d.]+)$/i, chapterNumberText);
+    const [rawChapterString, title] = t($title).split(' - ');
+    const chapterNumber = trimLeadingZeroes(
+      utils.extractText(/Ch.([\d.]+)$/i, rawChapterString),
+    );
     // NOTE: MangaHere has no notion of volumes
 
-    const createdAt = getTimestamp(rightEl.text().trim());
+    const createdAt = getTimestamp(t($date));
 
     return { slug, title, url, chapterNumber, createdAt };
   });
@@ -57,6 +104,17 @@ function extractChapterMetadata(
 
 function getTimestamp(rawText) {
   const text = rawText.toLowerCase();
+
+  if (text.includes('hours ago')) {
+    const rawCount = utils.extractText(/(\d+) hours ago/, text);
+    const count = parseInt(rawCount, 10);
+
+    return moment
+      .tz(TZ)
+      .subtract(count, 'hours')
+      .unix();
+  }
+
   if (text === 'today') {
     return moment
       .tz(TZ)
@@ -72,14 +130,8 @@ function getTimestamp(rawText) {
       .unix();
   }
 
-  return moment.tz(text, 'MMM D, YYYY', 'America/Los_Angeles').unix();
+  return moment.tz(text, 'MMM D,YYYY', 'America/Los_Angeles').unix();
 }
-
-const parseAuthor = (input: string): string | null => {
-  return input.split(':').pop() || null;
-};
-
-const throttledGetPage = throttle(utils.getPage, 1, 600);
 
 const MangaHereAdapter: SiteAdapter = {
   id: 'manga-here',
@@ -119,7 +171,7 @@ const MangaHereAdapter: SiteAdapter = {
   },
 
   _getHost() {
-    return `http://www.mangahere.cc`;
+    return `https://www.mangahere.cc`;
   },
 
   async getSeries(seriesSlug) {
@@ -133,23 +185,12 @@ const MangaHereAdapter: SiteAdapter = {
 
     const dom = cheerio.load(html);
 
-    const title = dom('meta[property="og:title"]')
-      .attr('content')
-      .trim();
-    const description = dom('#show')
-      .contents()
-      .not('a')
-      .text()
-      .trim();
+    const title = t(dom('.detail-info-right-title-font'));
+    const description = t(dom('.detail-info-right-content'));
 
-    const $infoRows = dom('ul.detail_topText > li');
-
-    const author = utils.formatAuthors([
-      parseAuthor($infoRows.eq(4).text()),
-      parseAuthor($infoRows.eq(5).text()),
-    ]);
-    const status = utils.parseStatus($infoRows.eq(6).text());
-    const coverImageUrl = dom('img.img', '.manga_detail_top').attr('src');
+    const author = utils.formatAuthors([t(dom('.detail-info-right-say > a'))]);
+    const status = utils.parseStatus(t(dom('.detail-info-right-title-tip')));
+    const coverImageUrl = dom('img.detail-info-cover-img').attr('src');
 
     const getChapterUrl = slug => this.constructUrl(seriesSlug, slug);
     const chapters = extractChapterMetadata(html, getChapterUrl);
@@ -168,48 +209,52 @@ const MangaHereAdapter: SiteAdapter = {
 
   async getChapter(seriesSlug, chapterSlug) {
     const url = this.constructUrl(seriesSlug, chapterSlug);
+    const html = await utils.getPage(url, {
+      headers: {
+        // Prevents a prompt which blocks common series like Shingeki no Kyojin
+        // and Re: Monster.
+        cookie: 'isAdult=1',
+      },
+    });
 
-    const body = await utils.getPage(url);
-    const dom = cheerio.load(body);
+    const chapterId = utils.extractText(/var\s*chapterid\s*=\s*(\d+);/i, html);
+    const chapterKey = extractChapterKey(html);
 
-    const pageUrls = dom('select.wid60')
-      .first()
-      .find('option')
-      .get()
-      .map(el => `http:${dom(el).attr('value')}`)
-      .filter(url => url.indexOf('featured.html') === -1);
+    const pageLinks = html.match(/data-page="(\d+)"/g) || [];
 
-    // NOTE: MangaHere returns an image url for the next page, so to halve the
-    // loading time from fetching every page, we just grab every other page.
-    const everyOtherPageUrl = pageUrls.filter((_, i) => i % 2 === 0);
+    const pageCount = pageLinks
+      .map(match => match.replace(/\D+/g, ''))
+      .map(number => parseInt(number, 10))
+      .reduce((a, b) => Math.max(a, b), 1);
 
-    const nestedPages = await Promise.all(
-      everyOtherPageUrl.map(async url => {
-        // NOTE: They also rate-limit requests to once every 250ms from an IP. We
-        // use the throttled version here as to avoid this.
-        const html = await throttledGetPage(url);
-        const dom = cheerio.load(html);
+    let imageSet = new Set();
+    let count = 1;
 
-        const images = dom('img')
-          .get()
-          .map(el => {
-            const d = dom(el);
+    while (imageSet.size < pageCount) {
+      const pageIndexUrl =
+        url +
+        '/chapterfun.ashx' +
+        `?cid=${chapterId}&page=${count}&key=${chapterKey}`;
 
-            const width = d.attr('width');
-            const height = d.attr('height');
-            const url = d.attr('src');
-            const { pathname } = utils.parseUrl(url);
-            const id = pathname.split('/').pop();
+      console.log(pageIndexUrl);
+      const pageIndex = await utils.getPage(pageIndexUrl, {
+        headers: { Referer: url },
+      });
 
-            return { id, url, width, height };
-          })
-          .filter(page => page.url.includes('.jpg?token='));
+      const newUrls = extractPageIndex(pageIndex);
+      count = Math.min(count + newUrls.length, pageCount);
 
-        return images;
-      }),
-    );
+      newUrls.forEach(url => {
+        imageSet.add(url);
+      });
+    }
 
-    const pages: Page[] = utils.flatten(nestedPages);
+    const imageUrls = [...imageSet];
+
+    const pages = imageUrls.map((url, i) => {
+      const id = `${chapterId}:${i}`;
+      return { id, url };
+    });
 
     return { slug: chapterSlug, url, pages };
   },

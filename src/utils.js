@@ -26,7 +26,7 @@ export default {
     return hostnameA === hostnameB;
   },
 
-  flatten(arr: Array<mixed>) {
+  flatten(arr: Array<*>) {
     return [].concat(...arr);
   },
 

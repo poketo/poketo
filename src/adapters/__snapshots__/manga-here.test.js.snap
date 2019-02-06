@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MangaHere getSeries returns a metadata object 1`] = `
+Object {
+  "author": "Akitaka",
+  "coverImageUrl": "http://l.mangatown.com/store/manga/15237/cover.jpg?token=8c291faa4cff66a8fae3fd4c513aa395e9236fac&ttl=1549504800&v=1547130185",
+  "description": "The Twelve City, a land governed by the leaders of the families who bear in their names the Chinese zodiac. In a city where youkai and humans coexist, the cat youkai who holds a grudge against the Rat...more",
+  "id": "manga-here:urami_koi_koi_urami_koi",
+  "site": Object {
+    "id": "manga-here",
+    "name": "Manga Here",
+  },
+  "slug": "urami_koi_koi_urami_koi",
+  "status": "ONGOING",
+  "supportsReading": true,
+  "title": "Urami Koi, Koi, Urami Koi.",
+  "updatedAt": Any<Number>,
+  "url": "http://mangahere.cc/manga/urami_koi_koi_urami_koi",
+}
+`;
+
+exports[`MangaHere getSeries returns a metadata object 2`] = `
+Array [
+  Object {
+    "chapterNumber": "13",
+    "createdAt": 1450080000,
+    "id": "manga-here:urami_koi_koi_urami_koi:c013",
+    "order": 13,
+    "slug": "c013",
+    "title": "Love is Like an Ox",
+    "url": "http://mangahere.cc/manga/urami_koi_koi_urami_koi/c013",
+  },
+]
+`;
