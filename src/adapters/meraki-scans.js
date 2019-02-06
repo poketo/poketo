@@ -3,6 +3,8 @@
 import cheerio from 'cheerio';
 import moment from 'moment-timezone';
 import errors from '../errors';
+import cookie from 'cookie';
+import get from '../get';
 import utils, { invariant } from '../utils';
 import type { SiteAdapter, ChapterMetadata } from '../types';
 
@@ -144,12 +146,27 @@ const MerakiScansAdapter: SiteAdapter = {
   async getChapter(seriesSlug, chapterSlug) {
     const url = this.constructUrl(seriesSlug, chapterSlug);
 
-    const html = await utils.getPage(url);
+    invariant(
+      seriesSlug,
+      new Error('MerakiScans requires a valid series slug for chapters'),
+    );
+
+    const response = await get(url, {
+      headers: {
+        // The `reading_type=long` cookie puts all the images on a single page.
+        cookie: cookie.serialize('reading_type', 'long'),
+      },
+    });
+    const html = response.body;
     const dom = cheerio.load(html);
-    const imageUrls = dom('img', '#longWrap')
-      .get()
-      .map(el => dom(el).attr('src'));
-    const pages = imageUrls.map((url, i) => ({ id: i, url }));
+
+    const imageJSON = utils.extractText(/var\s+images\s+=\s+(.*);/, html);
+    const imageFileNames = JSON.parse(imageJSON);
+
+    const pages = imageFileNames.map(filename => ({
+      id: filename,
+      url: `${this._getHost()}/manga/${seriesSlug}/${chapterSlug}/${filename}`,
+    }));
 
     return { slug: chapterSlug, url, pages };
   },
