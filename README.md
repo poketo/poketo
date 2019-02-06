@@ -206,7 +206,8 @@ Scraping isn't a perfect. When using Poketo you'll inevitably run into an error,
 
 - `RequestError` - unable to make a request to scrape the site
 - `TimeoutError` - tried to make a request, but the source site didn't respond in a reasonable time. Defaults to 5 seconds.
-- `HTTPError` - tried to scrape the source site, but the site returned an error (eg. 404, 500)
+- `HTTPError` - tried to scrape the site, but the site returned an error (eg. 404, 500)
+- `LicenseError` - tried to scrape the site, but the series/chapter is current blocked, licensed, or was subjected to a DCMA takedown.
 - `UnsupportedSiteError` - the site you're trying to scrape from isn't supported. If you'd like to see it supported, [make an issue!](https://github.com/poketo/poketo/issues/new)
 - `UnsupportedOperationError` - some sites don't support reading chapters. This error is thrown if you call `poketo.getChapter` for these sites.
 
