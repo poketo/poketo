@@ -65,7 +65,8 @@ const MerakiScansAdapter: SiteAdapter = {
     let seriesSlug;
     let chapterSlug = null;
 
-    invariant(parts.length > 1, new errors.InvalidUrlError(url));
+    // There's no information for URLs shorter than one part, so throw a not found.
+    invariant(parts.length > 1, new errors.NotFoundError(url));
 
     if (parts[0] === 'details') {
       seriesSlug = parts[1];
