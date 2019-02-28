@@ -38,6 +38,43 @@ describe('poketo', () => {
     });
   });
 
+  describe('getId', () => {
+    it(`returns a Poketo ID for a URL`, () => {
+      const inputs = [
+        {
+          url: 'https://merakiscans.com/details/senryu-girl',
+          id: 'meraki-scans:senryu-girl',
+        },
+        { url: 'sen-manga:Yotsubato!', id: 'sen-manga:Yotsubato!' },
+        { url: 'https://mangadex.org/manga/420649', id: 'mangadex:420649' },
+        {
+          url: 'https://mangarock.com/manga/mrs-serie-100100972',
+          id: 'manga-rock:100100972',
+        },
+        {
+          url: 'https://jaiminisbox.com/reader/series/my-hero-academia',
+          id: 'jaiminis-box:my-hero-academia',
+        },
+      ];
+
+      inputs.forEach(input =>
+        expect(poketo.getId(input.url)).toEqual(input.id),
+      );
+      expect(poketo.getId('https://mangadex.org/title/16482')).toEqual(
+        'mangadex:16482',
+      );
+      expect(
+        poketo.getId('https://jaiminisbox.com/reader/series/my-hero-academia'),
+      );
+    });
+
+    it('throws for URLs without series information', () => {
+      expect(() => {
+        poketo.getId('https://mangadex.org/chapter/497498');
+      }).toThrow();
+    });
+  });
+
   describe('getType', () => {
     it(`returns 'series' for series inputs`, () => {
       const inputs = [

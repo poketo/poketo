@@ -78,6 +78,31 @@ const poketo: any = {
     return site.constructUrl(components.seriesSlug, components.chapterSlug);
   },
 
+  getId(url: string): string {
+    invariant(
+      typeof url === 'string',
+      new TypeError(`'getType' must be passed a string, not ${typeof url}`),
+    );
+
+    if (isPoketoId(url)) {
+      return url;
+    }
+
+    const site = getAdapterByUrl(url);
+    const components = site.parseUrl(url);
+
+    invariant(
+      components.seriesSlug,
+      `Cannot generate an ID for '${url}' since the series information is missing. Use poketo.getSeries() or poketo.getChapter() instead.`,
+    );
+
+    return utils.generateId(
+      site.id,
+      components.seriesSlug,
+      components.chapterSlug,
+    );
+  },
+
   getType(input: ?mixed): 'series' | 'chapter' {
     invariant(
       typeof input === 'string',
