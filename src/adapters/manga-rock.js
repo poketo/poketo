@@ -40,13 +40,12 @@ const validateStatusCode = (code: number, url: string) => {
       return;
     case 103:
     case 106:
+    case 110:
       throw new errors.NotFoundError(url);
     case 104:
       throw new errors.LicenseError();
     case 109:
       throw new errors.HTTPError(400, 'Unknown query version', url);
-    case 110:
-      throw new errors.HTTPError(400, 'Invalid request', url);
   }
 };
 
