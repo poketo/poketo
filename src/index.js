@@ -2,6 +2,7 @@
 
 import adapters from './adapters';
 import errors from './errors';
+import { setDefaultHeaders } from './get';
 import utils, { invariant } from './utils';
 import type { Chapter, IdComponents, SiteAdapter, Series } from './types';
 
@@ -112,6 +113,10 @@ const poketo: any = {
     const components = getComponentsFromIdOrUrl(input);
 
     return isChapter(components) ? 'chapter' : 'series';
+  },
+
+  setDefaultHeaders(headers) {
+    setDefaultHeaders(headers);
   },
 
   /*

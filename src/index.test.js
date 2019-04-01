@@ -1,4 +1,5 @@
 import poketo from '.';
+import { defaultHeaders } from './get';
 
 describe('poketo', () => {
   describe('constructUrl', () => {
@@ -119,6 +120,18 @@ describe('poketo', () => {
       unsupportedIds.forEach(input => {
         expect(getType(input)).toThrow(poketo.UnsupportedSiteError);
       });
+    });
+  });
+
+  describe('setDefaultHeaders', () => {
+    it('allows overriding the default headers for requests', () => {
+      expect(defaultHeaders).toEqual({});
+
+      poketo.setDefaultHeaders({
+        'User-Agent': 'yo',
+      });
+
+      expect(defaultHeaders).toEqual({ 'User-Agent': 'yo' });
     });
   });
 

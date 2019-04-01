@@ -11,10 +11,13 @@ type RequestOptions = {
 };
 
 const version = process.env.NODE_ENV === 'test' ? 'test' : pkg.version;
+const userAgent = `${pkg.name}/${version} (${pkg.repository})`;
 
-const defaultHeaders = {
-  'User-Agent': `${pkg.name}/${version} (${pkg.repository})`,
-};
+export let defaultHeaders = {};
+
+export function setDefaultHeaders(headers: Object) {
+  defaultHeaders = { ...defaultHeaders, ...headers };
+}
 
 const getOptions = (opts: RequestOptions = {}) => {
   return {
@@ -22,6 +25,7 @@ const getOptions = (opts: RequestOptions = {}) => {
     headers: {
       ...defaultHeaders,
       ...opts.headers,
+      'User-Agent': userAgent,
     },
   };
 };
