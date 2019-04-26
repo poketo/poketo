@@ -1,0 +1,34 @@
+var path = require("path");
+
+/**
+ * GET /api/manga/13127
+ *
+ * user-agent: got/9.6.0 (https://github.com/sindresorhus/got)
+ * accept: application/json
+ * accept-encoding: gzip, deflate
+ * host: mangadex.org
+ * connection: close
+ */
+
+module.exports = function (req, res) {
+  res.statusCode = 200;
+
+  res.setHeader("date", "Fri, 26 Apr 2019 03:22:12 GMT");
+  res.setHeader("content-type", "application/json");
+  res.setHeader("transfer-encoding", "chunked");
+  res.setHeader("connection", "close");
+  res.setHeader("set-cookie", ["__cfduid=d595ec1f440ed0d9c6f0b9c57fd7f3b391556248932; expires=Sat, 25-Apr-20 03:22:12 GMT; path=/; domain=.mangadex.org; HttpOnly"]);
+  res.setHeader("expect-ct", "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"");
+  res.setHeader("server", "cloudflare");
+  res.setHeader("cf-ray", "4cd56e51799dcaa6-YYZ");
+  res.setHeader("content-encoding", "gzip");
+
+  res.setHeader("x-yakbak-tape", path.basename(__filename, ".js"));
+
+  res.write(new Buffer("H4sIAAAAAAAAA8ybbW/jNhKA/8pAH257gDYRqffchyJxkmabfSk22QuKy2ExtiYyN7LoklScbLH//TCSnNjeVJcCLaAvhi1RFp+ZIWc4HP7uLbAu0Tv43ZvpOzKfG1N5B971vlpgSfZ6v719vS9CIdO9L8vyRxFHcRzHUkjP9wqyM6OWTunaO/Au5wSXK6ruCCbKPfiAUGFdQMn/XFMB0wdwc4KKsCBjQd+0P29woSpFFlZzDVNCA6rmG8pAjQuybaPJXNVkCb7qQuFsD97UgDBT7gFWczIED7q5RQX8unmzwNrCTNO9ss5vH5+hWzfht8x1VVhAKE1TlARYoqqta1t+RAen3KMHwOWS0Fjuzo3RteMOv6fbplZw/qAbNZur7t/nhMWa5un5PXjjXvFbFlipGb1uBUwFnKGjm6Zq+8SdURZQLVRdwo02MFcWKnVDe3DUcI+eOq4sv12XaPFWwXt0tplrn/+C31JZDXTvDC2Iu17fK91YQKObugDt5mRgSXpZ0d7eHvzcWAeVuqW2yxYf+O3/+K3R7l+TxihtWbC3qqqoWIuvuwulJuvDSlUV37AEN0SVqsu+B7f9DX7iR8/3nHIVeQfeJ4MLdauVD+f8sf655/keGqes8w68w1vl8Bb5UuPm2mxdsg5dY70D4Xsl1Yasd/Af6cd+5kvpy9CXkR9G//W9Cq37PJvj0hH/QeDxpbr8zJbkHXg/4xLZjtaXbyosvQPvy9LzvTnVDpV3EPhepepby4Ni0XgHnhAiTxPu1+Krd+DNnVvag+v96/3VarWHC/yq672Z3vuyvN4vl9f7S6OLZuau94+CNJpMfj09v7re93xvVnzpn358eFZ84Q6tn3588v3Jh6Pz1yKVYRJFnu8tkEdlmgdp6n375nuPgL97cRYGIudvd7pqWkjB1E8yiMWGIiZ6Qa0F+sBfu8/2AvzwCxoH0T/Xspnpgp8op57vlUY3y8+q8A5kJNc/e5n+Yh8qPbsluJhhbTcaf5atMJ8a84W6qaqNJuFuk3DdxKkFWYeLpXcg4jjK4izNom++F0dSSjkIHPwZ4HCcwIHIwzxLGFjINAiGgKP8zwDLUQJHSZymSZ4zcBDFodgCzrd5sz/DK8bJG8eRFIJ5oywIkmCIN93gPWxdzKfaEtWtx7icGyI4xgcLVzz9TuZYlwTHBhfo1Ayr6mGUAhCplHEsWeFJkL9cAJ9qZBEg", "base64"));
+  res.write(new Buffer("kJ3pulAFwlIbcIYsFNdNEFCBFma4mCo07W8BRf/FskAWVDvaEQnZLZGkYb4jknNcKHiv4RRr20zhbxr1MhF5FLVGkYZhLodkkmzI5FfdwMVcN1UBl1jdwkq5+Toc8WHaODhV5dw9XT/Txo57BoyCLA1FkrZTfirz7KWyOMOvUBDMcVqhgZmuoUIw6NBfktGwpIr668RB2BSrSsMPSzSOvhfF4n4UdhFkWZhEIdtFLLJhWcR/lV2M01GEaZSHIm49Y5jlUfJSWYxyxEd5HmShYCuPZJBE+RBN9FdpdpwuMQyDIA9bzUZJkGQvlsWzI55dhA/PDPlJN+RHaQ5s0KnI2ClGQRaH4ZAIwg0R8Nr7rDFGUdHGBz+Rs/BWW9cvpuFMVzRKpYswyYOUI/sozEIZvJT4MQzApSHbGCwQLMFSkSkIqAbbwNLopeIFeGFU2ZDBcSo9DqMwCMU33wuFiHaUnm2LQO4onZV9RDfadGv5CboxalkmIktFGDNiJkQavBTx7VrJtePwjir4Cd04x67MozDNYmaUMkmSZIhxa02OrlbLNpbvVejDmXZwsTRtZmV944jQOjtK9cpMxHHKM3cYpEEiXop+pshMEZZokKfmEp32wZFZoO0uVmhhStYptONUepzleZIH33xPJKkU2RB5sDN2L1VJBi4N3lHFicLLuW4spzA/dpnMI5zdjlLdIsjiLMzY0sMw2glaBqBPKmY2BHcKvyAsVMWoBUGhrMN6phAewFBpyI5zqpahSIUQrX9OUzlk5+FmUua9dnByR5y07pR+gs6CchY+rGqYNNMxqlmkWS7SnNUs0iBN5ItpFVj1W6OoG9WuVbklmHFmBsE2FmZmvVIfp56FjDMpWn+VhnLII4fZzqieoIMLQjOb93sXrcZfWTimepxqToMsjMNezWn8UtiTzhmzZrGg2rG229C7bNBwWobddTvex6vjXEa9jodCknAz/3TVbjixYj+wXR9rssDj+3hFVTVeBQe9MYtt/abboJuJlMMbR+YJVFk4uWffrGp0VPjwkexSOYJDY9QdjTIwadFl0utYBEPo8c44fqcb3hCqLZzhHcGR0Q0vqE+1cXM44cX1w+tT3ZgNt43jDM86KUjZSSEYNIBodzbTK+IwtFtoKNfPaR9xBR/qGcEh752OFlqkaQstczEEvbmuPLS3G/kSVuvjCGjT6xdOL8fKm+aZ6HizZIh3c4V1WHdwTPorOcAaPtyPFzBKekA5BCh2UyPEaa8j4gjEtojfe6URQQbdUJXRNmSyDbkZWY+aJ2rXR2Eqw3yAR26GkGcEV3O94VzREJzU7JDajMAr22a0uiHJDSboZl2i81fd1OV4ZdEGWiyLdEgWm3HWsS7bYhmEU8K2kuOU+wqXuiT+OV5W0Q/WMBpiTb/X+2SOlixcrjR8xOmUF0rY1edc4IIj6gV1GmfzIDVqKYRpPyfvJPZ2pLAZebVLxT4XBFdtkp9t/A3b/w1Hn4pXkl2C/4jcitqV5bEu21kc4Z2ub2mUu76dRKL1fBAMSWQ3IDtSZUnWwUWFlkeBsnBYrXjfu/XQNXXlUm3q+3CF4+WXWR+VyO10UbzNvxuKHaFzFa0Lzdg0HqOT8TpsGWc9azzEuruXMTFtTdqH+0fGkWa2O8ign+h2MgU7kM/k7n34VOOKnZu+gTfOdpHKaEFFGvWgcghUPLNJcaGmbaHgq27eGi9imLeIIs6HEIPndMl2eqzL7suRRuM/ZfTZji/Q6dcWR7teirNH+GQAXuQ78KcVEQ/XK0JL1eOQPdONHfXAjTMhet7t2Sna5t1N8a1LeCddINr/eqvvRhuDxw==", "base64"));
+  res.write(new Buffer("aRb2pNEQafpMMrP1qgxXrAsMxkvZRxYilkOUyXdJDlO3tdmjZuudjNjZb9lhi5/3pKzICda1dnDW1A6O9aoLMbsxO1rqJJU99XYGJ9ym3oyVnkrYz7sS9nfd7jjWXeH7yKOJOAm78FCIdAh5M2Ti0cnx8Fuu6R91BieOZNzTDSp0N0V1/8rCNuXmduloacOsN9+drOsOrfhjB9NNv5wIqV9tpjnGPFWFUafjIB+04K06/TlanqcY7aSmxUOX2jnkUyVv+XyN06PHlnnUY297H7mFnX/vYrdWAWrsq4BY9jmsYKdEb5sze3bPjC36p/YQUR8sd4eJTnVV6dV4iUXeE0cDxOluCgfhCqtbNutHUL7uGi7Kh5N6xltMbUrz36qqRryREq83UoIsGBDAblzF1BeOuLqFrfojWc2nA7vaFq7X56unWJfW31znw5Vy88Lgam9vb7wS6UPNIB0yifiP4un1hN4GY491u2shfFw36xOha8Fcj3dSCPKsl4cYkEf0R/J4R27083vQ57KCZNuZi+19me8RX7HtL/GBT56MlS7KE9HTBQN0W3HZ1sKpc9jtvMf7xN0+zXhp+yKuOJcvxT1RdZt5LxTBCfexJGcUTaluzdYRrLio6WbGBcjYzOZA/ATWBTu/rsWUFLcpbr6rBSpoSzRhFO+I5p1Sr//W81gyimLRRzA76+dtoQxEq6PVd9YdtQtklmQvRDtWfKbAWjI3nV6ryhGco/tKI9NdGGRBlMadQwqjbcDts6Kbe8Y12bn+fyrL0h2Ww1otmgW8axwa+vs0lotY8lnn9clv78O59+1/AAAA//8DAFAVltKwQAAA", "base64"));
+  res.end();
+
+  return __filename;
+};
