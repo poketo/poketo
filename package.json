@@ -1,6 +1,6 @@
 {
   "name": "poketo",
-  "version": "0.6.15",
+  "version": "0.6.16",
   "description": "Library for fetching and reading manga sites",
   "main": "lib/index.js",
   "repository": "https://github.com/poketo/poketo",
