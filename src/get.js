@@ -18,53 +18,43 @@ const userAgent = `${pkg.name}/${version} (${pkg.repository})`;
 export let defaultHeaders = {};
 
 export function setDefaultHeaders(headers: Object) {
-  defaultHeaders = { ...defaultHeaders, ...headers };
+  instance.defaults.headers = got.mergeOptions(
+    instance.defaults.headers,
+    headers,
+  );
 }
 
-const getOptions = (opts: RequestOptions = {}) => {
-  const cookieJar = new tough.CookieJar();
+const cookieJar = new tough.CookieJar();
 
-  return {
-    ...opts,
-    // headers: {
-    // ...defaultHeaders,
-    // ...opts.headers,
-    // 'User-Agent': userAgent,
-    // },
-    retry: 0,
-    // retry: {
-    //   statusCodes: [408, 413, 429, 500, 502, 504],
-    // },
-  };
-};
+const instance = got.extend({
+  cookieJar,
+  headers: {
+    'User-Agent': userAgent,
+  },
+  retry: {
+    statusCodes: [408, 413, 429, 500, 502, 504],
+  },
+  hooks: {
+    beforeError: [
+      err => {
+        const { response } = err;
 
-async function gotWithCloudflare(url: string, opts?: RequestOptions) {
-  const options = getOptions(opts);
+        if (err instanceof got.HTTPError) {
+          if (err.statusCode === 404) {
+            return new errors.NotFoundError(err.url);
+          }
+          return new errors.HTTPError(err.statusCode, err.statusMessage, err.url);
+        } else if (err instanceof got.RequestError) {
+          if (err.code === 'ETIMEDOUT') {
+            return new errors.TimeoutError(err.message, err.url);
+          }
+          return new errors.RequestError(err.url);
+        }
 
-  let res;
+        return new errors.PoketoError('ERROR', err.message);
+      },
+    ],
+  },
+});
 
-  try {
-    res = await got(url, options);
-  } catch (err) {
-    res = await catchCloudflare(err, options);
-  }
-
-  return res;
-}
-
-export default async function get(url: string, opts?: RequestOptions) {
-  return gotWithCloudflare(url, opts).catch(err => {
-    if (err instanceof got.HTTPError) {
-      if (err.statusCode === 404) {
-        throw new errors.NotFoundError(url);
-      }
-      throw new errors.HTTPError(err.statusCode, err.statusMessage, url);
-    } else if (err instanceof got.RequestError) {
-      if (err.code === 'ETIMEDOUT') {
-        throw new errors.TimeoutError(err.message, url);
-      }
-      throw new errors.RequestError(url);
-    }
-    throw new errors.PoketoError('ERROR', err.message);
-  });
-}
+export default instance;

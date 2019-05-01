@@ -43,15 +43,15 @@ describe('MangadexAdapter', () => {
 });
 
 describe('MangaDex', () => {
-  const server = new AdapterVcrServer(adapter);
-
-  beforeAll(async () => {
-    await server.listenAndMock();
-  });
-
-  afterAll(() => {
-    server.close();
-  });
+  // const server = new AdapterVcrServer(adapter);
+  //
+  // beforeAll(async () => {
+  //   await server.listenAndMock();
+  // });
+  //
+  // afterAll(() => {
+  //   server.close();
+  // });
 
   describe('getSeries', () => {
     it('returns a metadata object', async () => {
