@@ -18,7 +18,6 @@ const userAgent = `${pkg.name}/${version} (${pkg.repository})`;
 export let defaultHeaders = {};
 
 export function setDefaultHeaders(headers: Object) {
-  console.log(instance.defaults);
   instance.defaults.options = got.mergeOptions(
     instance.defaults.options,
     { headers },
