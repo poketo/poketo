@@ -186,7 +186,7 @@ const MangaHereAdapter: SiteAdapter = {
     const dom = cheerio.load(html);
 
     const title = t(dom('.detail-info-right-title-font'));
-    const description = t(dom('.detail-info-right-content'));
+    const description = t(dom('.fullcontent'));
 
     const author = utils.formatAuthors([t(dom('.detail-info-right-say > a'))]);
     const status = utils.parseStatus(t(dom('.detail-info-right-title-tip')));
