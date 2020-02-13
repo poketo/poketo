@@ -104,7 +104,7 @@ const MangadexAdapter: SiteAdapter = {
   },
 
   _getHost() {
-    return `https://mangadex.org`;
+    return `https://mangadex.cc`;
   },
 
   async getSeries(seriesSlug) {
